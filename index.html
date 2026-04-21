@@ -2,13 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mejoradora Granada · Revisa tu factura de luz en 24h</title>
-<meta name="description" content="Subes la factura, David la analiza personalmente y te responde por WhatsApp en menos de 24 horas. Consultoría energética para PYMES en Granada.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F7F3EA">
+<title>Mejoradora Granada · Revisión gratuita de factura eléctrica para PYMES</title>
+<meta name="description" content="Análisis humano de tu factura de luz en 24h. Franquicia oficial de la red Mejoradora en Granada. Para hoteles, lavanderías, restaurantes, industria pequeña.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet">
 <style>
+  /* ══════════════════════════════════════════════
+     DESIGN TOKENS
+     ══════════════════════════════════════════════ */
   :root{
     --teal:#0B6E7E;
     --teal-dark:#085560;
@@ -21,15 +25,26 @@
     --gris:#6B6B66;
     --gris-soft:#A8A5A0;
 
-    --serif:"Newsreader", Georgia, serif;
-    --sans:"Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --serif:"Newsreader", Georgia, "Times New Roman", serif;
+    --sans:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
     --max:1280px;
-    --gutter:clamp(20px, 4vw, 56px);
+    --gutter:clamp(18px, 4vw, 56px);
+    --header-h:72px;
   }
 
+  /* ══════════════════════════════════════════════
+     RESET & GLOBAL
+     ══════════════════════════════════════════════ */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+  html{
+    scroll-behavior:smooth;
+    scroll-padding-top:calc(var(--header-h) + 16px);
+    -webkit-text-size-adjust:100%;
+    overflow-x:hidden;
+  }
+
   body{
     font-family:var(--sans);
     font-size:16px;
@@ -37,16 +52,46 @@
     color:var(--negro);
     background:var(--crema);
     -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
     text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    min-width:320px;
   }
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  button{font-family:inherit;cursor:pointer;border:0;background:none}
-  input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
 
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+  img{max-width:100%;display:block;height:auto}
+  a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
 
-  /* --- Eyebrow marker (triángulo identitario) --- */
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:0;
+    background:none;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+  }
+
+  input,textarea,select{
+    font-family:inherit;
+    font-size:inherit;
+    color:inherit;
+  }
+
+  /* Prevenir zoom en iOS al enfocar inputs (necesita >=16px) */
+  @media (max-width: 640px){
+    input[type=text],
+    input[type=tel],
+    input[type=email],
+    input[type=number]{font-size:16px !important}
+  }
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding-left:max(var(--gutter), env(safe-area-inset-left));
+    padding-right:max(var(--gutter), env(safe-area-inset-right));
+  }
+
+  /* Eyebrow (triángulo identitario) */
   .eyebrow{
     font-family:var(--sans);
     font-size:12px;
@@ -61,183 +106,241 @@
   .eyebrow::before{
     content:"";
     display:inline-block;
-    width:0;
-    height:0;
+    width:0;height:0;
     border-top:5px solid transparent;
     border-bottom:5px solid transparent;
     border-left:8px solid var(--teal);
+    flex-shrink:0;
   }
 
-  /* --- HEADER --- */
+  /* ══════════════════════════════════════════════
+     HEADER
+     ══════════════════════════════════════════════ */
   header{
     border-bottom:1px solid var(--crema-line);
     background:var(--crema);
-    position:sticky;top:0;z-index:50;
+    position:sticky;
+    top:0;
+    z-index:50;
+    min-height:var(--header-h);
   }
   .header-inner{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:18px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 0;
+    gap:16px;
   }
-  .logo{height:40px;width:auto}
+  .logo{
+    height:clamp(32px, 5vw, 44px);
+    width:auto;
+    flex-shrink:0;
+  }
   .franquicia{
-    font-size:12px;letter-spacing:0.06em;color:var(--gris);
-    text-align:right;line-height:1.3;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--gris);
+    text-align:right;
+    line-height:1.3;
+    flex-shrink:0;
   }
-  .franquicia strong{color:var(--negro);font-weight:500;display:block}
+  .franquicia strong{
+    color:var(--negro);
+    font-weight:500;
+    display:block;
+  }
 
-  /* --- HERO (editorial split) --- */
+  @media (max-width: 380px){
+    .franquicia{font-size:11px}
+  }
+
+  /* ══════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════ */
   .hero{
-    padding:clamp(40px, 7vw, 96px) 0 clamp(48px, 8vw, 112px);
+    padding:clamp(40px, 7vw, 112px) 0 clamp(32px, 5vw, 80px);
+    position:relative;
+    overflow:hidden;
   }
   .hero-grid{
     display:grid;
-    grid-template-columns:1.1fr 0.9fr;
-    gap:clamp(32px, 5vw, 80px);
-    align-items:end;
+    grid-template-columns:minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap:clamp(20px, 4vw, 56px);
+    align-items:center;
   }
-  .hero-text{padding-bottom:12px}
-  .hero h1{
+  .hero-number{
     font-family:var(--serif);
     font-weight:500;
-    font-size:clamp(44px, 7.2vw, 104px);
-    line-height:0.95;
-    letter-spacing:-0.02em;
-    color:var(--negro);
-    margin:28px 0 32px;
-  }
-  .hero h1 em{
     font-style:italic;
+    font-size:clamp(110px, 22vw, 340px);
+    line-height:0.85;
     color:var(--teal);
+    letter-spacing:-0.04em;
+    min-width:0;
+    word-break:keep-all;
+  }
+  .hero-number .pct{
+    font-style:normal;
+    color:var(--ambar);
     font-weight:500;
   }
-  .hero .lead{
-    font-size:clamp(17px, 1.4vw, 20px);
+  .hero-text{min-width:0}
+  .hero-text h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(28px, 4vw, 56px);
+    line-height:1.05;
+    letter-spacing:-0.015em;
+    color:var(--negro);
+    margin:18px 0 24px;
+    overflow-wrap:break-word;
+  }
+  .hero-text .lead{
+    font-size:clamp(16px, 1.4vw, 20px);
     line-height:1.5;
     color:var(--gris);
     max-width:46ch;
-    margin-bottom:40px;
+    margin-bottom:32px;
   }
+
   .cta{
-    display:inline-flex;align-items:center;gap:14px;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
     background:var(--negro);
     color:var(--crema);
-    padding:20px 32px;
+    padding:18px 28px;
     font-weight:500;
     font-size:15px;
     letter-spacing:0.01em;
     border:1px solid var(--negro);
-    transition:background .2s ease, transform .2s ease;
+    transition:background .2s ease, border-color .2s ease;
+    min-height:48px;
   }
-  .cta:hover{background:var(--teal-ink);border-color:var(--teal-ink)}
+  .cta:hover,.cta:focus-visible{
+    background:var(--teal-ink);
+    border-color:var(--teal-ink);
+    outline:0;
+  }
   .cta .arrow{
     display:inline-block;
     transition:transform .25s ease;
   }
   .cta:hover .arrow{transform:translateX(4px)}
 
-  .hero-photo{
-    position:relative;
-    align-self:stretch;
-  }
-  .hero-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center 15%;
-    max-height:640px;
-  }
-  .hero-photo::after{
-    content:"";
-    position:absolute;
-    left:-14px;bottom:-14px;
-    width:100%;height:100%;
-    border:1px solid var(--ambar);
-    z-index:-1;
-    pointer-events:none;
-  }
-
   @media (max-width: 900px){
-    .hero-grid{grid-template-columns:1fr;gap:32px}
-    .hero-photo{order:-1;max-width:380px}
-    .hero-photo img{max-height:480px}
+    .hero-grid{
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+    .hero-number{
+      font-size:clamp(120px, 32vw, 220px);
+      text-align:left;
+    }
+  }
+  @media (max-width: 480px){
+    .hero-number{
+      font-size:clamp(96px, 36vw, 160px);
+      margin-left:-4px;
+    }
+    .cta{
+      padding:16px 22px;
+      font-size:14px;
+      width:100%;
+      justify-content:center;
+    }
   }
 
-  /* --- SOCIAL PROOF --- */
+  /* ══════════════════════════════════════════════
+     SOCIAL PROOF (STATS)
+     ══════════════════════════════════════════════ */
   .social{
     border-top:1px solid var(--crema-line);
     border-bottom:1px solid var(--crema-line);
-    padding:clamp(40px, 5vw, 64px) 0;
+    padding:clamp(40px, 6vw, 80px) 0;
     background:var(--crema-shade);
   }
-  .social-inner{
+  .social-grid{
     display:grid;
-    grid-template-columns:auto 1fr;
-    gap:clamp(20px, 3vw, 40px);
-    align-items:center;
-    max-width:960px;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:clamp(20px, 4vw, 56px);
+    align-items:start;
   }
-  .social-thumb{
-    width:80px;height:80px;border-radius:50%;
-    background:var(--crema-line);
-    overflow:hidden;
-    flex-shrink:0;
-    border:2px solid var(--crema);
-  }
-  .social-thumb img{width:100%;height:100%;object-fit:cover;object-position:center 15%}
-  .social-quote{
+  .stat-number{
     font-family:var(--serif);
-    font-size:clamp(20px, 2.1vw, 28px);
-    line-height:1.35;
-    font-weight:400;
-    letter-spacing:-0.01em;
+    font-weight:500;
+    font-size:clamp(44px, 6vw, 84px);
+    line-height:1;
+    color:var(--teal);
+    letter-spacing:-0.02em;
+    margin-bottom:10px;
+    overflow-wrap:break-word;
   }
-  .social-quote .mark{color:var(--teal);font-family:var(--serif);font-weight:500}
-  .social-attr{
-    font-family:var(--sans);
-    font-size:13px;
+  .stat-number .unit{
+    font-size:0.5em;
     color:var(--gris);
-    letter-spacing:0.04em;
-    margin-top:14px;
-    text-transform:uppercase;
+    font-style:italic;
+    font-weight:400;
+    margin-left:4px;
+    white-space:nowrap;
   }
+  .stat-label{
+    font-size:14px;
+    line-height:1.45;
+    color:var(--negro);
+    max-width:24ch;
+  }
+  .stat-label strong{font-weight:500}
 
+  @media (max-width: 900px){
+    .social-grid{gap:clamp(20px, 3vw, 32px)}
+    .stat-number{font-size:clamp(40px, 5vw, 64px)}
+  }
   @media (max-width: 640px){
-    .social-inner{grid-template-columns:1fr}
-    .social-thumb{width:64px;height:64px}
+    .social-grid{
+      grid-template-columns:1fr;
+      gap:32px;
+    }
+    .stat-number{font-size:48px}
+    .stat-label{max-width:none}
   }
 
-  /* --- FORM --- */
+  /* ══════════════════════════════════════════════
+     FORMULARIO
+     ══════════════════════════════════════════════ */
   .form-section{
-    padding:clamp(64px, 8vw, 112px) 0;
+    padding:clamp(56px, 8vw, 112px) 0;
   }
   .form-head{
     max-width:680px;
-    margin-bottom:clamp(32px, 4vw, 56px);
+    margin-bottom:clamp(28px, 4vw, 56px);
   }
   .form-head h2{
     font-family:var(--serif);
-    font-size:clamp(32px, 4vw, 52px);
-    line-height:1.02;
+    font-size:clamp(28px, 4vw, 52px);
+    line-height:1.05;
     font-weight:500;
     letter-spacing:-0.015em;
-    margin:20px 0 20px;
+    margin:18px 0 18px;
   }
   .form-head p{
     color:var(--gris);
-    font-size:17px;
+    font-size:clamp(15px, 1.2vw, 17px);
     max-width:52ch;
   }
 
   .form-wrap{
     display:grid;
     grid-template-columns:1fr;
-    gap:clamp(24px, 3vw, 40px);
+    gap:clamp(22px, 3vw, 40px);
     max-width:720px;
   }
 
   .field{
-    display:flex;flex-direction:column;
+    display:flex;
+    flex-direction:column;
     gap:8px;
+    min-width:0;
   }
   .field label,
   .field .label{
@@ -247,6 +350,10 @@
     text-transform:uppercase;
     color:var(--gris);
   }
+  @media (max-width: 480px){
+    .field label,.field .label{font-size:12px;letter-spacing:0.12em}
+  }
+
   .field input[type=text],
   .field input[type=tel],
   .field input[type=number]{
@@ -259,7 +366,10 @@
     color:var(--negro);
     transition:border-color .2s ease;
     -webkit-appearance:none;
+    appearance:none;
     border-radius:0;
+    min-height:48px;
+    width:100%;
   }
   .field input:focus{
     outline:0;
@@ -272,15 +382,19 @@
     grid-template-columns:1fr 1fr;
     gap:clamp(20px, 3vw, 32px);
   }
-  @media (max-width: 640px){ .field-row{grid-template-columns:1fr} }
+  @media (max-width: 640px){
+    .field-row{grid-template-columns:1fr}
+  }
 
   /* Upload field */
   .upload-field{
     border:1.5px dashed var(--negro);
-    padding:28px;
+    padding:clamp(18px, 3vw, 28px);
     background:rgba(255,255,255,0.4);
     transition:all .2s ease;
     position:relative;
+    display:block;
+    cursor:pointer;
   }
   .upload-field.dragover{
     border-color:var(--teal);
@@ -292,149 +406,128 @@
     background:rgba(11,110,126,0.04);
   }
   .upload-inner{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:20px;flex-wrap:wrap;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
   }
-  .upload-copy{flex:1;min-width:200px}
+  .upload-copy{
+    flex:1;
+    min-width:0;
+  }
   .upload-title{
-    font-size:15px;font-weight:500;color:var(--negro);
+    font-size:clamp(14px, 1.2vw, 15px);
+    font-weight:500;
+    color:var(--negro);
     margin-bottom:4px;
+    overflow-wrap:break-word;
+    word-break:break-word;
   }
-  .upload-hint{font-size:13px;color:var(--gris)}
+  .upload-hint{
+    font-size:13px;
+    color:var(--gris);
+    overflow-wrap:break-word;
+  }
   .upload-btn{
-    background:var(--negro);color:var(--crema);
-    padding:12px 22px;
-    font-size:13px;font-weight:500;
+    background:var(--negro);
+    color:var(--crema);
+    padding:12px 20px;
+    font-size:13px;
+    font-weight:500;
     letter-spacing:0.04em;
     text-transform:uppercase;
     transition:background .2s ease;
+    flex-shrink:0;
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
   }
   .upload-btn:hover{background:var(--teal-ink)}
   .upload-field input[type=file]{
-    position:absolute;inset:0;opacity:0;cursor:pointer;
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+    width:100%;
+    height:100%;
   }
   .upload-status{
-    margin-top:14px;
+    margin-top:12px;
     font-size:13px;
     color:var(--teal);
     display:none;
+    overflow-wrap:break-word;
   }
   .upload-status.show{display:block}
   .upload-status.error{color:#B03A2E}
 
+  @media (max-width: 560px){
+    .upload-inner{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:14px;
+    }
+    .upload-btn{
+      width:100%;
+      justify-content:center;
+    }
+  }
+
   .submit-row{
-    margin-top:clamp(16px, 2vw, 24px);
+    margin-top:clamp(12px, 2vw, 24px);
     padding-top:clamp(24px, 3vw, 32px);
     border-top:1px solid var(--crema-line);
   }
   .submit-btn{
     background:var(--teal);
     color:var(--crema);
-    padding:22px 40px;
-    font-size:15px;
+    padding:20px 28px;
+    font-size:clamp(14px, 1.2vw, 15px);
     font-weight:500;
     letter-spacing:0.02em;
     width:100%;
     text-align:left;
-    display:flex;align-items:center;justify-content:space-between;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
     transition:background .2s ease;
+    min-height:56px;
   }
-  .submit-btn:hover{background:var(--teal-dark)}
-  .submit-btn:disabled{opacity:0.5;cursor:not-allowed}
-  .submit-btn .arrow{transition:transform .25s ease}
+  .submit-btn > span:first-child{
+    flex:1;
+    min-width:0;
+    overflow-wrap:break-word;
+  }
+  .submit-btn:hover,.submit-btn:focus-visible{
+    background:var(--teal-dark);
+    outline:0;
+  }
+  .submit-btn:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+  }
+  .submit-btn .arrow{
+    transition:transform .25s ease;
+    flex-shrink:0;
+  }
   .submit-btn:hover .arrow{transform:translateX(4px)}
 
   .microcopy{
-    font-size:13px;color:var(--gris);
-    margin-top:16px;line-height:1.5;
+    font-size:13px;
+    color:var(--gris);
+    margin-top:14px;
+    line-height:1.5;
   }
 
-  /* --- QUIÉN REVISA --- */
-  .who{
-    background:var(--negro);
-    color:var(--crema);
-    padding:clamp(64px, 8vw, 112px) 0;
-  }
-  .who .eyebrow{color:var(--ambar)}
-  .who .eyebrow::before{border-left-color:var(--ambar)}
-  .who-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:32px;
-    max-width:760px;
-  }
-  .who h2{
-    font-family:var(--serif);
-    font-size:clamp(28px, 3.4vw, 42px);
-    font-weight:500;
-    line-height:1.15;
-    letter-spacing:-0.01em;
-    margin:20px 0 0;
-  }
-  .who p{
-    font-size:clamp(17px, 1.3vw, 19px);
-    line-height:1.55;
-    color:#C9C6C0;
-    max-width:58ch;
-  }
-  .who p strong{color:var(--crema);font-weight:500}
-
-  /* --- FOOTER --- */
-  footer{
-    background:var(--crema);
-    padding:56px 0 40px;
-    border-top:1px solid var(--crema-line);
-  }
-  .footer-grid{
-    display:grid;
-    grid-template-columns:1.2fr 1fr 1fr;
-    gap:40px;
-    align-items:start;
-    margin-bottom:40px;
-  }
-  .footer-logo{height:36px;width:auto;margin-bottom:16px}
-  .footer-tag{
-    font-size:13px;color:var(--gris);line-height:1.5;
-    max-width:28ch;
-  }
-  .footer-tag a{
-    color:var(--teal);
-    border-bottom:1px solid var(--teal);
-    transition:color .2s ease;
-  }
-  .footer-tag a:hover{color:var(--teal-dark);border-bottom-color:var(--teal-dark)}
-  .footer-col h4{
-    font-size:11px;font-weight:500;
-    letter-spacing:0.14em;text-transform:uppercase;
-    color:var(--gris);margin-bottom:14px;
-  }
-  .footer-col a,
-  .footer-col span{
-    display:block;font-size:14px;color:var(--negro);
-    margin-bottom:8px;line-height:1.5;
-  }
-  .footer-col a:hover{color:var(--teal)}
-  .footer-bottom{
-    border-top:1px solid var(--crema-line);
-    padding-top:24px;
-    display:flex;justify-content:space-between;
-    font-size:12px;color:var(--gris);
-    flex-wrap:wrap;gap:12px;
-  }
-  .footer-bottom a:hover{color:var(--teal)}
-
-  @media (max-width: 720px){
-    .footer-grid{grid-template-columns:1fr;gap:28px}
-  }
-
-  /* --- Modal manual fallback --- */
   .manual-prompt{
     background:rgba(224,60,60,0.08);
     border-left:3px solid #C0392B;
-    padding:16px 20px;
-    margin-top:16px;
+    padding:14px 18px;
+    margin-top:14px;
     display:none;
     font-size:14px;
+    line-height:1.5;
   }
   .manual-prompt.show{display:block}
   .manual-prompt button{
@@ -442,6 +535,146 @@
     text-decoration:underline;
     font-weight:500;
     padding:0 4px;
+    font-size:inherit;
+  }
+
+  /* ══════════════════════════════════════════════
+     QUIÉN REVISA
+     ══════════════════════════════════════════════ */
+  .who{
+    background:var(--negro);
+    color:var(--crema);
+    padding:clamp(56px, 8vw, 112px) 0;
+  }
+  .who .eyebrow{color:var(--ambar)}
+  .who .eyebrow::before{border-left-color:var(--ambar)}
+  .who-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:28px;
+    max-width:760px;
+  }
+  .who h2{
+    font-family:var(--serif);
+    font-size:clamp(26px, 3.4vw, 42px);
+    font-weight:500;
+    line-height:1.15;
+    letter-spacing:-0.01em;
+    margin:18px 0 0;
+  }
+  .who p{
+    font-size:clamp(16px, 1.3vw, 19px);
+    line-height:1.55;
+    color:#C9C6C0;
+    max-width:58ch;
+  }
+  .who p strong{
+    color:var(--crema);
+    font-weight:500;
+  }
+
+  /* ══════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════ */
+  footer{
+    background:var(--crema);
+    padding:48px 0 32px;
+    padding-bottom:max(32px, env(safe-area-inset-bottom));
+    border-top:1px solid var(--crema-line);
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr;
+    gap:32px;
+    align-items:start;
+    margin-bottom:32px;
+  }
+  .footer-logo{
+    height:36px;
+    width:auto;
+    margin-bottom:14px;
+  }
+  .footer-tag{
+    font-size:13px;
+    color:var(--gris);
+    line-height:1.5;
+    max-width:28ch;
+  }
+  .footer-tag a{
+    color:var(--teal);
+    border-bottom:1px solid var(--teal);
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .footer-tag a:hover{
+    color:var(--teal-dark);
+    border-bottom-color:var(--teal-dark);
+  }
+  .footer-col h4{
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gris);
+    margin-bottom:12px;
+  }
+  .footer-col a,
+  .footer-col span{
+    display:block;
+    font-size:14px;
+    color:var(--negro);
+    margin-bottom:6px;
+    line-height:1.5;
+    min-height:24px;
+  }
+  .footer-col a{padding:2px 0}
+  .footer-col a:hover{color:var(--teal)}
+  .footer-bottom{
+    border-top:1px solid var(--crema-line);
+    padding-top:20px;
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:var(--gris);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .footer-bottom a:hover{color:var(--teal)}
+
+  @media (max-width: 900px){
+    .footer-grid{
+      grid-template-columns:1fr 1fr;
+      gap:32px 28px;
+    }
+    .footer-col:first-of-type{grid-column:1 / -1}
+  }
+  @media (max-width: 560px){
+    .footer-grid{
+      grid-template-columns:1fr;
+      gap:26px;
+    }
+  }
+
+  /* ══════════════════════════════════════════════
+     ACCESIBILIDAD + PRINT
+     ══════════════════════════════════════════════ */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:0.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:0.01ms !important;
+      scroll-behavior:auto !important;
+    }
+  }
+
+  :focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+  }
+
+  @media print{
+    header,footer,.cta,.submit-row,.social{display:none}
+    body{background:#fff;color:#000}
+    .hero-number{color:#000}
   }
 </style>
 </head>
@@ -462,17 +695,17 @@
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
+      <div class="hero-number">
+        70<span class="pct">%</span>
+      </div>
       <div class="hero-text">
         <span class="eyebrow">Revisión gratuita</span>
-        <h1>Revisamos tu factura de luz en <em>24 horas</em>.</h1>
-        <p class="lead">Subes la última factura, la analizo personalmente y te mando el diagnóstico por WhatsApp. Sin comerciales llamándote después.</p>
+        <h1>de las PYMES paga una tarifa eléctrica equivocada.</h1>
+        <p class="lead">Analizamos tu última factura y te decimos qué sobra, qué optimizar y cuánto podrías ahorrar. Respuesta por WhatsApp en 24 horas.</p>
         <a href="#formulario" class="cta">
           Revisar mi factura
           <span class="arrow">→</span>
         </a>
-      </div>
-      <div class="hero-photo">
-        <img src="foto-david-duotone.jpg" alt="David Braojos, director de Mejoradora Granada">
       </div>
     </div>
   </div>
@@ -481,15 +714,18 @@
 <!-- ═══ SOCIAL PROOF ═══ -->
 <section class="social">
   <div class="wrap">
-    <div class="social-inner">
-      <div class="social-thumb">
-        <img src="foto-david-duotone.jpg" alt="">
+    <div class="social-grid">
+      <div>
+        <div class="stat-number">1.500<span class="unit">+</span></div>
+        <p class="stat-label"><strong>negocios revisados</strong> solo el último año</p>
       </div>
       <div>
-        <p class="social-quote">
-          <span class="mark">“</span>Llevábamos tres años con la misma tarifa. David detectó <strong>312€/mes</strong> de sobrecoste en diez minutos.<span class="mark">”</span>
-        </p>
-        <p class="social-attr">Grupo de heladerías · Granada capital</p>
+        <div class="stat-number">2.340<span class="unit">€/año</span></div>
+        <p class="stat-label"><strong>ahorro medio detectado</strong> por análisis</p>
+      </div>
+      <div>
+        <div class="stat-number">24<span class="unit">h</span></div>
+        <p class="stat-label"><strong>diagnóstico por WhatsApp</strong>, sin llamadas comerciales</p>
       </div>
     </div>
   </div>
@@ -506,7 +742,6 @@
 
     <form class="form-wrap" id="leadForm" novalidate>
 
-      <!-- UPLOAD (primero, porque autocompleta el resto) -->
       <div class="field">
         <span class="label">▸ Factura reciente · PDF o foto</span>
         <label class="upload-field" id="uploadZone">
@@ -530,17 +765,17 @@
 
       <div class="field">
         <label for="nombre">▸ Nombre o razón social</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Hostelería Ejemplo S.L." required>
+        <input type="text" id="nombre" name="nombre" placeholder="Hostelería Ejemplo S.L." autocomplete="organization" required>
       </div>
 
       <div class="field-row">
         <div class="field">
           <label for="telefono">▸ Teléfono de contacto</label>
-          <input type="tel" id="telefono" name="telefono" placeholder="600 00 00 00" required>
+          <input type="tel" id="telefono" name="telefono" placeholder="600 00 00 00" autocomplete="tel" inputmode="tel" required>
         </div>
         <div class="field">
           <label for="importe">▸ Importe mensual de factura (€)</label>
-          <input type="number" id="importe" name="importe" placeholder="420" min="0" step="0.01" required>
+          <input type="number" id="importe" name="importe" placeholder="420" min="0" step="0.01" inputmode="decimal" required>
         </div>
       </div>
 
@@ -549,7 +784,7 @@
           <span>Enviar y recibir análisis por WhatsApp</span>
           <span class="arrow">→</span>
         </button>
-        <p class="microcopy">Recibes el análisis por WhatsApp en menos de 24 horas. No hay llamadas comerciales después.</p>
+        <p class="microcopy">Análisis humano en menos de 24h. Respuesta por WhatsApp, sin llamadas comerciales.</p>
       </div>
     </form>
   </div>
@@ -561,7 +796,7 @@
     <div class="who-grid">
       <span class="eyebrow">Quién revisa</span>
       <h2>David Braojos y Fernando Martínez. Personas, no bots.</h2>
-      <p>Revisamos personalmente cada factura que entra por esta web: hoteles, lavanderías, restaurantes, administradores de fincas. Granada y provincia.</p>
+      <p><strong>Mejoradora Granada</strong> forma parte de la red nacional Mejoradora. Trabajamos con hoteles, lavanderías, restaurantes, supermercados, gimnasios e industria pequeña en Granada capital y provincia.</p>
     </div>
   </div>
 </section>
@@ -603,17 +838,15 @@
    MEJORADORA GRANADA — FRONTEND LOGIC
    Integra con el backend existente:
    - POST /api/gemini  → OCR de factura
-   - Supabase insert   → persistir lead
-   - WhatsApp redirect → abrir chat con mensaje pre-rellenado
+   - Supabase insert   → persistir lead (integrar abajo)
+   - WhatsApp redirect → mensaje pre-rellenado
 
-   Los IDs de los campos (nombre, telefono, importe, factura)
-   mantienen la misma semántica que el backend existente.
-   Si tu backend usa otros nombres, cámbialos aquí.
+   IDs del formulario (mantén si tu backend los usa):
+     nombre, telefono, importe, factura
    ══════════════════════════════════════════════════════════ */
 
 const $ = (s) => document.querySelector(s);
 
-// ── Elementos ──
 const form         = $('#leadForm');
 const uploadZone   = $('#uploadZone');
 const fileInput    = $('#factura');
@@ -628,12 +861,14 @@ const submitBtn    = $('#submitBtn');
 // ── Drag & drop visual ──
 ['dragenter','dragover'].forEach(ev =>
   uploadZone.addEventListener(ev, e => {
-    e.preventDefault(); uploadZone.classList.add('dragover');
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
   })
 );
 ['dragleave','drop'].forEach(ev =>
   uploadZone.addEventListener(ev, e => {
-    e.preventDefault(); uploadZone.classList.remove('dragover');
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
   })
 );
 
@@ -657,7 +892,6 @@ fileInput.addEventListener('change', async (e) => {
     if (!res.ok) throw new Error('OCR failed');
     const data = await res.json();
 
-    // Rellenar campos con respuesta OCR
     if (data.nombre)   $('#nombre').value   = data.nombre;
     if (data.telefono) $('#telefono').value = data.telefono;
     if (data.importe)  $('#importe').value  = data.importe;
@@ -692,17 +926,18 @@ form.addEventListener('submit', async (e) => {
     nombre:   $('#nombre').value.trim(),
     telefono: $('#telefono').value.trim(),
     importe:  $('#importe').value,
-    // El archivo ya se mandó a /api/gemini; si tu backend requiere
-    // reenviarlo a Supabase storage, añade aquí FormData con fileInput.files[0]
   };
 
   try {
     // TODO: integrar con tu endpoint Supabase existente
-    // await fetch('/api/lead', { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
+    // await fetch('/api/lead', {
+    //   method:'POST',
+    //   body: JSON.stringify(payload),
+    //   headers:{'Content-Type':'application/json'}
+    // });
 
-    // WhatsApp redirect (ajusta el número a tu WhatsApp Business)
     const msg = encodeURIComponent(
-      `Hola David, acabo de enviar mi factura.\n` +
+      `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
       `Nombre: ${payload.nombre}\n` +
       `Importe mensual: ${payload.importe}€`
     );
