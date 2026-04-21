@@ -652,6 +652,30 @@ function openWhatsApp(whatsappWindow, messageText) {
   }
 }
 
+function buildWhatsAppMessage(isFallback) {
+  const lines = [];
+
+  if (isFallback) {
+    lines.push('Hola, he intentado enviar mis datos desde la web pero hubo un problema técnico.');
+  } else {
+    lines.push('Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.');
+  }
+
+  if (ocrData.tarifa_detectada) {
+    lines.push(`Tarifa detectada: ${ocrData.tarifa_detectada}`);
+  }
+
+  if (ocrData.comercializadora) {
+    lines.push(`Comercializadora: ${ocrData.comercializadora}`);
+  }
+
+  if (ocrData.consumo_kwh) {
+    lines.push(`Energía consumida: ${ocrData.consumo_kwh}`);
+  }
+
+  return lines.join('\n');
+}
+
 function normalizeSpanishNumber(value) {
   if (value === null || value === undefined || value === '') return '';
   return String(value)
@@ -814,12 +838,7 @@ form.addEventListener('submit', async (e) => {
   try {
     await persistLead(payload);
 
-    const messageText =
-      `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
-      `Tarifa detectada: ${ocrData.tarifa_detectada || 'No detectada'}\n` +
-      `Comercializadora: ${ocrData.comercializadora || 'No detectada'}\n` +
-      `Energía consumida: ${ocrData.consumo_kwh || 'No detectada'}`
-;
+    const messageText = buildWhatsAppMessage(false);
 
     openWhatsApp(whatsappWindow, messageText);
 
@@ -828,12 +847,7 @@ form.addEventListener('submit', async (e) => {
     console.error('persistLead failed:', err && err.message ? err.message : err);
 
     if (ALLOW_WHATSAPP_FALLBACK_ON_SAVE_ERROR) {
-      const fallbackMessageText =
-        `Hola, he intentado enviar mis datos desde la web pero hubo un problema técnico.
-` +
-        `Tarifa detectada: ${ocrData.tarifa_detectada || 'No detectada'}\n` +
-        `Comercializadora: ${ocrData.comercializadora || 'No detectada'}\n` +
-        `Energía consumida: ${ocrData.consumo_kwh || 'No detectada'}`;
+      const fallbackMessageText = buildWhatsAppMessage(true);
 
       openWhatsApp(whatsappWindow, fallbackMessageText);
       submitBtn.disabled = false;
