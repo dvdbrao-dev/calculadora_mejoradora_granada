@@ -583,26 +583,106 @@
 </footer>
 
 <script>
-/* ══════════════════════════════════════════════════════════
-   MEJORADORA GRANADA — FRONTEND LOGIC
-   Mismo JS que versión A. Integra con:
-   - POST /api/gemini  → OCR
-   - Supabase insert   → persistencia lead
-   - WhatsApp redirect → mensaje pre-rellenado
-   ══════════════════════════════════════════════════════════ */
-
 const $ = (s) => document.querySelector(s);
 
-const form         = $('#leadForm');
-const uploadZone   = $('#uploadZone');
-const fileInput    = $('#factura');
-const uploadTitle  = $('#uploadTitle');
-const uploadHint   = $('#uploadHint');
+const form = $('#leadForm');
+const uploadZone = $('#uploadZone');
+const fileInput = $('#factura');
+const uploadTitle = $('#uploadTitle');
+const uploadHint = $('#uploadHint');
 const uploadStatus = $('#uploadStatus');
 const manualPrompt = $('#manualPrompt');
-const manualBtn    = $('#manualBtn');
-const retryBtn     = $('#retryBtn');
-const submitBtn    = $('#submitBtn');
+const manualBtn = $('#manualBtn');
+const retryBtn = $('#retryBtn');
+const submitBtn = $('#submitBtn');
+
+let ocrData = {
+  comercializadora: '',
+  documento: '',
+  cups: '',
+  direccion: '',
+  tarifa_detectada: '',
+  consumo_kwh: '',
+  importe_total: '',
+  precio_energia: '',
+  precio_energia_p1: '',
+  precio_energia_p2: '',
+  precio_energia_p3: '',
+  potencia_contratada_p1: '',
+  potencia_contratada_p2: '',
+  potencia_contratada_p3: '',
+  potencia: '',
+  dias_factura: '',
+  periodo_desde: '',
+  periodo_hasta: ''
+};
+let ocrStatus = 'failed';
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || '');
+      resolve(result.split(',')[1] || '');
+    };
+    reader.onerror = () => reject(reader.error || new Error('file_read_failed'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function setSubmitLabel(label) {
+  submitBtn.querySelector('span').textContent = label;
+}
+
+function sanitizeOcrData(data) {
+  return {
+    comercializadora: String(data?.comercializadora || '').trim(),
+    documento: String(data?.documento || '').trim(),
+    cups: String(data?.cups || '').trim(),
+    direccion: String(data?.direccion || '').trim(),
+    tarifa_detectada: String(data?.tarifa_detectada || '').trim(),
+    consumo_kwh: String(data?.consumo_kwh || '').trim(),
+    importe_total: String(data?.importe_total || '').trim(),
+    precio_energia: String(data?.precio_energia || '').trim(),
+    precio_energia_p1: String(data?.precio_energia_p1 || '').trim(),
+    precio_energia_p2: String(data?.precio_energia_p2 || '').trim(),
+    precio_energia_p3: String(data?.precio_energia_p3 || '').trim(),
+    potencia_contratada_p1: String(data?.potencia_contratada_p1 || '').trim(),
+    potencia_contratada_p2: String(data?.potencia_contratada_p2 || '').trim(),
+    potencia_contratada_p3: String(data?.potencia_contratada_p3 || '').trim(),
+    potencia: String(data?.potencia || '').trim(),
+    dias_factura: String(data?.dias_factura || '').trim(),
+    periodo_desde: String(data?.periodo_desde || '').trim(),
+    periodo_hasta: String(data?.periodo_hasta || '').trim()
+  };
+}
+
+async function persistLead(payload) {
+  const file = fileInput.files[0];
+  const invoiceBase64 = file ? await fileToBase64(file) : '';
+  const response = await fetch('/api/create-lead', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nombre: payload.nombre,
+      telefono: payload.telefono,
+      importe_factura: payload.importe || null,
+      invoice_file_base64: invoiceBase64,
+      invoice_filename: file ? file.name : '',
+      invoice_mime_type: file ? file.type : 'application/octet-stream',
+      ocr_data: ocrData,
+      ocr_status: ocrStatus
+    })
+  });
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || result.error || 'create_lead_failed');
+  }
+  return result;
+}
 
 ['dragenter','dragover'].forEach(ev =>
   uploadZone.addEventListener(ev, e => {
@@ -627,23 +707,40 @@ fileInput.addEventListener('change', async (e) => {
   manualPrompt.classList.remove('show');
 
   try {
-    const fd = new FormData();
-    fd.append('factura', file);
+    const base64 = await fileToBase64(file);
+    const res = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        mimeType: file.type,
+        data: base64,
+        fileName: file.name
+      })
+    });
 
-    const res = await fetch('/api/gemini', { method: 'POST', body: fd });
-    if (!res.ok) throw new Error('OCR failed');
-    const data = await res.json();
+    const result = await res.json().catch(() => ({}));
+    if (!res.ok || !result.success || !result.data) {
+      throw new Error(result.debugInfo || result.error || 'ocr_failed');
+    }
 
-    if (data.nombre)   $('#nombre').value   = data.nombre;
-    if (data.telefono) $('#telefono').value = data.telefono;
-    if (data.importe)  $('#importe').value  = data.importe;
+    ocrData = sanitizeOcrData(result.data);
+    ocrStatus = result.debugInfo === 'partial_ocr' ? 'partial' : 'success';
 
-    uploadStatus.textContent = '▸ Factura leída. Revisa los datos y envía.';
+    if ($('#importe') && ocrData.importe_total) $('#importe').value = ocrData.importe_total;
+
+    uploadStatus.textContent = ocrStatus === 'partial'
+      ? '▸ Factura leída parcialmente. Revisa los datos y envía.'
+      : '▸ Factura leída. Revisa los datos y envía.';
     uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Procesada`;
   } catch (err) {
+    ocrData = sanitizeOcrData({});
+    ocrStatus = 'failed';
     uploadStatus.className = 'upload-status show error';
     uploadStatus.textContent = '⚠ No he podido leer la factura automáticamente.';
     manualPrompt.classList.add('show');
+    console.error(err);
   }
 });
 
@@ -661,30 +758,42 @@ retryBtn.addEventListener('click', () => {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   submitBtn.disabled = true;
-  submitBtn.querySelector('span').textContent = 'Enviando…';
+  setSubmitLabel('Enviando…');
 
   const payload = {
-    nombre:   $('#nombre').value.trim(),
+    nombre: $('#nombre').value.trim(),
     telefono: $('#telefono').value.trim(),
-    importe:  $('#importe').value,
+    importe: $('#importe').value
   };
 
+  const whatsappWindow = window.open('', '_blank', 'noopener');
+
   try {
-    // TODO: integrar con tu endpoint Supabase existente
-    // await fetch('/api/lead', { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
+    await persistLead(payload);
 
     const msg = encodeURIComponent(
       `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
-      `Nombre: ${payload.nombre}\n` +
-      `Importe mensual: ${payload.importe}€`
+      `Tarifa detectada: ${ocrData.tarifa_detectada || 'No detectada'}\n` +
+      `Comercializadora: ${ocrData.comercializadora || 'No detectada'}\n` +
+      `Energía consumida: ${ocrData.consumo_kwh || 'No detectada'}`
     );
-    const waNumber = '34616785103';
-    window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
 
-    submitBtn.querySelector('span').textContent = '✓ Enviado. Abriendo WhatsApp…';
+    const waNumber = '34616785103';
+    const whatsappUrl = `https://wa.me/${waNumber}?text=${msg}`;
+
+    if (whatsappWindow) {
+      whatsappWindow.location.replace(whatsappUrl);
+    } else {
+      window.location.href = whatsappUrl;
+    }
+
+    setSubmitLabel('✓ Enviado. Abriendo WhatsApp…');
   } catch (err) {
+    if (whatsappWindow && !whatsappWindow.closed) {
+      whatsappWindow.close();
+    }
     submitBtn.disabled = false;
-    submitBtn.querySelector('span').textContent = 'Error. Reintentar';
+    setSubmitLabel('Error. Reintentar');
     console.error(err);
   }
 });
