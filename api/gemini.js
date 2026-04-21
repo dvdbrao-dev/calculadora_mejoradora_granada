@@ -52,6 +52,7 @@ module.exports = async (req, res) => {
     "No escribas explicaciones ni texto fuera del JSON.",
     "Extrae unicamente datos visibles. Si falta algo o no esta claro, deja cadena vacia.",
     "No inventes datos.",
+    "Busca explicitamente nombre o razon social del titular, DNI/CIF/NIE, CUPS, direccion de suministro, energia consumida, importe total, precio de energia, precio de potencia, potencia contratada, tarifa, dias facturados y fechas de periodo.",
     "Si la imagen es borrosa, incompleta o no parece una factura electrica valida, responde igualmente en JSON dejando vacios los campos y priorizando precision.",
     "No mezcles potencia contratada con precio de potencia.",
     "No confundas el precio de la energia con el precio de potencia.",

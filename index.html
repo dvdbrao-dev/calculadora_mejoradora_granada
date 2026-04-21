@@ -779,6 +779,18 @@
         </div>
       </div>
 
+      <input type="hidden" id="ocr_documento" name="ocr_documento">
+      <input type="hidden" id="ocr_cups" name="ocr_cups">
+      <input type="hidden" id="ocr_direccion" name="ocr_direccion">
+      <input type="hidden" id="ocr_consumo_kwh" name="ocr_consumo_kwh">
+      <input type="hidden" id="ocr_tarifa_detectada" name="ocr_tarifa_detectada">
+      <input type="hidden" id="ocr_precio_energia" name="ocr_precio_energia">
+      <input type="hidden" id="ocr_precio_potencia" name="ocr_precio_potencia">
+      <input type="hidden" id="ocr_dias_factura" name="ocr_dias_factura">
+      <input type="hidden" id="ocr_periodo_desde" name="ocr_periodo_desde">
+      <input type="hidden" id="ocr_periodo_hasta" name="ocr_periodo_hasta">
+      <input type="hidden" id="ocr_potencia_contratada" name="ocr_potencia_contratada">
+
       <div class="submit-row">
         <button type="submit" class="submit-btn" id="submitBtn">
           <span>Enviar y recibir análisis por WhatsApp</span>
@@ -857,6 +869,32 @@ const manualPrompt = $('#manualPrompt');
 const manualBtn    = $('#manualBtn');
 const retryBtn     = $('#retryBtn');
 const submitBtn    = $('#submitBtn');
+const hiddenOcrFields = {
+  documento: $('#ocr_documento'),
+  cups: $('#ocr_cups'),
+  direccion: $('#ocr_direccion'),
+  consumo_kwh: $('#ocr_consumo_kwh'),
+  tarifa_detectada: $('#ocr_tarifa_detectada'),
+  precio_energia: $('#ocr_precio_energia'),
+  precio_potencia: $('#ocr_precio_potencia'),
+  dias_factura: $('#ocr_dias_factura'),
+  periodo_desde: $('#ocr_periodo_desde'),
+  periodo_hasta: $('#ocr_periodo_hasta'),
+  potencia_contratada: $('#ocr_potencia_contratada')
+};
+let ocrData = {
+  documento: '',
+  cups: '',
+  direccion: '',
+  consumo_kwh: '',
+  tarifa_detectada: '',
+  precio_energia: '',
+  precio_potencia: '',
+  dias_factura: '',
+  periodo_desde: '',
+  periodo_hasta: '',
+  potencia_contratada: ''
+};
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -868,6 +906,30 @@ function fileToBase64(file) {
     reader.onerror = () => reject(reader.error || new Error('file_read_failed'));
     reader.readAsDataURL(file);
   });
+}
+
+function syncOcrData(data = {}) {
+  ocrData = {
+    documento: String(data.documento || '').trim(),
+    cups: String(data.cups || '').trim(),
+    direccion: String(data.direccion || '').trim(),
+    consumo_kwh: String(data.consumo_kwh || '').trim(),
+    tarifa_detectada: String(data.tarifa_detectada || '').trim(),
+    precio_energia: String(data.precio_energia || '').trim(),
+    precio_potencia: String(data.precio_potencia || '').trim(),
+    dias_factura: String(data.dias_factura || '').trim(),
+    periodo_desde: String(data.periodo_desde || '').trim(),
+    periodo_hasta: String(data.periodo_hasta || '').trim(),
+    potencia_contratada: String(data.potencia_contratada || '').trim()
+  };
+
+  Object.entries(hiddenOcrFields).forEach(([key, element]) => {
+    if (element) element.value = ocrData[key] || '';
+  });
+}
+
+function safeValue(value) {
+  return String(value || '').trim() || 'No detectado';
 }
 
 // ── Drag & drop visual ──
@@ -928,12 +990,14 @@ fileInput.addEventListener('change', async (e) => {
 
     if (data.nombre_empresa) $('#nombre').value = data.nombre_empresa;
     if (data.importe_total) $('#importe').value = data.importe_total;
+    syncOcrData(data);
 
     uploadStatus.textContent = result.debugInfo === 'partial_ocr'
       ? '▸ Factura leída parcialmente. Revisa y completa los datos antes de enviar.'
       : '▸ Factura leída. Revisa los datos y envía.';
     uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Procesada`;
   } catch (err) {
+    syncOcrData({});
     uploadStatus.className = 'upload-status show error';
     uploadStatus.textContent = '⚠ No he podido leer la factura automáticamente.';
     manualPrompt.classList.add('show');
@@ -962,6 +1026,17 @@ form.addEventListener('submit', async (e) => {
     nombre:   $('#nombre').value.trim(),
     telefono: $('#telefono').value.trim(),
     importe:  $('#importe').value,
+    documento: hiddenOcrFields.documento ? hiddenOcrFields.documento.value.trim() : '',
+    cups: hiddenOcrFields.cups ? hiddenOcrFields.cups.value.trim() : '',
+    direccion: hiddenOcrFields.direccion ? hiddenOcrFields.direccion.value.trim() : '',
+    consumo_kwh: hiddenOcrFields.consumo_kwh ? hiddenOcrFields.consumo_kwh.value.trim() : '',
+    tarifa_detectada: hiddenOcrFields.tarifa_detectada ? hiddenOcrFields.tarifa_detectada.value.trim() : '',
+    precio_energia: hiddenOcrFields.precio_energia ? hiddenOcrFields.precio_energia.value.trim() : '',
+    precio_potencia: hiddenOcrFields.precio_potencia ? hiddenOcrFields.precio_potencia.value.trim() : '',
+    dias_factura: hiddenOcrFields.dias_factura ? hiddenOcrFields.dias_factura.value.trim() : '',
+    periodo_desde: hiddenOcrFields.periodo_desde ? hiddenOcrFields.periodo_desde.value.trim() : '',
+    periodo_hasta: hiddenOcrFields.periodo_hasta ? hiddenOcrFields.periodo_hasta.value.trim() : '',
+    potencia_contratada: hiddenOcrFields.potencia_contratada ? hiddenOcrFields.potencia_contratada.value.trim() : '',
   };
 
   try {
@@ -973,9 +1048,21 @@ form.addEventListener('submit', async (e) => {
     // });
 
     const msg = encodeURIComponent(
-      `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
-      `Nombre: ${payload.nombre}\n` +
-      `Importe mensual: ${payload.importe}€`
+      `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n\n` +
+      `Nombre o razón social: ${safeValue(payload.nombre)}\n` +
+      `Teléfono: ${safeValue(payload.telefono)}\n` +
+      `DNI / CIF: ${safeValue(payload.documento)}\n` +
+      `CUPS: ${safeValue(payload.cups)}\n` +
+      `Dirección de suministro: ${safeValue(payload.direccion)}\n` +
+      `Tarifa detectada: ${safeValue(payload.tarifa_detectada)}\n` +
+      `Energía consumida: ${safeValue(payload.consumo_kwh)}\n` +
+      `Importe mensual: ${payload.importe ? `${payload.importe} €` : 'No detectado'}\n` +
+      `Precio energía: ${safeValue(payload.precio_energia)}\n` +
+      `Precio potencia: ${safeValue(payload.precio_potencia)}\n` +
+      `Potencia contratada: ${safeValue(payload.potencia_contratada)}\n` +
+      `Días de factura: ${safeValue(payload.dias_factura)}\n` +
+      `Periodo desde: ${safeValue(payload.periodo_desde)}\n` +
+      `Periodo hasta: ${safeValue(payload.periodo_hasta)}`
     );
     const waNumber = '34616785103';
     window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
