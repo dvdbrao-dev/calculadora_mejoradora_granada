@@ -644,6 +644,61 @@
   }
   .validation.show { display: block; }
 
+  .ocr-review {
+    display: none;
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid var(--rule);
+    background: rgba(255,255,255,.55);
+  }
+  .ocr-review.show { display: block; }
+  .ocr-review.success { border-left: 4px solid var(--teal); }
+  .ocr-review.error { border-left: 4px solid #b3421f; }
+  .ocr-review h4 {
+    margin: 0 0 10px;
+    font-family: "Fraunces", serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .ocr-review p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: .94rem;
+  }
+  .ocr-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .ocr-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .btn-small {
+    padding: 12px 16px;
+    font-size: .88rem;
+  }
+  .wa-fallback {
+    display: none;
+    margin-top: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--rule);
+    background: rgba(255,255,255,.7);
+    font-size: .9rem;
+  }
+  .wa-fallback.show { display: block; }
+  .wa-fallback a {
+    color: var(--teal);
+    word-break: break-all;
+  }
+  .wa-fallback strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
   /* ════════ QUIÉN REVISA ════════ */
   .who {
     padding: 96px 0;
@@ -868,6 +923,15 @@
         </div>
 
         <form class="lead" id="leadForm" novalidate autocomplete="on">
+          <input type="hidden" id="consumo_kwh" name="consumo_kwh" value="">
+          <input type="hidden" id="tarifa_detectada" name="tarifa_detectada" value="">
+          <input type="hidden" id="periodo_desde" name="periodo_desde" value="">
+          <input type="hidden" id="periodo_hasta" name="periodo_hasta" value="">
+          <input type="hidden" id="potencia_contratada" name="potencia_contratada" value="">
+          <input type="hidden" id="precio_energia_hidden" name="precio_energia" value="">
+          <input type="hidden" id="precio_potencia" name="precio_potencia" value="">
+          <input type="hidden" id="ocr_status" name="ocr_status" value="pending">
+          <input type="hidden" id="lead_id" name="lead_id" value="">
 
           <div class="field">
             <label for="titular"><span class="lnum">01</span>Nombre o razón social<span class="lreq">Obligatorio</span></label>
@@ -903,7 +967,39 @@
             </div>
           </div>
 
+          <div class="ocr-review" id="ocrReview" aria-live="polite">
+            <h4 id="ocrReviewTitle">Factura leída correctamente</h4>
+            <p id="ocrReviewText">Revisa la información detectada antes de enviar.</p>
+            <div class="ocr-preview-grid">
+              <div class="field">
+                <label for="ocr_nombre_empresa">Nombre detectado</label>
+                <input type="text" id="ocr_nombre_empresa" placeholder="Nombre detectado">
+              </div>
+              <div class="field">
+                <label for="ocr_tarifa_detectada">Tarifa detectada</label>
+                <input type="text" id="ocr_tarifa_detectada" placeholder="2.0TD">
+              </div>
+              <div class="field">
+                <label for="ocr_consumo_kwh">Consumo (kWh)</label>
+                <input type="text" id="ocr_consumo_kwh" placeholder="2847">
+              </div>
+              <div class="field">
+                <label for="ocr_importe_total">Importe OCR (€)</label>
+                <input type="text" id="ocr_importe_total" placeholder="523.47">
+              </div>
+            </div>
+            <div class="ocr-actions">
+              <button type="button" class="btn btn-ghost btn-small" id="retryOcrBtn">Reintentar OCR</button>
+              <button type="button" class="btn btn-ghost btn-small" id="continueManualBtn">Continuar sin OCR</button>
+            </div>
+          </div>
+
           <div class="validation" id="validation" role="alert"></div>
+          <div class="wa-fallback" id="waFallback">
+            <strong>No pudimos abrir WhatsApp automáticamente.</strong>
+            <span>Copia o abre este enlace manualmente:</span>
+            <a id="waFallbackLink" href="#" target="_blank" rel="noopener"></a>
+          </div>
 
           <div class="submit-area">
             <button type="submit" class="btn btn-primary-big" id="submitBtn">Enviar por WhatsApp</button>
@@ -976,24 +1072,55 @@
 
 const WHATSAPP_PHONE = "34616785103";
 const GEMINI_ENDPOINT = "/api/gemini";
+const CREATE_LEAD_ENDPOINT = "/api/create-lead";
 const OCR_WAIT_TIMEOUT_MS = 10000;
 
 const $ = (id) => document.getElementById(id);
-const fileInput   = $("factura");
-const fileWrap    = $("fileWrap");
-const fileName    = $("fileName");
-const fileMeta    = $("fileMeta");
-const fileBtn     = $("fileBtn");
-const ocrStatus   = $("ocrStatus");
+const fileInput = $("factura");
+const fileWrap = $("fileWrap");
+const fileName = $("fileName");
+const fileMeta = $("fileMeta");
+const fileBtn = $("fileBtn");
+const ocrStatus = $("ocrStatus");
 const ocrStatusText = $("ocrStatusText");
-const form        = $("leadForm");
-const validation  = $("validation");
-const overlay     = $("overlay");
-const submitBtn   = $("submitBtn");
-const phoneInput  = $("telefono");
-const phoneWrap   = $("phoneWrap");
+const form = $("leadForm");
+const validation = $("validation");
+const overlay = $("overlay");
+const submitBtn = $("submitBtn");
+const phoneInput = $("telefono");
+const phoneWrap = $("phoneWrap");
+const ocrReview = $("ocrReview");
+const ocrReviewTitle = $("ocrReviewTitle");
+const ocrReviewText = $("ocrReviewText");
+const retryOcrBtn = $("retryOcrBtn");
+const continueManualBtn = $("continueManualBtn");
+const waFallback = $("waFallback");
+const waFallbackLink = $("waFallbackLink");
 
-/* ────── Estado del OCR en background ────── */
+const hiddenFields = {
+  consumo_kwh: $("consumo_kwh"),
+  tarifa_detectada: $("tarifa_detectada"),
+  periodo_desde: $("periodo_desde"),
+  periodo_hasta: $("periodo_hasta"),
+  potencia_contratada: $("potencia_contratada"),
+  precio_energia: $("precio_energia_hidden"),
+  precio_potencia: $("precio_potencia"),
+  ocr_status: $("ocr_status"),
+  lead_id: $("lead_id")
+};
+
+const previewFields = {
+  nombre_empresa: $("ocr_nombre_empresa"),
+  consumo_kwh: $("ocr_consumo_kwh"),
+  tarifa_detectada: $("ocr_tarifa_detectada"),
+  importe_total: $("ocr_importe_total")
+};
+
+function updateSubmitAvailability() {
+  const hasFile = !!fileInput.files[0];
+  submitBtn.disabled = !hasFile || ocrState.running;
+}
+
 let ocrState = {
   running: false,
   done: false,
@@ -1002,79 +1129,141 @@ let ocrState = {
   promise: null
 };
 
-/* ────── Phone prefix focus style ────── */
 phoneInput.addEventListener("focus", () => phoneWrap.classList.add("focus"));
-phoneInput.addEventListener("blur",  () => phoneWrap.classList.remove("focus"));
+phoneInput.addEventListener("blur", () => phoneWrap.classList.remove("focus"));
 
-/* ────── Format humano del tamaño de archivo ────── */
 function fmtSize(bytes) {
   if (bytes < 1024) return bytes + " B";
-  if (bytes < 1024*1024) return (bytes/1024).toFixed(0) + " KB";
-  return (bytes/(1024*1024)).toFixed(1) + " MB";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
 }
 
-/* ────── Set status visual del OCR ────── */
+function showValidation(msg) {
+  validation.textContent = msg;
+  validation.classList.add("show");
+}
+
+function clearValidation() {
+  validation.classList.remove("show");
+  validation.textContent = "";
+}
+
 function setOcrStatus(kind, text) {
   ocrStatus.className = "ocr-status " + kind;
   ocrStatusText.textContent = text;
 }
 
-/* ────── File → base64 ────── */
+function showReview(kind, title, text) {
+  ocrReview.className = "ocr-review show " + kind;
+  ocrReviewTitle.textContent = title;
+  ocrReviewText.textContent = text;
+}
+
+function hideReview() {
+  ocrReview.className = "ocr-review";
+}
+
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload  = () => resolve(String(reader.result || "").split(",")[1] || "");
+    reader.onload = () => resolve(String(reader.result || "").split(",")[1] || "");
     reader.onerror = () => reject(new Error("No se pudo leer el archivo"));
     reader.readAsDataURL(file);
   });
 }
 
-/* ────── Prompt a Gemini para extracción completa ────── */
-function buildOcrPrompt() {
-  return [
-    "Analiza esta factura eléctrica y devuelve SOLO un objeto JSON válido.",
-    "No escribas explicaciones ni texto fuera del JSON.",
-    "Extrae únicamente datos visibles. Si falta algo o no está claro, deja cadena vacía.",
-    "No inventes datos. No mezcles potencia contratada con precio de potencia.",
-    "No confundas el precio de la energía con el precio de potencia.",
-    "No confundas días facturados con fechas de emisión o periodo de lectura.",
-    "Si hay varias tablas, prioriza el bloque de peajes, periodos, potencia contratada, precio potencia o precio energía.",
-    "Normaliza la tarifa así: 2.0TD para 2.0TD/2.0/similar, 3.0TD para 3.0TD/3.0/similar, vacío si no está claro.",
-    "Busca: titular o razón social, CIF/DNI/NIE, CUPS, dirección de suministro, tarifa, días facturados, consumo total kWh, precio de la energía, importe total, potencias contratadas por periodo y precios de potencia por periodo.",
-    '{"titular":"","documento":"","direccion":"","cups":"","tarifa":"","dias_factura":"","consumo_kwh":"","precio_energia":"","importe_total":"","potencias_contratadas":{"p1":"","p2":"","p3":"","p4":"","p5":"","p6":""},"precios_potencia":{"p1":"","p2":"","p3":"","p4":"","p5":"","p6":""}}'
-  ].join("\n");
+function clearHiddenOcrData() {
+  hiddenFields.consumo_kwh.value = "";
+  hiddenFields.tarifa_detectada.value = "";
+  hiddenFields.periodo_desde.value = "";
+  hiddenFields.periodo_hasta.value = "";
+  hiddenFields.potencia_contratada.value = "";
+  hiddenFields.precio_energia.value = "";
+  hiddenFields.precio_potencia.value = "";
 }
 
-/* ────── Llamada al endpoint serverless ────── */
+function syncHiddenFromPreview() {
+  hiddenFields.consumo_kwh.value = previewFields.consumo_kwh.value.trim();
+  hiddenFields.tarifa_detectada.value = previewFields.tarifa_detectada.value.trim();
+  hiddenFields.precio_energia.value = hiddenFields.precio_energia.value.trim();
+}
+
+function applyOcrToForm(data, debugInfo) {
+  const nombre = String(data?.nombre_empresa || "").trim();
+  const importe = String(data?.importe_total || "").trim();
+
+  if (!$("titular").value.trim() && nombre) $("titular").value = nombre;
+  if (!$("importe").value.trim() && importe) $("importe").value = importe.replace(",", ".");
+
+  previewFields.nombre_empresa.value = nombre;
+  previewFields.consumo_kwh.value = String(data?.consumo_kwh || "").trim();
+  previewFields.tarifa_detectada.value = String(data?.tarifa_detectada || "").trim();
+  previewFields.importe_total.value = importe;
+
+  hiddenFields.consumo_kwh.value = String(data?.consumo_kwh || "").trim();
+  hiddenFields.tarifa_detectada.value = String(data?.tarifa_detectada || "").trim();
+  hiddenFields.periodo_desde.value = String(data?.periodo_desde || "").trim();
+  hiddenFields.periodo_hasta.value = String(data?.periodo_hasta || "").trim();
+  hiddenFields.potencia_contratada.value = String(data?.potencia_contratada || "").trim();
+  hiddenFields.precio_energia.value = String(data?.precio_energia || "").trim();
+  hiddenFields.precio_potencia.value = String(data?.precio_potencia || "").trim();
+  hiddenFields.ocr_status.value = debugInfo === "partial_ocr" ? "partial" : "success";
+
+  setOcrStatus("ok", "✓ Factura leída correctamente. Revisa los datos.");
+  showReview("success", "Factura leída correctamente", "Hemos detectado varios datos de la factura. Revísalos y corrige lo que haga falta.");
+}
+
 async function callGemini(file) {
   const base64 = await fileToBase64(file);
   const response = await fetch(GEMINI_ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      contents: [{
-        role: "user",
-        parts: [
-          { text: buildOcrPrompt() },
-          { inlineData: { mimeType: file.type, data: base64 } }
-        ]
-      }],
-      generationConfig: { temperature: 0.1, responseMimeType: "application/json" }
+      mimeType: file.type,
+      data: base64
     })
   });
-  if (!response.ok) throw new Error("HTTP " + response.status);
-  const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-  if (!text) throw new Error("Respuesta OCR vacía");
-  try { return JSON.parse(text); }
-  catch {
-    const m = text.match(/\{[\s\S]*\}/);
-    if (m) return JSON.parse(m[0]);
-    throw new Error("OCR no devolvió JSON parseable");
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || !result.success) {
+    throw result;
   }
+  return result;
 }
 
-/* ────── Arranca OCR en background al adjuntar archivo ────── */
+function beginOcr(file) {
+  setOcrStatus("loading", "Leyendo la factura…");
+  hideReview();
+  clearValidation();
+  waFallback.classList.remove("show");
+  ocrState = {
+    running: true,
+    done: false,
+    data: null,
+    error: null,
+    promise: null
+  };
+  updateSubmitAvailability();
+
+  ocrState.promise = callGemini(file)
+    .then((result) => {
+      ocrState.running = false;
+      ocrState.done = true;
+      ocrState.data = result.data;
+      applyOcrToForm(result.data, result.debugInfo);
+      updateSubmitAvailability();
+    })
+    .catch((error) => {
+      ocrState.running = false;
+      ocrState.done = true;
+      ocrState.error = error;
+      clearHiddenOcrData();
+      hiddenFields.ocr_status.value = "failed";
+      setOcrStatus("error", "✗ No pudimos leer esta factura.");
+      showReview("error", "No pudimos leer esta factura", "Sube una imagen más clara o continúa rellenando los datos a mano.");
+      updateSubmitAvailability();
+    });
+}
+
 fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (!file) {
@@ -1083,13 +1272,18 @@ fileInput.addEventListener("change", () => {
     fileMeta.textContent = "JPG, PNG o PDF · máx. 10 MB";
     fileBtn.textContent = "Seleccionar";
     setOcrStatus("", "Se analizará al adjuntar el archivo.");
+    hideReview();
+    clearHiddenOcrData();
+    hiddenFields.ocr_status.value = "pending";
     ocrState = { running: false, done: false, data: null, error: null, promise: null };
+    updateSubmitAvailability();
     return;
   }
 
   if (file.size > 10 * 1024 * 1024) {
     setOcrStatus("error", "Archivo muy grande (máx. 10 MB). Adjunta una versión más ligera.");
     fileInput.value = "";
+    updateSubmitAvailability();
     return;
   }
 
@@ -1097,137 +1291,189 @@ fileInput.addEventListener("change", () => {
   fileName.textContent = file.name;
   fileMeta.textContent = fmtSize(file.size) + " · " + (file.type || "archivo");
   fileBtn.textContent = "Cambiar";
-
-  // Arrancar OCR en background — el usuario puede seguir rellenando mientras tanto
-  setOcrStatus("loading", "Leyendo la factura…");
-  ocrState.running = true;
-  ocrState.done = false;
-  ocrState.data = null;
-  ocrState.error = null;
-  ocrState.promise = callGemini(file)
-    .then((data) => {
-      ocrState.data = data;
-      ocrState.done = true;
-      ocrState.running = false;
-      setOcrStatus("ok", "Factura analizada. Ya puedes enviar.");
-    })
-    .catch((err) => {
-      ocrState.error = err;
-      ocrState.done = true;
-      ocrState.running = false;
-      setOcrStatus("error", "No se pudo leer automáticamente. Envíala igualmente y te pido la foto.");
-      console.warn("OCR error:", err);
-    });
+  beginOcr(file);
 });
 
-/* ────── Validación mínima ────── */
-function showValidation(msg) {
-  validation.textContent = msg;
-  validation.classList.add("show");
-}
-function clearValidation() {
-  validation.classList.remove("show");
-  validation.textContent = "";
-}
+retryOcrBtn.addEventListener("click", () => {
+  const file = fileInput.files[0];
+  if (!file) {
+    showValidation("Adjunta primero una factura para reintentar el OCR.");
+    return;
+  }
+  beginOcr(file);
+});
+
+continueManualBtn.addEventListener("click", () => {
+  clearHiddenOcrData();
+  hiddenFields.ocr_status.value = "failed";
+  setOcrStatus("error", "Continuarás sin OCR. Revisaremos la factura a mano.");
+  showReview("error", "Continuar sin OCR", "Puedes enviar igualmente. Si la factura no se ha leído bien, la revisaremos manualmente.");
+  updateSubmitAvailability();
+});
+
+Object.values(previewFields).forEach((input) => {
+  input.addEventListener("input", () => {
+    if (input === previewFields.nombre_empresa && previewFields.nombre_empresa.value.trim()) {
+      $("titular").value = previewFields.nombre_empresa.value.trim();
+    }
+    if (input === previewFields.importe_total && previewFields.importe_total.value.trim() && !$("importe").value.trim()) {
+      $("importe").value = previewFields.importe_total.value.trim().replace(",", ".");
+    }
+    hiddenFields.consumo_kwh.value = previewFields.consumo_kwh.value.trim();
+    hiddenFields.tarifa_detectada.value = previewFields.tarifa_detectada.value.trim();
+    if (previewFields.nombre_empresa.value.trim()) hiddenFields.ocr_status.value = hiddenFields.ocr_status.value === "failed" ? "partial" : hiddenFields.ocr_status.value;
+  });
+});
+
 function validate(basic, file) {
   if (!basic.titular) return "Indica el nombre o razón social.";
-  if (!basic.telefono || basic.telefono.replace(/\D/g,"").length < 9) return "Introduce un teléfono válido.";
+  if (!basic.telefono || basic.telefono.replace(/\D/g, "").length < 9) return "Introduce un teléfono válido.";
   if (!basic.importe || Number(basic.importe) <= 0) return "Indica el importe total de la factura.";
   if (!file) return "Adjunta la factura (imagen o PDF).";
   return null;
 }
 
-/* ────── Construir mensaje WhatsApp ────── */
-function p(x) { return (x === undefined || x === null || x === "") ? "—" : String(x); }
-
-function buildWhatsAppMessage(basic, ocr, file, ocrFailed) {
-  const lines = [];
-  lines.push("Hola, os envío mi factura para revisión.");
-  lines.push("");
-  lines.push("─── DATOS DE CONTACTO");
-  lines.push("Nombre / Razón social: " + basic.titular);
-  lines.push("Teléfono: +34 " + basic.telefono);
-  lines.push("Importe declarado: " + basic.importe + " €");
-  lines.push("Archivo: " + file.name + " (" + fmtSize(file.size) + ")");
-  lines.push("");
-
-  if (ocrFailed || !ocr) {
-    lines.push("─── OCR");
-    lines.push("No se ha podido leer la factura automáticamente.");
-    lines.push("Te la reenvío en cuanto me digas, por este mismo chat.");
-  } else {
-    const pot = ocr.potencias_contratadas || {};
-    const pre = ocr.precios_potencia || {};
-    const is30 = String(ocr.tarifa || "").includes("3.0");
-    const periods = is30 ? ["p1","p2","p3","p4","p5","p6"] : ["p1","p2","p3"];
-
-    lines.push("─── DATOS EXTRAÍDOS (OCR)");
-    lines.push("Titular: " + p(ocr.titular));
-    lines.push("Documento: " + p(ocr.documento));
-    lines.push("CUPS: " + p(ocr.cups));
-    lines.push("Dirección: " + p(ocr.direccion));
-    lines.push("Tarifa: " + p(ocr.tarifa));
-    lines.push("Días facturados: " + p(ocr.dias_factura));
-    lines.push("Consumo: " + p(ocr.consumo_kwh) + " kWh");
-    lines.push("Precio energía: " + p(ocr.precio_energia) + " €/kWh");
-    lines.push("Importe (OCR): " + p(ocr.importe_total) + " €");
-    lines.push("");
-    lines.push("Potencias contratadas:");
-    periods.forEach(pp => lines.push("  " + pp.toUpperCase() + ": " + p(pot[pp])));
-    lines.push("Precios de potencia:");
-    periods.forEach(pp => lines.push("  " + pp.toUpperCase() + ": " + p(pre[pp])));
-  }
-  return lines.join("\n");
+function p(x) {
+  return (x === undefined || x === null || x === "") ? "—" : String(x);
 }
 
-/* ────── Submit ────── */
+function buildWhatsAppMessage(basic, file, ocrData, ocrStatus, leadId) {
+  return [
+    "Hola, os envío mi factura para revisión.",
+    "",
+    "Lead ID: " + p(leadId),
+    "Nombre / Razón social: " + basic.titular,
+    "Teléfono: +34 " + basic.telefono,
+    "Importe declarado: " + basic.importe + " €",
+    "Archivo: " + file.name,
+    "Estado OCR: " + ocrStatus,
+    "",
+    ocrStatus === "failed" ? "Factura no legible. Revisaremos a mano." : "Datos OCR:",
+    "Nombre empresa: " + p(ocrData?.nombre_empresa),
+    "Consumo kWh: " + p(ocrData?.consumo_kwh),
+    "Tarifa detectada: " + p(ocrData?.tarifa_detectada),
+    "Periodo desde: " + p(ocrData?.periodo_desde),
+    "Periodo hasta: " + p(ocrData?.periodo_hasta),
+    "Potencia contratada: " + p(ocrData?.potencia_contratada),
+    "Precio energía: " + p(ocrData?.precio_energia),
+    "Precio potencia: " + p(ocrData?.precio_potencia)
+  ].join("\n");
+}
+
+async function createLeadPayload(file, basic, ocrData, ocrStatus) {
+  const base64 = await fileToBase64(file);
+  return {
+    nombre: basic.titular,
+    telefono: "+34 " + basic.telefono,
+    importe_factura: Number(basic.importe),
+    invoice_file_base64: base64,
+    invoice_filename: file.name,
+    invoice_mime_type: file.type,
+    ocr_data: ocrData || {},
+    ocr_status: ocrStatus
+  };
+}
+
+function openWhatsAppWithFallback(url, popup) {
+  waFallbackLink.href = url;
+  waFallbackLink.textContent = url;
+  if (!popup || popup.closed) {
+    waFallback.classList.add("show");
+    showValidation("No pudimos abrir WhatsApp automáticamente.");
+  } else {
+    popup.location.href = url;
+    waFallback.classList.add("show");
+  }
+}
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   clearValidation();
+  waFallback.classList.remove("show");
 
   const basic = {
-    titular:  $("titular").value.trim(),
+    titular: $("titular").value.trim(),
     telefono: $("telefono").value.trim(),
-    importe:  $("importe").value.trim()
+    importe: $("importe").value.trim()
   };
   const file = fileInput.files[0];
-
   const err = validate(basic, file);
-  if (err) { showValidation(err); return; }
+  if (err) {
+    showValidation(err);
+    return;
+  }
+
+  const pendingPopup = window.open("", "_blank", "noopener");
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "Preparando envío…";
+  submitBtn.textContent = "Guardando solicitud…";
 
-  // Si OCR sigue corriendo, esperamos con overlay (máx. OCR_WAIT_TIMEOUT_MS)
-  let ocrFailed = false;
   if (ocrState.running && ocrState.promise) {
     overlay.classList.add("show");
     try {
       await Promise.race([
         ocrState.promise,
-        new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), OCR_WAIT_TIMEOUT_MS))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), OCR_WAIT_TIMEOUT_MS))
       ]);
-    } catch (e) {
-      ocrFailed = true;
-      console.warn("OCR no completado a tiempo:", e);
+    } catch (error) {
+      hiddenFields.ocr_status.value = "failed";
     }
     overlay.classList.remove("show");
   }
-  if (ocrState.error) ocrFailed = true;
 
-  const message = buildWhatsAppMessage(basic, ocrState.data, file, ocrFailed);
-  const url = "https://wa.me/" + WHATSAPP_PHONE + "?text=" + encodeURIComponent(message);
+  const finalOcrData = {
+    nombre_empresa: previewFields.nombre_empresa.value.trim() || basic.titular,
+    consumo_kwh: hiddenFields.consumo_kwh.value.trim() || previewFields.consumo_kwh.value.trim(),
+    tarifa_detectada: hiddenFields.tarifa_detectada.value.trim() || previewFields.tarifa_detectada.value.trim(),
+    importe_total: previewFields.importe_total.value.trim() || basic.importe,
+    periodo_desde: hiddenFields.periodo_desde.value.trim(),
+    periodo_hasta: hiddenFields.periodo_hasta.value.trim(),
+    potencia_contratada: hiddenFields.potencia_contratada.value.trim(),
+    precio_energia: hiddenFields.precio_energia.value.trim(),
+    precio_potencia: hiddenFields.precio_potencia.value.trim()
+  };
 
-  // Abrir WhatsApp
-  window.open(url, "_blank");
+  const finalOcrStatus = hiddenFields.ocr_status.value === "pending"
+    ? (ocrState.data ? "success" : "failed")
+    : hiddenFields.ocr_status.value;
 
-  // Reset visual (sin borrar los campos por si el usuario quiere revisar lo enviado)
-  submitBtn.disabled = false;
+  let leadId = "";
+  let leadError = null;
+
+  try {
+    const leadPayload = await createLeadPayload(file, basic, finalOcrData, finalOcrStatus);
+    const response = await fetch(CREATE_LEAD_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(leadPayload)
+    });
+    const result = await response.json().catch(() => ({}));
+    if (response.ok && result.success) {
+      leadId = result.lead_id || "";
+      hiddenFields.lead_id.value = leadId;
+    } else {
+      leadError = result;
+    }
+  } catch (error) {
+    leadError = error;
+  }
+
+  const message = buildWhatsAppMessage(basic, file, finalOcrData, finalOcrStatus, leadId);
+  const waUrl = "https://wa.me/" + WHATSAPP_PHONE + "?text=" + encodeURIComponent(message);
+
+  if (leadError) {
+    showValidation("No pudimos guardar tu solicitud. Puedes continuar por WhatsApp igualmente.");
+    openWhatsAppWithFallback(waUrl, pendingPopup);
+  } else {
+    openWhatsAppWithFallback(waUrl, pendingPopup);
+  }
+
+  updateSubmitAvailability();
   submitBtn.textContent = "Enviar por WhatsApp";
 });
 
-/* ────── Inicialización ────── */
 setOcrStatus("", "Se analizará al adjuntar el archivo.");
+updateSubmitAvailability();
 </script>
 
 </body>
