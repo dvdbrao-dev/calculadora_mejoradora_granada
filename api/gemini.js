@@ -15,6 +15,19 @@ function extractStructuredJson(rawText) {
   }
 }
 
+const ALLOWED_MIME_TYPES = new Set([
+  "application/pdf",
+  "image/jpeg",
+  "image/png"
+]);
+const MAX_INLINE_DATA_BYTES = 8 * 1024 * 1024;
+
+function estimateBase64Bytes(base64Value) {
+  const value = String(base64Value || "");
+  const padding = (value.match(/=*$/) || [""])[0].length;
+  return Math.floor((value.length * 3) / 4) - padding;
+}
+
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -42,6 +55,22 @@ module.exports = async (req, res) => {
       success: false,
       error: "invalid_payload",
       debugInfo: "mimeType and data are required"
+    });
+  }
+
+  if (!ALLOWED_MIME_TYPES.has(mimeType)) {
+    return res.status(400).json({
+      success: false,
+      error: "invalid_mime_type",
+      debugInfo: "Only PDF, JPG and PNG are supported"
+    });
+  }
+
+  if (estimateBase64Bytes(data) > MAX_INLINE_DATA_BYTES) {
+    return res.status(413).json({
+      success: false,
+      error: "document_too_large",
+      debugInfo: "Document exceeds the OCR size limit"
     });
   }
 
