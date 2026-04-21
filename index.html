@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -599,6 +599,9 @@ const manualBtn = $('#manualBtn');
 const retryBtn = $('#retryBtn');
 const submitBtn = $('#submitBtn');
 
+// Permite continuar hacia WhatsApp aunque falle el guardado server-side.
+const ALLOW_WHATSAPP_FALLBACK_ON_SAVE_ERROR = true;
+
 let ocrData = {
   comercializadora: '',
   nombre_empresa: '',
@@ -636,6 +639,17 @@ function fileToBase64(file) {
 
 function setSubmitLabel(label) {
   submitBtn.querySelector('span').textContent = label;
+}
+
+function openWhatsApp(whatsappWindow, messageText) {
+  const waNumber = '34616785103';
+  const whatsappUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(messageText)}`;
+
+  if (whatsappWindow) {
+    whatsappWindow.location.href = whatsappUrl;
+  } else {
+    window.open(whatsappUrl, '_blank');
+  }
 }
 
 function normalizeSpanishNumber(value) {
@@ -800,30 +814,38 @@ form.addEventListener('submit', async (e) => {
   try {
     await persistLead(payload);
 
-    const msg = encodeURIComponent(
+    const messageText =
       `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
       `Tarifa detectada: ${ocrData.tarifa_detectada || 'No detectada'}\n` +
       `Comercializadora: ${ocrData.comercializadora || 'No detectada'}\n` +
       `Energía consumida: ${ocrData.consumo_kwh || 'No detectada'}`
-    );
+;
 
-    const waNumber = '34616785103';
-    const whatsappUrl = `https://wa.me/${waNumber}?text=${msg}`;
-
-    if (whatsappWindow) {
-      whatsappWindow.location.href = whatsappUrl;
-    } else {
-      window.open(whatsappUrl, '_blank');
-    }
+    openWhatsApp(whatsappWindow, messageText);
 
     setSubmitLabel('✓ Enviado. Abriendo WhatsApp…');
   } catch (err) {
+    console.error('persistLead failed:', err && err.message ? err.message : err);
+
+    if (ALLOW_WHATSAPP_FALLBACK_ON_SAVE_ERROR) {
+      const fallbackMessageText =
+        `Hola, he intentado enviar mis datos desde la web pero hubo un problema técnico.
+` +
+        `Tarifa detectada: ${ocrData.tarifa_detectada || 'No detectada'}\n` +
+        `Comercializadora: ${ocrData.comercializadora || 'No detectada'}\n` +
+        `Energía consumida: ${ocrData.consumo_kwh || 'No detectada'}`;
+
+      openWhatsApp(whatsappWindow, fallbackMessageText);
+      submitBtn.disabled = false;
+      setSubmitLabel('Error al guardar. Abriendo WhatsApp…');
+      return;
+    }
+
     if (whatsappWindow && !whatsappWindow.closed) {
       whatsappWindow.close();
     }
     submitBtn.disabled = false;
     setSubmitLabel('Error. Reintentar');
-    console.error('persistLead failed:', err && err.message ? err.message : err);
   }
 });
 </script>
