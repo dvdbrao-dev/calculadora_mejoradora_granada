@@ -1,3 +1,20 @@
+function extractStructuredJson(rawText) {
+  const raw = String(rawText || "").trim();
+  if (!raw) {
+    throw new Error("empty_response");
+  }
+
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (match) {
+      return JSON.parse(match[0]);
+    }
+    throw error;
+  }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -28,6 +45,8 @@ module.exports = async (req, res) => {
     });
   }
 
+  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+
   const prompt = [
     "Analiza esta factura electrica y devuelve SOLO un objeto JSON valido.",
     "No escribas explicaciones ni texto fuera del JSON.",
@@ -45,7 +64,7 @@ module.exports = async (req, res) => {
 
   try {
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey),
+      "https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent?key=" + encodeURIComponent(apiKey),
       {
         method: "POST",
         headers: {
@@ -61,6 +80,8 @@ module.exports = async (req, res) => {
           }],
           generationConfig: {
             temperature: 0.1,
+            topP: 0.1,
+            topK: 1,
             responseMimeType: "application/json"
           }
         })
@@ -78,9 +99,9 @@ module.exports = async (req, res) => {
 
     let parsed;
     try {
-      parsed = JSON.parse(rawText);
-      const text = parsed?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-      parsed = JSON.parse(text);
+      const envelope = extractStructuredJson(rawText);
+      const text = envelope?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      parsed = extractStructuredJson(text);
     } catch (error) {
       return res.status(200).json({
         success: false,

@@ -858,6 +858,18 @@ const manualBtn    = $('#manualBtn');
 const retryBtn     = $('#retryBtn');
 const submitBtn    = $('#submitBtn');
 
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || '');
+      resolve(result.split(',')[1] || '');
+    };
+    reader.onerror = () => reject(reader.error || new Error('file_read_failed'));
+    reader.readAsDataURL(file);
+  });
+}
+
 // ── Drag & drop visual ──
 ['dragenter','dragover'].forEach(ev =>
   uploadZone.addEventListener(ev, e => {
@@ -877,6 +889,13 @@ fileInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
+  if (!/^(application\/pdf|image\/jpeg|image\/jpg|image\/png)$/i.test(file.type)) {
+    uploadStatus.className = 'upload-status show error';
+    uploadStatus.textContent = '⚠ Formato no compatible. Usa PDF, JPG o PNG.';
+    manualPrompt.classList.add('show');
+    return;
+  }
+
   uploadZone.classList.add('has-file');
   uploadTitle.textContent = file.name;
   uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Analizando…`;
@@ -885,23 +904,40 @@ fileInput.addEventListener('change', async (e) => {
   manualPrompt.classList.remove('show');
 
   try {
-    const fd = new FormData();
-    fd.append('factura', file);
+    const base64 = await fileToBase64(file);
+    const res = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        mimeType: file.type,
+        data: base64,
+        fileName: file.name
+      })
+    });
 
-    const res = await fetch('/api/gemini', { method: 'POST', body: fd });
     if (!res.ok) throw new Error('OCR failed');
-    const data = await res.json();
+    const result = await res.json();
 
-    if (data.nombre)   $('#nombre').value   = data.nombre;
-    if (data.telefono) $('#telefono').value = data.telefono;
-    if (data.importe)  $('#importe').value  = data.importe;
+    if (!result.success || !result.data) {
+      throw new Error(result.debugInfo || result.error || 'OCR failed');
+    }
 
-    uploadStatus.textContent = '▸ Factura leída. Revisa los datos y envía.';
+    const data = result.data;
+
+    if (data.nombre_empresa) $('#nombre').value = data.nombre_empresa;
+    if (data.importe_total) $('#importe').value = data.importe_total;
+
+    uploadStatus.textContent = result.debugInfo === 'partial_ocr'
+      ? '▸ Factura leída parcialmente. Revisa y completa los datos antes de enviar.'
+      : '▸ Factura leída. Revisa los datos y envía.';
     uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Procesada`;
   } catch (err) {
     uploadStatus.className = 'upload-status show error';
     uploadStatus.textContent = '⚠ No he podido leer la factura automáticamente.';
     manualPrompt.classList.add('show');
+    console.error(err);
   }
 });
 
