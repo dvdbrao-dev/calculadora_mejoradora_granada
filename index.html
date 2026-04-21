@@ -601,6 +601,7 @@ const submitBtn = $('#submitBtn');
 
 let ocrData = {
   comercializadora: '',
+  nombre_empresa: '',
   documento: '',
   cups: '',
   direccion: '',
@@ -640,6 +641,7 @@ function setSubmitLabel(label) {
 function sanitizeOcrData(data) {
   return {
     comercializadora: String(data?.comercializadora || '').trim(),
+    nombre_empresa: String(data?.nombre_empresa || '').trim(),
     documento: String(data?.documento || '').trim(),
     cups: String(data?.cups || '').trim(),
     direccion: String(data?.direccion || '').trim(),
@@ -786,7 +788,6 @@ form.addEventListener('submit', async (e) => {
     const whatsappUrl = `https://wa.me/${waNumber}?text=${msg}`;
 
     if (whatsappWindow) {
-      whatsappWindow.document.write('<!DOCTYPE html><title>Abriendo WhatsApp...</title><p style="font-family:Arial,sans-serif;padding:16px">Abriendo WhatsApp...</p>');
       whatsappWindow.location.href = whatsappUrl;
     } else {
       window.open(whatsappUrl, '_blank');
