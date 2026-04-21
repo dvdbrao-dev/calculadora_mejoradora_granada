@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mejoradora Granada · Revisa tu factura de luz en 24h</title>
-<meta name="description" content="Subes la factura, David la analiza personalmente y te responde por WhatsApp en menos de 24 horas. Consultoría energética para PYMES en Granada.">
+<title>Mejoradora Granada · Revisión gratuita de factura eléctrica para PYMES</title>
+<meta name="description" content="Análisis humano de tu factura de luz en 24h. Franquicia oficial de la red Mejoradora en Granada. Para hoteles, lavanderías, restaurantes, industria pequeña.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet">
@@ -85,37 +85,48 @@
   }
   .franquicia strong{color:var(--negro);font-weight:500;display:block}
 
-  /* --- HERO (editorial split) --- */
+  /* --- HERO (typographic: 70% es el elemento visual) --- */
   .hero{
-    padding:clamp(40px, 7vw, 96px) 0 clamp(48px, 8vw, 112px);
+    padding:clamp(48px, 8vw, 112px) 0 clamp(40px, 6vw, 80px);
+    position:relative;
+    overflow:hidden;
   }
   .hero-grid{
     display:grid;
-    grid-template-columns:1.1fr 0.9fr;
-    gap:clamp(32px, 5vw, 80px);
-    align-items:end;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:clamp(24px, 4vw, 56px);
+    align-items:center;
   }
-  .hero-text{padding-bottom:12px}
-  .hero h1{
+  .hero-number{
     font-family:var(--serif);
     font-weight:500;
-    font-size:clamp(44px, 7.2vw, 104px);
-    line-height:0.95;
-    letter-spacing:-0.02em;
-    color:var(--negro);
-    margin:28px 0 32px;
-  }
-  .hero h1 em{
     font-style:italic;
+    font-size:clamp(140px, 24vw, 360px);
+    line-height:0.85;
     color:var(--teal);
+    letter-spacing:-0.04em;
+    position:relative;
+  }
+  .hero-number .pct{
+    font-style:normal;
+    color:var(--ambar);
     font-weight:500;
   }
-  .hero .lead{
+  .hero-text h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(32px, 4vw, 56px);
+    line-height:1.05;
+    letter-spacing:-0.015em;
+    color:var(--negro);
+    margin:20px 0 28px;
+  }
+  .hero-text .lead{
     font-size:clamp(17px, 1.4vw, 20px);
     line-height:1.5;
     color:var(--gris);
     max-width:46ch;
-    margin-bottom:40px;
+    margin-bottom:36px;
   }
   .cta{
     display:inline-flex;align-items:center;gap:14px;
@@ -129,81 +140,54 @@
     transition:background .2s ease, transform .2s ease;
   }
   .cta:hover{background:var(--teal-ink);border-color:var(--teal-ink)}
-  .cta .arrow{
-    display:inline-block;
-    transition:transform .25s ease;
-  }
+  .cta .arrow{transition:transform .25s ease;display:inline-block}
   .cta:hover .arrow{transform:translateX(4px)}
 
-  .hero-photo{
-    position:relative;
-    align-self:stretch;
-  }
-  .hero-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center 15%;
-    max-height:640px;
-  }
-  .hero-photo::after{
-    content:"";
-    position:absolute;
-    left:-14px;bottom:-14px;
-    width:100%;height:100%;
-    border:1px solid var(--ambar);
-    z-index:-1;
-    pointer-events:none;
-  }
-
   @media (max-width: 900px){
-    .hero-grid{grid-template-columns:1fr;gap:32px}
-    .hero-photo{order:-1;max-width:380px}
-    .hero-photo img{max-height:480px}
+    .hero-grid{grid-template-columns:1fr;gap:24px}
+    .hero-number{font-size:clamp(120px, 40vw, 200px);text-align:left}
   }
 
-  /* --- SOCIAL PROOF --- */
+  /* --- SOCIAL PROOF STRIP (números, sin foto) --- */
   .social{
     border-top:1px solid var(--crema-line);
     border-bottom:1px solid var(--crema-line);
-    padding:clamp(40px, 5vw, 64px) 0;
+    padding:clamp(48px, 6vw, 80px) 0;
     background:var(--crema-shade);
   }
-  .social-inner{
+  .social-grid{
     display:grid;
-    grid-template-columns:auto 1fr;
-    gap:clamp(20px, 3vw, 40px);
-    align-items:center;
-    max-width:960px;
+    grid-template-columns:repeat(3, 1fr);
+    gap:clamp(24px, 4vw, 56px);
+    align-items:start;
   }
-  .social-thumb{
-    width:80px;height:80px;border-radius:50%;
-    background:var(--crema-line);
-    overflow:hidden;
-    flex-shrink:0;
-    border:2px solid var(--crema);
-  }
-  .social-thumb img{width:100%;height:100%;object-fit:cover;object-position:center 15%}
-  .social-quote{
+  .stat-number{
     font-family:var(--serif);
-    font-size:clamp(20px, 2.1vw, 28px);
-    line-height:1.35;
-    font-weight:400;
-    letter-spacing:-0.01em;
+    font-weight:500;
+    font-size:clamp(48px, 6vw, 84px);
+    line-height:1;
+    color:var(--teal);
+    letter-spacing:-0.02em;
+    margin-bottom:12px;
   }
-  .social-quote .mark{color:var(--teal);font-family:var(--serif);font-weight:500}
-  .social-attr{
-    font-family:var(--sans);
-    font-size:13px;
+  .stat-number .unit{
+    font-size:0.5em;
     color:var(--gris);
-    letter-spacing:0.04em;
-    margin-top:14px;
-    text-transform:uppercase;
+    font-style:italic;
+    font-weight:400;
+    margin-left:4px;
   }
+  .stat-label{
+    font-size:14px;
+    line-height:1.45;
+    color:var(--negro);
+    max-width:24ch;
+  }
+  .stat-label strong{font-weight:500}
 
-  @media (max-width: 640px){
-    .social-inner{grid-template-columns:1fr}
-    .social-thumb{width:64px;height:64px}
+  @media (max-width: 720px){
+    .social-grid{grid-template-columns:1fr;gap:32px}
+    .stat-number{font-size:52px}
   }
 
   /* --- FORM --- */
@@ -274,7 +258,6 @@
   }
   @media (max-width: 640px){ .field-row{grid-template-columns:1fr} }
 
-  /* Upload field */
   .upload-field{
     border:1.5px dashed var(--negro);
     padding:28px;
@@ -427,7 +410,6 @@
     .footer-grid{grid-template-columns:1fr;gap:28px}
   }
 
-  /* --- Modal manual fallback --- */
   .manual-prompt{
     background:rgba(224,60,60,0.08);
     border-left:3px solid #C0392B;
@@ -450,7 +432,7 @@
 <!-- ═══ HEADER ═══ -->
 <header>
   <div class="wrap header-inner">
-    <img src="logo-mejoradora-granada.png" alt="Mejoradora Granada" class="logo">
+    <img src="./logo_mejoradora.png" alt="Mejoradora Granada" class="logo">
     <div class="franquicia">
       <strong>Granada</strong>
       Franquicia oficial
@@ -462,34 +444,37 @@
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
+      <div class="hero-number">
+        70<span class="pct">%</span>
+      </div>
       <div class="hero-text">
         <span class="eyebrow">Revisión gratuita</span>
-        <h1>Revisamos tu factura de luz en <em>24 horas</em>.</h1>
-        <p class="lead">Subes la última factura, la analizo personalmente y te mando el diagnóstico por WhatsApp. Sin comerciales llamándote después.</p>
+        <h1>de las PYMES paga una tarifa eléctrica equivocada.</h1>
+        <p class="lead">Analizamos tu última factura y te decimos qué sobra, qué optimizar y cuánto podrías ahorrar. Respuesta por WhatsApp en 24 horas.</p>
         <a href="#formulario" class="cta">
           Revisar mi factura
           <span class="arrow">→</span>
         </a>
       </div>
-      <div class="hero-photo">
-        <img src="foto-david-duotone.jpg" alt="David Braojos, director de Mejoradora Granada">
-      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ SOCIAL PROOF ═══ -->
+<!-- ═══ SOCIAL PROOF (stats) ═══ -->
 <section class="social">
   <div class="wrap">
-    <div class="social-inner">
-      <div class="social-thumb">
-        <img src="foto-david-duotone.jpg" alt="">
+    <div class="social-grid">
+      <div>
+        <div class="stat-number">1.500<span class="unit">+</span></div>
+        <p class="stat-label"><strong>negocios revisados</strong> solo el último año</p>
       </div>
       <div>
-        <p class="social-quote">
-          <span class="mark">“</span>Llevábamos tres años con la misma tarifa. David detectó <strong>312€/mes</strong> de sobrecoste en diez minutos.<span class="mark">”</span>
-        </p>
-        <p class="social-attr">Grupo de heladerías · Granada capital</p>
+        <div class="stat-number">2.340<span class="unit">€/año</span></div>
+        <p class="stat-label"><strong>ahorro medio detectado</strong> por análisis</p>
+      </div>
+      <div>
+        <div class="stat-number">24<span class="unit">h</span></div>
+        <p class="stat-label"><strong>diagnóstico por WhatsApp</strong>, sin llamadas comerciales</p>
       </div>
     </div>
   </div>
@@ -506,7 +491,6 @@
 
     <form class="form-wrap" id="leadForm" novalidate>
 
-      <!-- UPLOAD (primero, porque autocompleta el resto) -->
       <div class="field">
         <span class="label">▸ Factura reciente · PDF o foto</span>
         <label class="upload-field" id="uploadZone">
@@ -549,7 +533,7 @@
           <span>Enviar y recibir análisis por WhatsApp</span>
           <span class="arrow">→</span>
         </button>
-        <p class="microcopy">Recibes el análisis por WhatsApp en menos de 24 horas. No hay llamadas comerciales después.</p>
+        <p class="microcopy">Análisis humano en menos de 24h. Respuesta por WhatsApp, sin llamadas comerciales.</p>
       </div>
     </form>
   </div>
@@ -561,7 +545,7 @@
     <div class="who-grid">
       <span class="eyebrow">Quién revisa</span>
       <h2>David Braojos y Fernando Martínez. Personas, no bots.</h2>
-      <p>Revisamos personalmente cada factura que entra por esta web: hoteles, lavanderías, restaurantes, administradores de fincas. Granada y provincia.</p>
+      <p><strong>Mejoradora Granada</strong> forma parte de la red nacional Mejoradora. Trabajamos con hoteles, lavanderías, restaurantes, supermercados, gimnasios e industria pequeña en Granada capital y provincia.</p>
     </div>
   </div>
 </section>
@@ -571,7 +555,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <img src="logo-mejoradora-granada.png" alt="Mejoradora" class="footer-logo">
+        <img src="./logo_mejoradora.png" alt="Mejoradora" class="footer-logo">
         <p class="footer-tag">
           Parte de la red nacional
           <a href="https://mejoradora.com" target="_blank" rel="noopener">Mejoradora</a>.
@@ -601,19 +585,14 @@
 <script>
 /* ══════════════════════════════════════════════════════════
    MEJORADORA GRANADA — FRONTEND LOGIC
-   Integra con el backend existente:
-   - POST /api/gemini  → OCR de factura
-   - Supabase insert   → persistir lead
-   - WhatsApp redirect → abrir chat con mensaje pre-rellenado
-
-   Los IDs de los campos (nombre, telefono, importe, factura)
-   mantienen la misma semántica que el backend existente.
-   Si tu backend usa otros nombres, cámbialos aquí.
+   Mismo JS que versión A. Integra con:
+   - POST /api/gemini  → OCR
+   - Supabase insert   → persistencia lead
+   - WhatsApp redirect → mensaje pre-rellenado
    ══════════════════════════════════════════════════════════ */
 
 const $ = (s) => document.querySelector(s);
 
-// ── Elementos ──
 const form         = $('#leadForm');
 const uploadZone   = $('#uploadZone');
 const fileInput    = $('#factura');
@@ -625,7 +604,6 @@ const manualBtn    = $('#manualBtn');
 const retryBtn     = $('#retryBtn');
 const submitBtn    = $('#submitBtn');
 
-// ── Drag & drop visual ──
 ['dragenter','dragover'].forEach(ev =>
   uploadZone.addEventListener(ev, e => {
     e.preventDefault(); uploadZone.classList.add('dragover');
@@ -637,7 +615,6 @@ const submitBtn    = $('#submitBtn');
   })
 );
 
-// ── File change → OCR ──
 fileInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -657,7 +634,6 @@ fileInput.addEventListener('change', async (e) => {
     if (!res.ok) throw new Error('OCR failed');
     const data = await res.json();
 
-    // Rellenar campos con respuesta OCR
     if (data.nombre)   $('#nombre').value   = data.nombre;
     if (data.telefono) $('#telefono').value = data.telefono;
     if (data.importe)  $('#importe').value  = data.importe;
@@ -682,7 +658,6 @@ retryBtn.addEventListener('click', () => {
   fileInput.click();
 });
 
-// ── Submit ──
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   submitBtn.disabled = true;
@@ -692,17 +667,14 @@ form.addEventListener('submit', async (e) => {
     nombre:   $('#nombre').value.trim(),
     telefono: $('#telefono').value.trim(),
     importe:  $('#importe').value,
-    // El archivo ya se mandó a /api/gemini; si tu backend requiere
-    // reenviarlo a Supabase storage, añade aquí FormData con fileInput.files[0]
   };
 
   try {
     // TODO: integrar con tu endpoint Supabase existente
     // await fetch('/api/lead', { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
 
-    // WhatsApp redirect (ajusta el número a tu WhatsApp Business)
     const msg = encodeURIComponent(
-      `Hola David, acabo de enviar mi factura.\n` +
+      `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
       `Nombre: ${payload.nombre}\n` +
       `Importe mensual: ${payload.importe}€`
     );
