@@ -1,76 +1,1234 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Descubre tu ahorro en la factura de luz | Mejoradora Granada</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--brand:#0C7A87;--gold:#D8B168;--bg:#061114;--text:#f5f7f7;--muted:#b7c3c6;--ok:#0f9a75;--shadow:0 20px 60px rgba(0,0,0,.32);--container:1180px}
-    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:"Source Sans 3",sans-serif;background:radial-gradient(circle at top left,rgba(12,122,135,.18),transparent 22%),radial-gradient(circle at 90% 10%,rgba(216,177,104,.12),transparent 18%),linear-gradient(180deg,#020405 0%,#071012 45%,#000 100%);color:var(--text)}
-    body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:36px 36px;opacity:.18} a{color:inherit;text-decoration:none}
-    .page,.topbar-inner{width:min(calc(100% - 32px),var(--container));margin:0 auto}.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(0,0,0,.55);border-bottom:1px solid rgba(255,255,255,.06)}
-    .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}.brand{display:flex;align-items:center;gap:14px}.brand-mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(12,122,135,.18),rgba(216,177,104,.18));border:1px solid rgba(216,177,104,.2)}.brand-mark svg{width:22px;height:22px;color:var(--gold)}.brand-name{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;margin:0}.brand-sub{margin:2px 0 0;color:var(--muted);font-size:.92rem}.nav-cta,.btn,.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font-weight:700}.nav-cta{padding:12px 18px;background:linear-gradient(135deg,var(--gold),#e4c587);color:#1a1711}
-    .hero{padding:56px 0 28px}.hero-grid,.content-grid{display:grid;gap:28px}.hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr)}.content-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}.card,.section-card,.trust-card{background:linear-gradient(180deg,rgba(19,31,34,.94),rgba(10,15,17,.96));border:1px solid rgba(255,255,255,.06);box-shadow:var(--shadow);border-radius:28px;padding:28px}.hero-copy{position:relative;overflow:hidden}.hero-copy::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 10%,rgba(12,122,135,.18),transparent 24%),radial-gradient(circle at 85% 15%,rgba(216,177,104,.14),transparent 16%);pointer-events:none}.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(12,122,135,.12);border:1px solid rgba(12,122,135,.24);color:#9be0e7;font-weight:700;margin-bottom:20px;position:relative;z-index:1}.eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
-    h1,h2,h3{font-family:"Space Grotesk",sans-serif;margin:0}.logo{display:block;margin:auto;margin-bottom:24px;max-width:240px;width:100%;height:auto;position:relative;z-index:1;filter:drop-shadow(0 10px 24px rgba(0,0,0,.22));animation:logoFadeIn .8s ease-out both}.hero h1{font-size:clamp(2.5rem,5vw,4.5rem);line-height:.98;letter-spacing:-.04em;max-width:12ch;position:relative;z-index:1}.accent,.kicker{color:var(--gold)}.lead,.desc,.helper,.trust-card p,.benefit span,.summary-item span{color:var(--muted);line-height:1.55}.lead{font-size:1.15rem;margin:22px 0 0;max-width:58ch;position:relative;z-index:1}.actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px;position:relative;z-index:1}.btn{border:none;cursor:pointer;font:inherit;transition:.2s;padding:16px 22px}.btn:hover{transform:translateY(-1px)}.btn-primary,.submit-btn{background:linear-gradient(135deg,var(--brand),#1091a0);color:#fff}.btn-secondary{background:transparent;color:#fff;border:1px solid rgba(216,177,104,.32)}.hero-proof,.stats,.upload-meta,.upload-actions,.period-grid,.summary-grid,.benefits,.trust-metrics,.fields{display:grid;gap:14px}.hero-proof{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:26px;position:relative;z-index:1}.pill,.stat,.metric,.period-card,.summary-box,.upload-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}.pill{padding:11px 14px;color:#dce3e5}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat,.metric,.period-card,.summary-box{border-radius:18px;padding:16px}.stat strong,.metric strong{display:block;font-family:"Space Grotesk",sans-serif;font-size:1.7rem;color:#fff}.stat span,.metric span{display:block;margin-top:6px;color:var(--muted)}.content{padding:10px 0 60px}.kicker{display:inline-block;font-size:.92rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}.section-title{font-size:1.8rem;line-height:1.08;letter-spacing:-.03em}.upload-box{border-style:dashed;border-color:rgba(12,122,135,.35);background:linear-gradient(180deg,rgba(12,122,135,.08),rgba(216,177,104,.04)),rgba(255,255,255,.02);border-radius:22px;padding:24px}.upload-meta{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:14px}.analyze-btn{width:100%;padding:16px 18px;border-radius:16px;color:#111;background:linear-gradient(135deg,var(--gold),#e6c98e)}.status,.validation{display:none;padding:14px 16px;border-radius:16px;font-weight:600;line-height:1.5}.show{display:block}.status.info{background:rgba(12,122,135,.12);border:1px solid rgba(12,122,135,.22);color:#bce9ee}.status.success{background:rgba(15,154,117,.12);border:1px solid rgba(15,154,117,.24);color:#b7f0df}.status.error,.validation{background:rgba(216,177,104,.12);border:1px solid rgba(216,177,104,.24);color:#f4dfb5}.fields,.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field,.summary-item{display:flex;flex-direction:column;gap:8px}.full{grid-column:1 / -1}label{color:#eef3f4;font-weight:700}.input-wrap{position:relative}.input-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#7da2a7;pointer-events:none}input,select{width:100%;padding:16px 16px 16px 48px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:#0a1113;color:#fff;font:inherit;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}input:focus,select:focus{border-color:rgba(12,122,135,.7);box-shadow:0 0 0 4px rgba(12,122,135,.14);background:#0c1517}input::placeholder{color:#7c8f94}input[type="file"]{padding:16px;min-height:58px;cursor:pointer;color:#d8e2e4}input[type="file"]::-webkit-file-upload-button{margin-right:12px;border:none;background:linear-gradient(135deg,var(--brand),#1091a0);color:#fff;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}.period-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:16px}.summary-item{padding:10px 0;border-top:1px solid rgba(255,255,255,.06)}.summary-item strong{display:block;color:#fff;margin-bottom:4px}.cta{margin-top:22px;padding:22px;border-radius:22px;background:linear-gradient(135deg,rgba(12,122,135,.14),rgba(216,177,104,.09));border:1px solid rgba(216,177,104,.16)}.submit-btn{width:100%;padding:18px 22px;border-radius:18px}.micro{margin-top:12px;color:var(--muted);font-size:.96rem;text-align:center}.benefit{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.06)}.benefit:first-child{border-top:none;padding-top:0}.benefit-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(12,122,135,.14);color:var(--gold);border:1px solid rgba(12,122,135,.2)}.benefit-icon svg{width:18px;height:18px}.trust-metrics{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:18px}.metric{text-align:center}.metric strong{color:var(--gold)}.footer{padding:0 0 36px}.footer-box{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;color:#9eaaad;font-size:.95rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}@keyframes logoFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    @media (max-width:1100px){.hero-grid,.content-grid{grid-template-columns:1fr}} @media (max-width:720px){.page,.topbar-inner{width:min(calc(100% - 20px),var(--container))}.hero{padding-top:28px}.card,.section-card,.trust-card{padding:22px;border-radius:22px}.hero h1{max-width:100%}.fields,.period-grid,.summary-grid,.stats,.trust-metrics,.hero-proof,.upload-meta{grid-template-columns:1fr}.nav-cta{display:none}.actions{flex-direction:column}.btn-primary,.btn-secondary{width:100%}.logo{max-width:220px;margin-bottom:22px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mejoradora Granada — Revisión de factura eléctrica en 24h</title>
+<meta name="description" content="Revisamos tu factura de luz personalmente y te decimos por WhatsApp si pagas de más. Negocios y comunidades en Granada y provincia.">
+
+<!--
+  ─────────────────────────────────────────────────────────────
+  MEJORADORA GRANADA · Landing lead magnet
+  ─────────────────────────────────────────────────────────────
+  Paleta (hex extraídos del logo):
+    #007887  Teal Mejoradora    (primario — corporativo, CTAs)
+    #E1B45A  Dorado estrella    (acento único — numeración editorial)
+    #0E1A1C  Carbón             (texto principal)
+    #F5F1EA  Papel              (fondo dominante)
+    #6B7278  Gris muted         (helpers, legales)
+
+  Tipografías:
+    Titulares:  Fraunces (Google Fonts)
+    Cuerpo:     Figtree  (Google Fonts)
+
+  Detalle identitario:
+    Numeración editorial "── 01 · Sección" repetida en las tres
+    secciones principales y también en las labels del formulario.
+    Es el único ornamento del sitio — repetido con disciplina.
+
+  Copy activo: Versión C (profesional con personalidad, test ácido:
+    "¿podría firmarlo una asesoría fiscal seria de Granada?")
+  Copy archivado (A institucional, B local-directo) — ver brief original.
+
+  Flujo OCR:
+    1. Usuario adjunta archivo → Gemini OCR arranca en background.
+    2. Usuario rellena 4 campos mientras OCR corre.
+    3. Submit: si OCR listo, se adjuntan datos al payload WhatsApp.
+       Si sigue corriendo, pequeño loading (max 10s).
+       Si falla/timeout, se envía con nota "OCR no procesó — reenvíame
+       la foto por WhatsApp, por favor".
+    4. El endpoint /api/gemini.js ya está en el repo — no requiere
+       cambios.
+  ─────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --teal:       #007887;
+    --teal-dark:  #005a66;
+    --gold:       #E1B45A;
+    --gold-ink:   #8a6821;
+    --ink:        #0E1A1C;
+    --paper:      #F5F1EA;
+    --paper-2:    #EDE7DC;
+    --muted:      #6B7278;
+    --rule:       #C9BFB0;
+    --container:  1120px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Figtree", system-ui, sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.55;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Texturilla suave de papel (muy sutil, sin ruido evidente) */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle at 12% 8%, rgba(225,180,90,.06), transparent 38%),
+                      radial-gradient(circle at 88% 92%, rgba(0,120,135,.05), transparent 42%);
+    z-index: 0;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    width: min(calc(100% - 40px), var(--container));
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ════════ HEADER ════════ */
+  header.top {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .top-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 0;
+  }
+  .brand-logo {
+    display: block;
+    height: 44px;
+    width: auto;
+  }
+  .top-meta {
+    font-size: .86rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .top-meta strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ════════ NUMERACIÓN EDITORIAL (detalle identitario) ════════ */
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: .78rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .section-num::before {
+    content: "";
+    width: 38px;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+  .section-num .num {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: 0;
+    color: var(--ink);
+    font-variant-numeric: oldstyle-nums;
+  }
+  .section-num .sep {
+    opacity: .4;
+    font-weight: 400;
+  }
+
+  /* ════════ HERO ════════ */
+  .hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 48px;
+    align-items: end;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .78rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--ink);
+  }
+  h1.hero-title {
+    font-family: "Fraunces", serif;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 6.2vw, 5.6rem);
+    line-height: .98;
+    letter-spacing: -0.025em;
+    margin: 0;
+    max-width: 14ch;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+  }
+  h1.hero-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--teal);
+  }
+  .hero-sub {
+    margin: 28px 0 0;
+    font-size: 1.12rem;
+    color: #2a3538;
+    max-width: 54ch;
+    line-height: 1.55;
+  }
+  .hero-cta-row {
+    margin-top: 36px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* Cifra editorial lateral — "24h" tipo titular de sección de revista */
+  .hero-figure {
+    text-align: right;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+    padding-bottom: 8px;
+  }
+  .hero-figure-num {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: clamp(5rem, 10vw, 8.2rem);
+    line-height: .85;
+    letter-spacing: -0.04em;
+    color: var(--teal);
+    font-variation-settings: "opsz" 144;
+  }
+  .hero-figure-num sup {
+    font-size: .45em;
+    font-weight: 500;
+    color: var(--gold-ink);
+    vertical-align: top;
+    margin-left: .05em;
+  }
+  .hero-figure-cap {
+    margin-top: 12px;
+    font-size: .82rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    max-width: 20ch;
+    margin-left: auto;
+  }
+
+  /* ════════ BOTONES ════════ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 26px;
+    font: inherit;
+    font-weight: 600;
+    font-size: .98rem;
+    letter-spacing: .02em;
+    border: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+  }
+  .btn::after {
+    content: "→";
+    transition: transform .22s ease;
+  }
+  .btn:hover {
+    background: var(--teal);
+    border-color: var(--teal);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 0 -2px var(--gold);
+  }
+  .btn:hover::after { transform: translateX(4px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-ghost:hover {
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: none;
+  }
+  .btn-primary-big {
+    width: 100%;
+    justify-content: center;
+    padding: 22px 28px;
+    font-size: 1.02rem;
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--paper);
+  }
+  .btn-primary-big:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    box-shadow: 0 6px 0 -2px var(--gold);
+  }
+
+  /* Link con subrayado animado */
+  .link-u {
+    position: relative;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 2px;
+    transition: color .15s ease;
+  }
+  .link-u:hover { color: var(--teal); }
+
+  /* ════════ SECCIÓN PRUEBA SOCIAL ════════ */
+  .proof {
+    padding: 88px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .proof-label {
+    font-size: .82rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  .proof-quote {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+    line-height: 1.15;
+    letter-spacing: -.012em;
+    color: var(--ink);
+    margin: 0;
+    position: relative;
+    padding-left: 0;
+    font-variation-settings: "opsz" 96;
+  }
+  .proof-quote::before {
+    content: "“";
+    font-family: "Fraunces", serif;
+    font-size: 3em;
+    line-height: 0;
+    color: var(--gold);
+    position: absolute;
+    left: -0.35em;
+    top: 0.45em;
+    font-weight: 400;
+  }
+  .proof-quote .highlight {
+    background: linear-gradient(transparent 62%, rgba(225,180,90,.32) 62%);
+    padding: 0 .08em;
+  }
+  .proof-attrib {
+    margin-top: 28px;
+    font-size: .9rem;
+    color: var(--muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .proof-attrib strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ════════ FORMULARIO ════════ */
+  .form-section {
+    padding: 88px 0;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .form-left h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 500;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    margin: 0 0 16px;
+    font-variation-settings: "opsz" 96;
+  }
+  .form-left p {
+    color: #37424a;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 40ch;
+  }
+
+  form.lead {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    padding: 40px 44px 36px;
+    position: relative;
+  }
+  /* Marca de esquina — detalle editorial mínimo */
+  form.lead::before {
+    content: "";
+    position: absolute;
+    top: -1.5px; left: -1.5px;
+    width: 16px; height: 16px;
+    border-top: 3px solid var(--gold);
+    border-left: 3px solid var(--gold);
+  }
+  form.lead::after {
+    content: "";
+    position: absolute;
+    bottom: -1.5px; right: -1.5px;
+    width: 16px; height: 16px;
+    border-bottom: 3px solid var(--gold);
+    border-right: 3px solid var(--gold);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .field:last-of-type { margin-bottom: 0; }
+
+  .field label {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: .76rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .field label .lnum {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0;
+    color: var(--gold-ink);
+    font-variant-numeric: oldstyle-nums;
+  }
+  .field label .lreq {
+    font-size: .7rem;
+    letter-spacing: .14em;
+    color: var(--muted);
+    font-weight: 500;
+    margin-left: auto;
+    text-transform: uppercase;
+  }
+
+  .field input[type="text"],
+  .field input[type="tel"],
+  .field input[type="number"] {
+    border: 0;
+    border-bottom: 1.5px solid var(--ink);
+    background: transparent;
+    padding: 14px 2px;
+    font: inherit;
+    font-size: 1.02rem;
+    color: var(--ink);
+    outline: none;
+    border-radius: 0;
+    transition: border-color .15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field input[type="text"]:focus,
+  .field input[type="tel"]:focus,
+  .field input[type="number"]:focus {
+    border-bottom-color: var(--teal);
+  }
+  .field input::placeholder {
+    color: #a7a299;
+    font-weight: 400;
+  }
+
+  /* Input de teléfono con prefijo */
+  .phone-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1.5px solid var(--ink);
+    padding: 14px 2px;
+    transition: border-color .15s ease;
+  }
+  .phone-wrap.focus { border-bottom-color: var(--teal); }
+  .phone-prefix {
+    color: var(--muted);
+    font-size: 1.02rem;
+    font-variant-numeric: tabular-nums;
+    padding-right: 4px;
+    border-right: 1px solid var(--rule);
+    margin-right: 8px;
+    padding-right: 12px;
+  }
+  .phone-wrap input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    font: inherit;
+    font-size: 1.02rem;
+    color: var(--ink);
+    outline: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* File input custom */
+  .file-wrap {
+    border: 1.5px dashed var(--ink);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .file-wrap:hover {
+    border-color: var(--teal);
+    background: rgba(0,120,135,.04);
+  }
+  .file-wrap.has-file {
+    border-style: solid;
+    border-color: var(--teal);
+    background: rgba(0,120,135,.06);
+  }
+  .file-wrap input[type="file"] {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+  }
+  .file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+  .file-info strong {
+    font-size: .98rem;
+    font-weight: 600;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .file-info span {
+    font-size: .82rem;
+    color: var(--muted);
+  }
+  .file-btn {
+    font-size: .82rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--teal);
+    white-space: nowrap;
+    border: 1px solid var(--teal);
+    padding: 8px 14px;
+    border-radius: 2px;
+  }
+  .file-wrap.has-file .file-btn {
+    background: var(--teal);
+    color: var(--paper);
+  }
+
+  /* OCR status (discreto, debajo del file) */
+  .ocr-status {
+    margin-top: 10px;
+    font-size: .84rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 20px;
+    transition: color .2s;
+  }
+  .ocr-status .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .ocr-status.loading .dot {
+    background: var(--gold);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  .ocr-status.ok .dot { background: var(--teal); }
+  .ocr-status.error .dot { background: #b3421f; }
+  .ocr-status.ok { color: var(--teal); }
+  .ocr-status.error { color: #b3421f; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .4; transform: scale(1.4); }
+  }
+
+  .submit-area {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .microcopy {
+    margin-top: 18px;
+    text-align: center;
+    font-size: .88rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .microcopy a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .microcopy a:hover { color: var(--ink); }
+
+  .validation {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(179, 66, 31, .08);
+    border-left: 3px solid #b3421f;
+    color: #7a2e15;
+    font-size: .92rem;
+    display: none;
+  }
+  .validation.show { display: block; }
+
+  /* ════════ QUIÉN REVISA ════════ */
+  .who {
+    padding: 96px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .who-grid {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .who-text {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    line-height: 1.35;
+    letter-spacing: -.005em;
+    color: var(--ink);
+    margin: 0;
+    max-width: 36ch;
+    font-variation-settings: "opsz" 72;
+  }
+  .who-text em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .who-sign {
+    margin-top: 32px;
+    font-size: .82rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .who-sign strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ════════ FOOTER ════════ */
+  footer.foot {
+    padding: 56px 0 36px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  footer.foot .foot-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  footer.foot h4 {
+    font-family: "Fraunces", serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin: 0 0 12px;
+    letter-spacing: -.01em;
+  }
+  footer.foot p, footer.foot li {
+    color: #c9c2b7;
+    font-size: .92rem;
+    line-height: 1.6;
+  }
+  footer.foot a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s ease;
+  }
+  footer.foot a:hover { border-bottom-color: var(--gold); }
+  footer.foot ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .foot-meta {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(245,241,234,.12);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: .82rem;
+    color: #8a8579;
+  }
+
+  /* ════════ LOADING OVERLAY (al submit si OCR aún corre) ════════ */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 26, 28, .82);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+  }
+  .overlay.show { display: flex; }
+  .overlay-box {
+    background: var(--paper);
+    padding: 36px 48px;
+    max-width: 420px;
+    text-align: center;
+    border: 1.5px solid var(--ink);
+    position: relative;
+  }
+  .overlay-box::before {
+    content: "";
+    position: absolute;
+    top: -1.5px; left: -1.5px;
+    width: 14px; height: 14px;
+    border-top: 3px solid var(--gold);
+    border-left: 3px solid var(--gold);
+  }
+  .overlay-title {
+    font-family: "Fraunces", serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .overlay-sub {
+    font-size: .95rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .spinner {
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 20px;
+    border: 2.5px solid var(--rule);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ════════ RESPONSIVE ════════ */
+  @media (max-width: 860px) {
+    body { font-size: 16px; }
+    .hero { padding: 48px 0 40px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-figure { border-left: 0; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 28px; text-align: left; }
+    .hero-figure-cap { margin-left: 0; }
+    .proof-grid, .form-grid, .who-grid { grid-template-columns: 1fr; gap: 28px; }
+    form.lead { padding: 28px 22px 24px; }
+    footer.foot .foot-grid { grid-template-columns: 1fr; }
+    .top-meta { font-size: .72rem; max-width: 120px; text-align: right; }
+    .brand-logo { height: 36px; }
+    .hero-cta-row { flex-direction: column; align-items: stretch; }
+    .btn { justify-content: center; }
+    .proof-quote::before { left: -.15em; top: .5em; font-size: 2.4em; }
+    .file-wrap { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 420px) {
+    .field label .lreq { display: none; }
+  }
+</style>
 </head>
 <body>
-  <header class="topbar"><div class="topbar-inner"><div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3L5 12h5l-1 9 10-12h-5l1-6Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><p class="brand-name">Mejoradora Granada</p><p class="brand-sub">Optimización y consultoría energética</p></div></div><a href="#formulario" class="nav-cta">Solicitar estudio</a></div></header>
-  <main class="page">
-    <section class="hero"><div class="hero-grid"><div class="card hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span>Revisión rápida de tu factura de luz</div><img src="logo-mejoradora-granada.png" alt="Mejoradora Granada" class="logo"><h1>Descubre si estás pagando <span class="accent">de más</span> en tu factura de luz.</h1><p class="lead">Sube tu factura, revisa la información detectada automáticamente y pide tu estudio por WhatsApp en menos de un minuto.</p><div class="actions"><a href="#formulario" class="btn btn-primary">Quiero revisar mi factura</a><a href="#formulario" class="btn btn-secondary">Ver formulario</a></div><div class="hero-proof"><div class="pill">Respuesta directa por WhatsApp</div><div class="pill">Revisión antes de enviar</div><div class="pill">Estudio claro y rápido</div></div></div><aside class="card"><div><div class="kicker">Herramienta profesional</div><h2>Una forma sencilla de revisar tu factura y solicitar tu estudio.</h2><p class="desc">Te ayudamos a recopilar la información importante de tu factura para valorar si puedes mejorar tu precio.</p></div><div class="stats"><div class="stat"><strong>1 min</strong><span>Tiempo estimado para completar el formulario</span></div><div class="stat"><strong>WhatsApp</strong><span>Contacto directo para continuar la revisión</span></div><div class="stat"><strong>Rápido</strong><span>Lectura automática y revisión manual</span></div><div class="stat"><strong>Claro</strong><span>Proceso simple y sin pasos innecesarios</span></div></div></aside></div></section>
-    <section class="content" id="formulario"><div class="content-grid"><div class="section-card"><span class="kicker">Paso 1</span><h2 class="section-title">Sube tu factura</h2><p class="desc">Puedes adjuntar una imagen o PDF. La herramienta intentará leer la información principal para que después solo tengas que revisarla.</p><div class="upload-box"><h3>Adjunta tu factura eléctrica</h3><p class="desc">Si el documento se ve bien, será más fácil completar automáticamente los datos y dejar preparado tu estudio.</p><input type="file" id="file" accept="image/*,application/pdf"><div class="upload-meta"><div class="pill">Imagen o PDF</div><div class="pill">Lectura automática</div><div class="pill">Revisión manual incluida</div></div><div class="upload-actions"><button type="button" class="btn analyze-btn" id="analyzeBtn">Leer factura automáticamente con IA</button><div id="scanStatus" class="status" aria-live="polite"></div></div></div></div><div class="section-card"><span class="kicker">Paso 2</span><h2 class="section-title">Confirma tus datos y solicita tu estudio</h2><p class="desc">Revisa la información, corrige lo que haga falta y envíala por WhatsApp para que podamos valorar tu factura.</p><form id="leadForm" novalidate><div class="fields"><div class="field full"><label for="titular">Nombre o razón social del titular</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="text" id="titular" placeholder="Nombre o razón social"></div></div><div class="field"><label for="documento">CIF / DNI / NIE</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4zM8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><input type="text" id="documento" placeholder="12345678Z o B12345678"></div></div><div class="field"><label for="cups">CUPS</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M7 7h10M7 12h10M7 17h6M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><input type="text" id="cups" placeholder="Ejemplo: ES00..."></div></div><div class="field full"><label for="direccion">Dirección de suministro</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Zm0-8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><input type="text" id="direccion" placeholder="Dirección completa del suministro"></div></div><div class="field"><label for="tarifa">Tipo de tarifa</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M7 12h10M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><select id="tarifa"><option value="">Selecciona o detecta una tarifa</option><option value="2.0TD">2.0TD / 2.0 / similar</option><option value="3.0TD">3.0TD / 3.0 / similar</option></select></div><span class="helper" id="tarifaHint">Si no se detecta con claridad, puedes seleccionarla manualmente.</span></div><div class="field"><label for="dias_factura">Días facturados</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M8 3v3M16 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><input type="number" id="dias_factura" min="0" step="1" placeholder="Ejemplo: 30"></div></div><div class="field"><label for="consumo_kwh">Consumo total (kWh)</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M13 2 6 13h5l-1 9 8-12h-5l1-8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><input type="number" id="consumo_kwh" min="0" step="0.01" placeholder="Ejemplo: 320"></div></div><div class="field"><label for="precio_energia">Precio de la energía</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.3 12 11s4.5 1.6 4.5 3.5S14.5 18 12 18s-4.5-1.6-4.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="number" id="precio_energia" min="0" step="0.000001" placeholder="Ejemplo: 0.145000"></div></div><div class="field"><label for="importe_total">Importe total factura (€)</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.3 12 11s4.5 1.6 4.5 3.5S14.5 18 12 18s-4.5-1.6-4.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="number" id="importe_total" min="0" step="0.01" placeholder="Ejemplo: 87.50"></div></div></div><div class="period-card"><h3>Potencias contratadas</h3><p class="helper">Completa estos datos si aparecen en tu factura.</p><div id="potenciasGrid" class="period-grid"></div></div><div class="period-card"><h3>Precios de potencia</h3><p class="helper">Revísalos y corrígelos si fuera necesario.</p><div id="preciosGrid" class="period-grid"></div></div><div class="summary-box"><h3>Resumen del envío</h3><div id="summaryGrid" class="summary-grid"></div></div><div id="validationMessage" class="validation" aria-live="polite"></div><div class="cta"><h3>Recibe tu estudio por WhatsApp</h3><p class="desc">Al pulsar el botón, se abrirá WhatsApp con tu información preparada para continuar la revisión.</p><button type="submit" class="btn submit-btn">Recibir mi estudio por WhatsApp</button><p class="micro">Rápido, directo y sin pasos innecesarios.</p></div></form></div></div></section>
-    <footer class="footer"><div class="footer-box"><span>© Mejoradora Granada 2026. Todos los derechos reservados.</span></div></footer>
-  </main>
-  <script>
-    const GEMINI_MODEL = "gemini-2.5-flash";
-    const WHATSAPP_PHONE = "34616785103";
-    const PERIODS = ["p1","p2","p3","p4","p5","p6"];
-    const BASE_FIELDS = ["titular","documento","direccion","cups","tarifa","dias_factura","consumo_kwh","precio_energia","importe_total"];
-    const EMPTY_DATA = {titular:"",documento:"",direccion:"",cups:"",tarifa:"",dias_factura:"",consumo_kwh:"",precio_energia:"",importe_total:"",potencias_contratadas:{p1:"",p2:"",p3:"",p4:"",p5:"",p6:""},precios_potencia:{p1:"",p2:"",p3:"",p4:"",p5:"",p6:""}};
-    const fileInput = document.getElementById("file");
-    const analyzeBtn = document.getElementById("analyzeBtn");
-    const scanStatus = document.getElementById("scanStatus");
-    const leadForm = document.getElementById("leadForm");
-    const tarifaHint = document.getElementById("tarifaHint");
-    const potenciasGrid = document.getElementById("potenciasGrid");
-    const preciosGrid = document.getElementById("preciosGrid");
-    const summaryGrid = document.getElementById("summaryGrid");
-    const validationMessage = document.getElementById("validationMessage");
-    let formData = createEmptyData();
-    function createEmptyData(){ return JSON.parse(JSON.stringify(EMPTY_DATA)); }
-    function text(value){ return String(value || "").trim(); }
-    function visiblePeriods(){ return formData.tarifa === "3.0TD" ? PERIODS : PERIODS.slice(0,3); }
-    function setStatus(message,type){ scanStatus.className = "status show " + type; scanStatus.textContent = message; }
-    function clearValidation(){ validationMessage.className = "validation"; validationMessage.textContent = ""; }
-    function showValidation(message){ validationMessage.className = "validation show"; validationMessage.textContent = message; }
-    function normalizeNumber(value,decimals){ if(value === null || value === undefined || value === "") return ""; const cleaned = String(value).replace(/\s+/g,"").replace(/\./g,"").replace(",",".").replace(/[^0-9.\-]/g,""); if(!cleaned || cleaned === "." || cleaned === "-" || cleaned === "-.") return ""; const num = Number(cleaned); if(!Number.isFinite(num)) return ""; return decimals === 0 ? String(Math.round(num)) : num.toFixed(decimals); }
-    function normalizeTarifa(value){ const raw = text(value).toUpperCase(); if(!raw) return ""; if(raw.includes("3.0")) return "3.0TD"; if(raw.includes("2.0")) return "2.0TD"; return ""; }
-    function fileToBase64(file){ return new Promise((resolve,reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result || "").split(",")[1] || ""); reader.onerror = reject; reader.readAsDataURL(file); }); }
-    async function fetchGemini(payload){ const response = await fetch("/api/gemini", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)}); if(!response.ok){ throw new Error(await response.text() || ("HTTP " + response.status)); } return response.json(); }
-    function extractJson(rawText){ const raw = text(rawText); if(!raw) throw new Error("Sin respuesta utilizable"); try { return JSON.parse(raw); } catch(error){ const match = raw.match(/\{[\s\S]*\}/); if(match) return JSON.parse(match[0]); throw error; } }
-    function buildPrompt(){ return ["Analiza esta factura electrica y devuelve solo un objeto JSON valido.","No escribas explicaciones ni texto fuera del JSON.","Extrae solo datos visibles. Si falta algo o no esta claro, deja cadena vacia.","No inventes datos.","No mezcles potencia contratada con precio de potencia.","No confundas el precio de la energia con el precio de potencia.","No confundas dias facturados con fecha de emision, cargo o periodo de lectura si no se identifica claramente como dias facturados.","Si hay varias tablas, prioriza la tabla o bloque de peajes, periodos, potencia contratada, precio potencia o precio energia.","Normaliza la tarifa asi: 2.0TD para 2.0TD/2.0/similar, 3.0TD para 3.0TD/3.0/similar, vacio si no esta claro.","Busca explicitamente titular o razon social, CIF/DNI/NIE, CUPS, direccion de suministro, tarifa, dias facturados, consumo total kWh, precio de la energia, importe total, potencias contratadas por periodo y precios de potencia por periodo.",'{"titular":"","documento":"","direccion":"","cups":"","tarifa":"","dias_factura":"","consumo_kwh":"","precio_energia":"","importe_total":"","potencias_contratadas":{"p1":"","p2":"","p3":"","p4":"","p5":"","p6":""},"precios_potencia":{"p1":"","p2":"","p3":"","p4":"","p5":"","p6":""}}'].join("\n"); }
-    function applyInvoiceData(data){ const next = createEmptyData(); next.titular = text(data.titular); next.documento = text(data.documento); next.direccion = text(data.direccion); next.cups = text(data.cups); next.tarifa = normalizeTarifa(data.tarifa); next.dias_factura = normalizeNumber(data.dias_factura,0); next.consumo_kwh = normalizeNumber(data.consumo_kwh,2); next.precio_energia = normalizeNumber(data.precio_energia,6); next.importe_total = normalizeNumber(data.importe_total,2); PERIODS.forEach((period) => { next.potencias_contratadas[period] = normalizeNumber(data?.potencias_contratadas?.[period],3); next.precios_potencia[period] = normalizeNumber(data?.precios_potencia?.[period],6); }); formData = next; syncForm(); }
-    function createPeriodInput(group,period,label){ const wrapper = document.createElement("div"); wrapper.className = "field"; wrapper.innerHTML = '<label for="' + group + '_' + period + '">' + label + ' ' + period.toUpperCase() + '</label><div class="input-wrap"><svg class="input-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M16.5 7.5c0-1.9-2-3.5-4.5-3.5S7.5 5.6 7.5 7.5 9 10.3 12 11s4.5 1.6 4.5 3.5S14.5 18 12 18s-4.5-1.6-4.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input type="number" min="0" step="0.001" id="' + group + '_' + period + '" data-group="' + group + '" data-period="' + period + '" placeholder="Introduce valor"></div>'; const input = wrapper.querySelector("input"); input.value = formData[group][period] || ""; input.addEventListener("input", handlePeriodInput); return wrapper; }
-    function renderPeriods(){ potenciasGrid.innerHTML = ""; preciosGrid.innerHTML = ""; visiblePeriods().forEach((period) => { potenciasGrid.appendChild(createPeriodInput("potencias_contratadas", period, "Potencia contratada")); preciosGrid.appendChild(createPeriodInput("precios_potencia", period, "Precio potencia")); }); tarifaHint.textContent = formData.tarifa === "3.0TD" ? "Tarifa 3.0 detectada o seleccionada: se muestran periodos P1-P6." : formData.tarifa === "2.0TD" ? "Tarifa 2.0 detectada o seleccionada: se muestran periodos P1-P3." : "Si la IA no la detecta con claridad, selecciónala manualmente."; }
-    function periodSummary(group){ return visiblePeriods().map((period) => period.toUpperCase() + ": " + (formData[group][period] || "Pendiente")).join(" | "); }
-    function itemHtml(label,value,full){ return '<div class="summary-item' + (full ? ' full' : '') + '"><strong>' + label + '</strong><span>' + value + '</span></div>'; }
-    function renderSummary(){ summaryGrid.innerHTML = [itemHtml("Titular", formData.titular || "Pendiente"),itemHtml("Documento", formData.documento || "Pendiente"),itemHtml("Dirección", formData.direccion || "Pendiente", true),itemHtml("CUPS", formData.cups || "Pendiente"),itemHtml("Tarifa", formData.tarifa || "Pendiente"),itemHtml("Días factura", formData.dias_factura || "Pendiente"),itemHtml("Consumo", (formData.consumo_kwh || "Pendiente") + (formData.consumo_kwh ? " kWh" : "")),itemHtml("Precio energía", (formData.precio_energia || "Pendiente") + (formData.precio_energia ? " €/kWh" : "")),itemHtml("Importe", (formData.importe_total || "Pendiente") + (formData.importe_total ? " €" : "")),itemHtml("Potencias contratadas", periodSummary("potencias_contratadas"), true),itemHtml("Precios de potencia", periodSummary("precios_potencia"), true)].join(""); }
-    function syncForm(){ BASE_FIELDS.forEach((field) => { const el = document.getElementById(field); if(el) el.value = formData[field] || ""; }); renderPeriods(); renderSummary(); }
-    function collectData(){ const next = createEmptyData(); BASE_FIELDS.forEach((field) => { const el = document.getElementById(field); next[field] = el ? text(el.value) : ""; }); PERIODS.forEach((period) => { const pot = document.getElementById("potencias_contratadas_" + period); const pre = document.getElementById("precios_potencia_" + period); next.potencias_contratadas[period] = pot ? text(pot.value) : formData.potencias_contratadas[period] || ""; next.precios_potencia[period] = pre ? text(pre.value) : formData.precios_potencia[period] || ""; }); return next; }
-    function handleBaseInput(event){ formData[event.target.id] = text(event.target.value); if(event.target.id === "tarifa") renderPeriods(); renderSummary(); clearValidation(); }
-    function handlePeriodInput(event){ const group = event.target.dataset.group; const period = event.target.dataset.period; if(group && period && formData[group]) formData[group][period] = text(event.target.value); renderSummary(); clearValidation(); }
-    function validate(data){ if(!data.titular) return "Rellena el titular o razón social."; if(!data.cups) return "Rellena el CUPS."; if(!data.tarifa) return "Selecciona el tipo de tarifa."; if(!data.consumo_kwh) return "Rellena el consumo total en kWh."; if(!data.importe_total) return "Rellena el importe total de la factura."; return ""; }
-    function periodsMessage(title,values){ return [title + ":"].concat(visiblePeriods().map((period) => period.toUpperCase() + ": " + (values[period] || ""))).join("\n"); }
-    function whatsappMessage(data){ return ["Hola, he hecho un análisis de mi factura y me sale que puedo estar pagando de más.","","Te dejo los datos para que me confirmes si se puede mejorar:","","Titular: " + (data.titular || ""),"Documento: " + (data.documento || ""),"Dirección de suministro: " + (data.direccion || ""),"CUPS: " + (data.cups || ""),"Tarifa: " + (data.tarifa || ""),"Días de factura: " + (data.dias_factura || ""),"Consumo: " + (data.consumo_kwh || "") + " kWh","Precio energía: " + (data.precio_energia || "") + " €/kWh","Factura: " + (data.importe_total || "") + " €","",periodsMessage("Potencias contratadas", data.potencias_contratadas),"",periodsMessage("Precios de potencia", data.precios_potencia)].join("\n"); }
-    async function analizarFactura(){ const file = fileInput.files[0]; if(!file){ setStatus("Selecciona primero una imagen o PDF de la factura.","error"); return; } if(!/^(image\/.+|application\/pdf)$/.test(file.type)){ setStatus("Formato no soportado. Usa una imagen o un PDF.","error"); return; } analyzeBtn.disabled = true; analyzeBtn.textContent = "Analizando factura..."; setStatus("Leyendo la factura con IA. Esto puede tardar unos segundos.","info"); try { const base64 = await fileToBase64(file); const result = await fetchGemini({contents:[{role:"user",parts:[{text:buildPrompt()},{inlineData:{mimeType:file.type,data:base64}}]}],generationConfig:{temperature:0.1,responseMimeType:"application/json"}}); applyInvoiceData(extractJson(result?.candidates?.[0]?.content?.parts?.[0]?.text)); setStatus("Factura leída correctamente. Revisa los datos, ajusta la tarifa si hace falta y envíala por WhatsApp.","success"); } catch(error){ console.error(error); setStatus("No se ha podido leer la factura automáticamente. Puedes rellenar y corregir los datos manualmente.","error"); } finally { analyzeBtn.disabled = false; analyzeBtn.textContent = "Leer factura automáticamente con IA"; } }
-    BASE_FIELDS.forEach((field) => { const el = document.getElementById(field); if(el){ el.addEventListener("input", handleBaseInput); el.addEventListener("change", handleBaseInput); } });
-    analyzeBtn.addEventListener("click", analizarFactura);
-    leadForm.addEventListener("submit", (event) => { event.preventDefault(); clearValidation(); formData = collectData(); renderSummary(); const error = validate(formData); if(error){ showValidation(error); return; } window.open("https://wa.me/" + WHATSAPP_PHONE + "?text=" + encodeURIComponent(whatsappMessage(formData)), "_blank"); });
-    renderPeriods(); renderSummary();
-  </script>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <img src="logo-mejoradora-granada.png" alt="Mejoradora Granada" class="brand-logo">
+    <div class="top-meta">Granada<br><strong>Franquicia oficial</strong></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-eyebrow">Revisión de factura eléctrica</div>
+          <h1 class="hero-title">Mándanos tu factura de luz. Te decimos si <em>pagas de más</em>.</h1>
+          <p class="hero-sub">Para hoteles, restaurantes, heladerías, industria y comunidades en Granada y provincia. Análisis personal por WhatsApp, con cifras concretas.</p>
+          <div class="hero-cta-row">
+            <a href="#formulario" class="btn">Enviar factura</a>
+            <a href="#quien" class="link-u">Quién la revisa</a>
+          </div>
+        </div>
+        <aside class="hero-figure" aria-hidden="true">
+          <div class="hero-figure-num">24<sup>h</sup></div>
+          <div class="hero-figure-cap">Plazo de respuesta por WhatsApp, revisada por una persona.</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 01 · PRUEBA SOCIAL ═══════ -->
+  <section class="proof">
+    <div class="wrap">
+      <div class="proof-grid">
+        <div>
+          <div class="section-num"><span class="num">01</span><span class="sep">·</span>Un caso real</div>
+          <div class="proof-label">Nada de<br>cifras infladas.<br>Solo facturas<br>que revisamos.</div>
+        </div>
+        <div>
+          <blockquote class="proof-quote">
+            <span class="highlight">Grupo Heladerías</span>, en Granada, ha ahorrado más de <span class="highlight">3.500&nbsp;€</span> con nosotros en el último año.
+          </blockquote>
+          <div class="proof-attrib"><strong>Caso real</strong> · Cliente activo de Mejoradora Granada</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 02 · FORMULARIO ═══════ -->
+  <section class="form-section" id="formulario">
+    <div class="wrap">
+      <div class="form-grid">
+        <div class="form-left">
+          <div class="section-num"><span class="num">02</span><span class="sep">·</span>Envía tu factura</div>
+          <h2>Cuatro datos y una foto.</h2>
+          <p>Sin registros. Sin llamadas automáticas. La revisamos nosotros, no un comercial con guión.</p>
+        </div>
+
+        <form class="lead" id="leadForm" novalidate autocomplete="on">
+
+          <div class="field">
+            <label for="titular"><span class="lnum">01</span>Nombre o razón social<span class="lreq">Obligatorio</span></label>
+            <input type="text" id="titular" name="titular" placeholder="Hotel Alhambra Palace, S.L." required autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label for="telefono"><span class="lnum">02</span>Teléfono<span class="lreq">Obligatorio</span></label>
+            <div class="phone-wrap" id="phoneWrap">
+              <span class="phone-prefix">+34</span>
+              <input type="tel" id="telefono" name="telefono" placeholder="600 00 00 00" inputmode="tel" required autocomplete="tel-national" maxlength="14">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="importe"><span class="lnum">03</span>Importe total de la factura (€)<span class="lreq">Obligatorio</span></label>
+            <input type="number" id="importe" name="importe" placeholder="485.60" min="0" step="0.01" required inputmode="decimal">
+          </div>
+
+          <div class="field">
+            <label for="factura"><span class="lnum">04</span>Factura<span class="lreq">Imagen o PDF</span></label>
+            <label class="file-wrap" id="fileWrap" for="factura">
+              <div class="file-info" id="fileInfo">
+                <strong id="fileName">Adjunta tu factura</strong>
+                <span id="fileMeta">JPG, PNG o PDF · máx. 10 MB</span>
+              </div>
+              <span class="file-btn" id="fileBtn">Seleccionar</span>
+              <input type="file" id="factura" name="factura" accept="image/*,application/pdf" required>
+            </label>
+            <div class="ocr-status" id="ocrStatus" aria-live="polite">
+              <span class="dot"></span>
+              <span id="ocrStatusText">Se analizará al adjuntar el archivo.</span>
+            </div>
+          </div>
+
+          <div class="validation" id="validation" role="alert"></div>
+
+          <div class="submit-area">
+            <button type="submit" class="btn btn-primary-big" id="submitBtn">Enviar por WhatsApp</button>
+            <p class="microcopy">
+              La revisamos personalmente. La respuesta te llega por WhatsApp en 24 horas.<br>
+              Al enviar aceptas el <a href="https://www.mejoradora.com/aviso-legal/" target="_blank" rel="noopener">aviso legal</a> y la <a href="https://www.mejoradora.com/politica-de-privacidad/" target="_blank" rel="noopener">política de privacidad</a>.
+            </p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 03 · QUIÉN REVISA ═══════ -->
+  <section class="who" id="quien">
+    <div class="wrap">
+      <div class="who-grid">
+        <div>
+          <div class="section-num"><span class="num">03</span><span class="sep">·</span>Quién la revisa</div>
+          <div class="proof-label">Mejoradora<br>Granada</div>
+        </div>
+        <div>
+          <p class="who-text"><em>David Braojos</em> y <em>Fernando Martínez</em>. Revisamos cada factura personalmente antes de contestar. Si no hay margen real de ahorro, te lo decimos.</p>
+          <div class="who-sign"><strong>Granada y provincia</strong> · Hoteles, restauración, heladerías, industria y comunidades</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Mejoradora Granada</h4>
+        <p>Franquicia oficial de <a href="https://www.mejoradora.com" target="_blank" rel="noopener">Mejoradora</a>, red nacional de consultoría energética con oficinas en Málaga, Madrid, Sevilla, Granada, Tenerife, Córdoba, Jaén, San Sebastián, Valencia y más.</p>
+      </div>
+      <div>
+        <h4>Contacto directo</h4>
+        <ul>
+          <li>WhatsApp: <a href="https://wa.me/34616785103" target="_blank" rel="noopener">+34 616 78 51 03</a></li>
+          <li><a href="https://www.mejoradora.com/aviso-legal/" target="_blank" rel="noopener">Aviso legal</a></li>
+          <li><a href="https://www.mejoradora.com/politica-de-privacidad/" target="_blank" rel="noopener">Política de privacidad</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-meta">
+      <span>© 2026 Mejoradora Granada · Todos los derechos reservados</span>
+      <span>Parte de la red nacional Mejoradora</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Overlay de espera — se muestra al submit si el OCR aún está corriendo -->
+<div class="overlay" id="overlay" aria-hidden="true">
+  <div class="overlay-box">
+    <div class="spinner" aria-hidden="true"></div>
+    <h3 class="overlay-title">Preparando tu envío</h3>
+    <p class="overlay-sub">Acabando de leer la factura. Te llevamos a WhatsApp en cuanto esté lista.</p>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   Mejoradora Granada — Lead magnet
+   Flujo OCR en background + submit a WhatsApp
+   ════════════════════════════════════════════════════════════ */
+
+const WHATSAPP_PHONE = "34616785103";
+const GEMINI_ENDPOINT = "/api/gemini";
+const OCR_WAIT_TIMEOUT_MS = 10000;
+
+const $ = (id) => document.getElementById(id);
+const fileInput   = $("factura");
+const fileWrap    = $("fileWrap");
+const fileName    = $("fileName");
+const fileMeta    = $("fileMeta");
+const fileBtn     = $("fileBtn");
+const ocrStatus   = $("ocrStatus");
+const ocrStatusText = $("ocrStatusText");
+const form        = $("leadForm");
+const validation  = $("validation");
+const overlay     = $("overlay");
+const submitBtn   = $("submitBtn");
+const phoneInput  = $("telefono");
+const phoneWrap   = $("phoneWrap");
+
+/* ────── Estado del OCR en background ────── */
+let ocrState = {
+  running: false,
+  done: false,
+  data: null,
+  error: null,
+  promise: null
+};
+
+/* ────── Phone prefix focus style ────── */
+phoneInput.addEventListener("focus", () => phoneWrap.classList.add("focus"));
+phoneInput.addEventListener("blur",  () => phoneWrap.classList.remove("focus"));
+
+/* ────── Format humano del tamaño de archivo ────── */
+function fmtSize(bytes) {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(0) + " KB";
+  return (bytes/(1024*1024)).toFixed(1) + " MB";
+}
+
+/* ────── Set status visual del OCR ────── */
+function setOcrStatus(kind, text) {
+  ocrStatus.className = "ocr-status " + kind;
+  ocrStatusText.textContent = text;
+}
+
+/* ────── File → base64 ────── */
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(String(reader.result || "").split(",")[1] || "");
+    reader.onerror = () => reject(new Error("No se pudo leer el archivo"));
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ────── Prompt a Gemini para extracción completa ────── */
+function buildOcrPrompt() {
+  return [
+    "Analiza esta factura eléctrica y devuelve SOLO un objeto JSON válido.",
+    "No escribas explicaciones ni texto fuera del JSON.",
+    "Extrae únicamente datos visibles. Si falta algo o no está claro, deja cadena vacía.",
+    "No inventes datos. No mezcles potencia contratada con precio de potencia.",
+    "No confundas el precio de la energía con el precio de potencia.",
+    "No confundas días facturados con fechas de emisión o periodo de lectura.",
+    "Si hay varias tablas, prioriza el bloque de peajes, periodos, potencia contratada, precio potencia o precio energía.",
+    "Normaliza la tarifa así: 2.0TD para 2.0TD/2.0/similar, 3.0TD para 3.0TD/3.0/similar, vacío si no está claro.",
+    "Busca: titular o razón social, CIF/DNI/NIE, CUPS, dirección de suministro, tarifa, días facturados, consumo total kWh, precio de la energía, importe total, potencias contratadas por periodo y precios de potencia por periodo.",
+    '{"titular":"","documento":"","direccion":"","cups":"","tarifa":"","dias_factura":"","consumo_kwh":"","precio_energia":"","importe_total":"","potencias_contratadas":{"p1":"","p2":"","p3":"","p4":"","p5":"","p6":""},"precios_potencia":{"p1":"","p2":"","p3":"","p4":"","p5":"","p6":""}}'
+  ].join("\n");
+}
+
+/* ────── Llamada al endpoint serverless ────── */
+async function callGemini(file) {
+  const base64 = await fileToBase64(file);
+  const response = await fetch(GEMINI_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{
+        role: "user",
+        parts: [
+          { text: buildOcrPrompt() },
+          { inlineData: { mimeType: file.type, data: base64 } }
+        ]
+      }],
+      generationConfig: { temperature: 0.1, responseMimeType: "application/json" }
+    })
+  });
+  if (!response.ok) throw new Error("HTTP " + response.status);
+  const data = await response.json();
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  if (!text) throw new Error("Respuesta OCR vacía");
+  try { return JSON.parse(text); }
+  catch {
+    const m = text.match(/\{[\s\S]*\}/);
+    if (m) return JSON.parse(m[0]);
+    throw new Error("OCR no devolvió JSON parseable");
+  }
+}
+
+/* ────── Arranca OCR en background al adjuntar archivo ────── */
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (!file) {
+    fileWrap.classList.remove("has-file");
+    fileName.textContent = "Adjunta tu factura";
+    fileMeta.textContent = "JPG, PNG o PDF · máx. 10 MB";
+    fileBtn.textContent = "Seleccionar";
+    setOcrStatus("", "Se analizará al adjuntar el archivo.");
+    ocrState = { running: false, done: false, data: null, error: null, promise: null };
+    return;
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    setOcrStatus("error", "Archivo muy grande (máx. 10 MB). Adjunta una versión más ligera.");
+    fileInput.value = "";
+    return;
+  }
+
+  fileWrap.classList.add("has-file");
+  fileName.textContent = file.name;
+  fileMeta.textContent = fmtSize(file.size) + " · " + (file.type || "archivo");
+  fileBtn.textContent = "Cambiar";
+
+  // Arrancar OCR en background — el usuario puede seguir rellenando mientras tanto
+  setOcrStatus("loading", "Leyendo la factura…");
+  ocrState.running = true;
+  ocrState.done = false;
+  ocrState.data = null;
+  ocrState.error = null;
+  ocrState.promise = callGemini(file)
+    .then((data) => {
+      ocrState.data = data;
+      ocrState.done = true;
+      ocrState.running = false;
+      setOcrStatus("ok", "Factura analizada. Ya puedes enviar.");
+    })
+    .catch((err) => {
+      ocrState.error = err;
+      ocrState.done = true;
+      ocrState.running = false;
+      setOcrStatus("error", "No se pudo leer automáticamente. Envíala igualmente y te pido la foto.");
+      console.warn("OCR error:", err);
+    });
+});
+
+/* ────── Validación mínima ────── */
+function showValidation(msg) {
+  validation.textContent = msg;
+  validation.classList.add("show");
+}
+function clearValidation() {
+  validation.classList.remove("show");
+  validation.textContent = "";
+}
+function validate(basic, file) {
+  if (!basic.titular) return "Indica el nombre o razón social.";
+  if (!basic.telefono || basic.telefono.replace(/\D/g,"").length < 9) return "Introduce un teléfono válido.";
+  if (!basic.importe || Number(basic.importe) <= 0) return "Indica el importe total de la factura.";
+  if (!file) return "Adjunta la factura (imagen o PDF).";
+  return null;
+}
+
+/* ────── Construir mensaje WhatsApp ────── */
+function p(x) { return (x === undefined || x === null || x === "") ? "—" : String(x); }
+
+function buildWhatsAppMessage(basic, ocr, file, ocrFailed) {
+  const lines = [];
+  lines.push("Hola, os envío mi factura para revisión.");
+  lines.push("");
+  lines.push("─── DATOS DE CONTACTO");
+  lines.push("Nombre / Razón social: " + basic.titular);
+  lines.push("Teléfono: +34 " + basic.telefono);
+  lines.push("Importe declarado: " + basic.importe + " €");
+  lines.push("Archivo: " + file.name + " (" + fmtSize(file.size) + ")");
+  lines.push("");
+
+  if (ocrFailed || !ocr) {
+    lines.push("─── OCR");
+    lines.push("No se ha podido leer la factura automáticamente.");
+    lines.push("Te la reenvío en cuanto me digas, por este mismo chat.");
+  } else {
+    const pot = ocr.potencias_contratadas || {};
+    const pre = ocr.precios_potencia || {};
+    const is30 = String(ocr.tarifa || "").includes("3.0");
+    const periods = is30 ? ["p1","p2","p3","p4","p5","p6"] : ["p1","p2","p3"];
+
+    lines.push("─── DATOS EXTRAÍDOS (OCR)");
+    lines.push("Titular: " + p(ocr.titular));
+    lines.push("Documento: " + p(ocr.documento));
+    lines.push("CUPS: " + p(ocr.cups));
+    lines.push("Dirección: " + p(ocr.direccion));
+    lines.push("Tarifa: " + p(ocr.tarifa));
+    lines.push("Días facturados: " + p(ocr.dias_factura));
+    lines.push("Consumo: " + p(ocr.consumo_kwh) + " kWh");
+    lines.push("Precio energía: " + p(ocr.precio_energia) + " €/kWh");
+    lines.push("Importe (OCR): " + p(ocr.importe_total) + " €");
+    lines.push("");
+    lines.push("Potencias contratadas:");
+    periods.forEach(pp => lines.push("  " + pp.toUpperCase() + ": " + p(pot[pp])));
+    lines.push("Precios de potencia:");
+    periods.forEach(pp => lines.push("  " + pp.toUpperCase() + ": " + p(pre[pp])));
+  }
+  return lines.join("\n");
+}
+
+/* ────── Submit ────── */
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearValidation();
+
+  const basic = {
+    titular:  $("titular").value.trim(),
+    telefono: $("telefono").value.trim(),
+    importe:  $("importe").value.trim()
+  };
+  const file = fileInput.files[0];
+
+  const err = validate(basic, file);
+  if (err) { showValidation(err); return; }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Preparando envío…";
+
+  // Si OCR sigue corriendo, esperamos con overlay (máx. OCR_WAIT_TIMEOUT_MS)
+  let ocrFailed = false;
+  if (ocrState.running && ocrState.promise) {
+    overlay.classList.add("show");
+    try {
+      await Promise.race([
+        ocrState.promise,
+        new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), OCR_WAIT_TIMEOUT_MS))
+      ]);
+    } catch (e) {
+      ocrFailed = true;
+      console.warn("OCR no completado a tiempo:", e);
+    }
+    overlay.classList.remove("show");
+  }
+  if (ocrState.error) ocrFailed = true;
+
+  const message = buildWhatsAppMessage(basic, ocrState.data, file, ocrFailed);
+  const url = "https://wa.me/" + WHATSAPP_PHONE + "?text=" + encodeURIComponent(message);
+
+  // Abrir WhatsApp
+  window.open(url, "_blank");
+
+  // Reset visual (sin borrar los campos por si el usuario quiere revisar lo enviado)
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Enviar por WhatsApp";
+});
+
+/* ────── Inicialización ────── */
+setOcrStatus("", "Se analizará al adjuntar el archivo.");
+</script>
+
 </body>
 </html>
