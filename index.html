@@ -93,25 +93,29 @@
   }
   .hero-grid{
     display:grid;
-    grid-template-columns:0.9fr 1.1fr;
-    gap:clamp(24px, 4vw, 56px);
+    grid-template-columns:minmax(0, 0.72fr) minmax(0, 1.28fr);
+    gap:clamp(32px, 5vw, 72px);
     align-items:center;
   }
   .hero-number{
     font-family:var(--serif);
     font-weight:500;
     font-style:italic;
-    font-size:clamp(140px, 24vw, 360px);
-    line-height:0.85;
+    font-size:clamp(120px, 18vw, 280px);
+    line-height:0.82;
     color:var(--teal);
     letter-spacing:-0.04em;
     position:relative;
+    max-width:100%;
+    justify-self:start;
+    white-space:nowrap;
   }
   .hero-number .pct{
     font-style:normal;
     color:var(--ambar);
     font-weight:500;
   }
+  .hero-text{min-width:0}
   .hero-text h1{
     font-family:var(--serif);
     font-weight:500;
@@ -576,8 +580,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 Mejoradora Granada · Jedaes SC</span>
-      <span>B90XXXXXXXX</span>
+      <span>© 2025 Mejoradora Granada · Todos los derechos reservados</span>
     </div>
   </div>
 </footer>
@@ -728,6 +731,7 @@ fileInput.addEventListener('change', async (e) => {
     ocrData = sanitizeOcrData(result.data);
     ocrStatus = result.debugInfo === 'partial_ocr' ? 'partial' : 'success';
 
+    if ($('#nombre') && ocrData.nombre_empresa) $('#nombre').value = ocrData.nombre_empresa;
     if ($('#importe') && ocrData.importe_total) $('#importe').value = ocrData.importe_total;
 
     uploadStatus.textContent = ocrStatus === 'partial'
@@ -766,7 +770,7 @@ form.addEventListener('submit', async (e) => {
     importe: $('#importe').value
   };
 
-  const whatsappWindow = window.open('', '_blank', 'noopener');
+  const whatsappWindow = window.open('', '_blank');
 
   try {
     await persistLead(payload);
@@ -782,9 +786,10 @@ form.addEventListener('submit', async (e) => {
     const whatsappUrl = `https://wa.me/${waNumber}?text=${msg}`;
 
     if (whatsappWindow) {
-      whatsappWindow.location.replace(whatsappUrl);
+      whatsappWindow.document.write('<!DOCTYPE html><title>Abriendo WhatsApp...</title><p style="font-family:Arial,sans-serif;padding:16px">Abriendo WhatsApp...</p>');
+      whatsappWindow.location.href = whatsappUrl;
     } else {
-      window.location.href = whatsappUrl;
+      window.open(whatsappUrl, '_blank');
     }
 
     setSubmitLabel('✓ Enviado. Abriendo WhatsApp…');
