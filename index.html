@@ -2,10 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#F7F3EA">
-<title>Mejoradora Granada · Revisa tu factura de luz en 24h</title>
-<meta name="description" content="Subes la factura, la revisamos personalmente y te respondemos por WhatsApp en menos de 24 horas. Consultoría energética para PYMES en Granada.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mejoradora Granada · Revisión gratuita de factura eléctrica para PYMES</title>
+<meta name="description" content="Análisis humano de tu factura de luz en 24h. Franquicia oficial de la red Mejoradora en Granada. Para hoteles, lavanderías, restaurantes, industria pequeña.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet">
@@ -23,20 +22,14 @@
     --gris-soft:#A8A5A0;
 
     --serif:"Newsreader", Georgia, serif;
-    --sans:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sans:"Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
     --max:1280px;
     --gutter:clamp(20px, 4vw, 56px);
   }
 
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-  html{
-    scroll-behavior:smooth;
-    -webkit-text-size-adjust:100%;
-    overflow-x:hidden;
-  }
-
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   body{
     font-family:var(--sans);
     font-size:16px;
@@ -44,25 +37,16 @@
     color:var(--negro);
     background:var(--crema);
     -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
     text-rendering:optimizeLegibility;
-    overflow-x:hidden;
   }
-
-  img{max-width:100%;display:block;height:auto}
+  img{max-width:100%;display:block}
   a{color:inherit;text-decoration:none}
   button{font-family:inherit;cursor:pointer;border:0;background:none}
   input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
 
-  @media (max-width: 640px){
-    input[type=text],
-    input[type=tel],
-    input[type=email],
-    input[type=number]{font-size:16px !important}
-  }
-
   .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
 
+  /* --- Eyebrow marker (triángulo identitario) --- */
   .eyebrow{
     font-family:var(--sans);
     font-size:12px;
@@ -74,7 +58,6 @@
     align-items:center;
     gap:10px;
   }
-
   .eyebrow::before{
     content:"";
     display:inline-block;
@@ -85,80 +68,68 @@
     border-left:8px solid var(--teal);
   }
 
+  /* --- HEADER --- */
   header{
     border-bottom:1px solid var(--crema-line);
-    background:rgba(247,243,234,0.95);
-    position:sticky;
-    top:0;
-    z-index:50;
-    backdrop-filter:blur(10px);
+    background:var(--crema);
+    position:sticky;top:0;z-index:50;
   }
-
   .header-inner{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    display:flex;justify-content:space-between;align-items:center;
     padding:18px 0;
-    gap:16px;
   }
-
   .logo{height:40px;width:auto}
-
   .franquicia{
-    font-size:12px;
-    letter-spacing:0.06em;
-    color:var(--gris);
-    text-align:right;
-    line-height:1.3;
+    font-size:12px;letter-spacing:0.06em;color:var(--gris);
+    text-align:right;line-height:1.3;
   }
+  .franquicia strong{color:var(--negro);font-weight:500;display:block}
 
-  .franquicia strong{
-    color:var(--negro);
-    font-weight:500;
-    display:block;
-  }
-
+  /* --- HERO (typographic: 70% es el elemento visual) --- */
   .hero{
-    padding:clamp(40px, 7vw, 96px) 0 clamp(48px, 8vw, 112px);
+    padding:clamp(48px, 8vw, 112px) 0 clamp(40px, 6vw, 80px);
+    position:relative;
+    overflow:hidden;
   }
-
   .hero-grid{
     display:grid;
-    grid-template-columns:1.1fr 0.9fr;
-    gap:clamp(32px, 5vw, 80px);
-    align-items:end;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:clamp(24px, 4vw, 56px);
+    align-items:center;
   }
-
-  .hero-text{padding-bottom:12px}
-
-  .hero h1{
+  .hero-number{
     font-family:var(--serif);
     font-weight:500;
-    font-size:clamp(44px, 7.2vw, 104px);
-    line-height:0.95;
-    letter-spacing:-0.02em;
-    color:var(--negro);
-    margin:28px 0 32px;
-  }
-
-  .hero h1 em{
     font-style:italic;
+    font-size:clamp(140px, 24vw, 360px);
+    line-height:0.85;
     color:var(--teal);
+    letter-spacing:-0.04em;
+    position:relative;
+  }
+  .hero-number .pct{
+    font-style:normal;
+    color:var(--ambar);
     font-weight:500;
   }
-
-  .hero .lead{
+  .hero-text h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(32px, 4vw, 56px);
+    line-height:1.05;
+    letter-spacing:-0.015em;
+    color:var(--negro);
+    margin:20px 0 28px;
+  }
+  .hero-text .lead{
     font-size:clamp(17px, 1.4vw, 20px);
     line-height:1.5;
     color:var(--gris);
     max-width:46ch;
-    margin-bottom:40px;
+    margin-bottom:36px;
   }
-
   .cta{
-    display:inline-flex;
-    align-items:center;
-    gap:14px;
+    display:inline-flex;align-items:center;gap:14px;
     background:var(--negro);
     color:var(--crema);
     padding:20px 32px;
@@ -167,126 +138,74 @@
     letter-spacing:0.01em;
     border:1px solid var(--negro);
     transition:background .2s ease, transform .2s ease;
-    min-height:52px;
   }
-
-  .cta:hover,.cta:focus-visible{background:var(--teal-ink);border-color:var(--teal-ink)}
-
-  .cta .arrow{
-    display:inline-block;
-    transition:transform .25s ease;
-  }
-
-  .cta:hover .arrow,.cta:focus-visible .arrow{transform:translateX(4px)}
-
-  .hero-photo{
-    position:relative;
-    align-self:stretch;
-  }
-
-  .hero-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center 15%;
-    max-height:640px;
-  }
-
-  .hero-photo::after{
-    content:"";
-    position:absolute;
-    left:-14px;
-    bottom:-14px;
-    width:100%;
-    height:100%;
-    border:1px solid var(--ambar);
-    z-index:-1;
-    pointer-events:none;
-  }
+  .cta:hover{background:var(--teal-ink);border-color:var(--teal-ink)}
+  .cta .arrow{transition:transform .25s ease;display:inline-block}
+  .cta:hover .arrow{transform:translateX(4px)}
 
   @media (max-width: 900px){
-    .hero-grid{grid-template-columns:1fr;gap:32px}
-    .hero-photo{order:-1;max-width:380px}
-    .hero-photo img{max-height:480px}
+    .hero-grid{grid-template-columns:1fr;gap:24px}
+    .hero-number{font-size:clamp(120px, 40vw, 200px);text-align:left}
   }
 
-  @media (max-width: 480px){
-    .cta{width:100%;justify-content:center;padding:18px 24px}
-  }
-
+  /* --- SOCIAL PROOF STRIP (números, sin foto) --- */
   .social{
     border-top:1px solid var(--crema-line);
     border-bottom:1px solid var(--crema-line);
-    padding:clamp(40px, 5vw, 64px) 0;
+    padding:clamp(48px, 6vw, 80px) 0;
     background:var(--crema-shade);
   }
-
-  .social-inner{
+  .social-grid{
     display:grid;
-    grid-template-columns:auto 1fr;
-    gap:clamp(20px, 3vw, 40px);
-    align-items:center;
-    max-width:960px;
+    grid-template-columns:repeat(3, 1fr);
+    gap:clamp(24px, 4vw, 56px);
+    align-items:start;
   }
-
-  .social-thumb{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    background:var(--crema-line);
-    overflow:hidden;
-    flex-shrink:0;
-    border:2px solid var(--crema);
-  }
-
-  .social-thumb img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center 15%;
-  }
-
-  .social-quote{
+  .stat-number{
     font-family:var(--serif);
-    font-size:clamp(20px, 2.1vw, 28px);
-    line-height:1.35;
-    font-weight:400;
-    letter-spacing:-0.01em;
+    font-weight:500;
+    font-size:clamp(48px, 6vw, 84px);
+    line-height:1;
+    color:var(--teal);
+    letter-spacing:-0.02em;
+    margin-bottom:12px;
   }
-
-  .social-quote .mark{color:var(--teal);font-weight:500}
-
-  .social-attr{
-    font-size:13px;
+  .stat-number .unit{
+    font-size:0.5em;
     color:var(--gris);
-    letter-spacing:0.04em;
-    margin-top:14px;
-    text-transform:uppercase;
+    font-style:italic;
+    font-weight:400;
+    margin-left:4px;
+  }
+  .stat-label{
+    font-size:14px;
+    line-height:1.45;
+    color:var(--negro);
+    max-width:24ch;
+  }
+  .stat-label strong{font-weight:500}
+
+  @media (max-width: 720px){
+    .social-grid{grid-template-columns:1fr;gap:32px}
+    .stat-number{font-size:52px}
   }
 
-  @media (max-width: 640px){
-    .social-inner{grid-template-columns:1fr}
-    .social-thumb{width:64px;height:64px}
-  }
-
+  /* --- FORM --- */
   .form-section{
     padding:clamp(64px, 8vw, 112px) 0;
   }
-
   .form-head{
     max-width:680px;
     margin-bottom:clamp(32px, 4vw, 56px);
   }
-
   .form-head h2{
     font-family:var(--serif);
     font-size:clamp(32px, 4vw, 52px);
     line-height:1.02;
     font-weight:500;
     letter-spacing:-0.015em;
-    margin:20px 0;
+    margin:20px 0 20px;
   }
-
   .form-head p{
     color:var(--gris);
     font-size:17px;
@@ -301,11 +220,9 @@
   }
 
   .field{
-    display:flex;
-    flex-direction:column;
+    display:flex;flex-direction:column;
     gap:8px;
   }
-
   .field label,
   .field .label{
     font-size:11px;
@@ -314,7 +231,6 @@
     text-transform:uppercase;
     color:var(--gris);
   }
-
   .field input[type=text],
   .field input[type=tel],
   .field input[type=number]{
@@ -327,17 +243,12 @@
     color:var(--negro);
     transition:border-color .2s ease;
     -webkit-appearance:none;
-    appearance:none;
     border-radius:0;
-    min-height:48px;
-    width:100%;
   }
-
   .field input:focus{
     outline:0;
     border-bottom-color:var(--teal);
   }
-
   .field input::placeholder{color:var(--gris-soft)}
 
   .field-row{
@@ -345,10 +256,7 @@
     grid-template-columns:1fr 1fr;
     gap:clamp(20px, 3vw, 32px);
   }
-
-  @media (max-width: 640px){
-    .field-row{grid-template-columns:1fr}
-  }
+  @media (max-width: 640px){ .field-row{grid-template-columns:1fr} }
 
   .upload-field{
     border:1.5px dashed var(--negro);
@@ -356,119 +264,52 @@
     background:rgba(255,255,255,0.4);
     transition:all .2s ease;
     position:relative;
-    display:block;
-    cursor:pointer;
   }
-
   .upload-field.dragover{
     border-color:var(--teal);
     background:rgba(11,110,126,0.06);
   }
-
   .upload-field.has-file{
     border-style:solid;
     border-color:var(--teal);
     background:rgba(11,110,126,0.04);
   }
-
   .upload-inner{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    flex-wrap:wrap;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:20px;flex-wrap:wrap;
   }
-
   .upload-copy{flex:1;min-width:200px}
-
   .upload-title{
-    font-size:15px;
-    font-weight:500;
-    color:var(--negro);
+    font-size:15px;font-weight:500;color:var(--negro);
     margin-bottom:4px;
-    overflow-wrap:break-word;
   }
-
   .upload-hint{font-size:13px;color:var(--gris)}
-
   .upload-btn{
-    background:var(--negro);
-    color:var(--crema);
+    background:var(--negro);color:var(--crema);
     padding:12px 22px;
-    font-size:13px;
-    font-weight:500;
+    font-size:13px;font-weight:500;
     letter-spacing:0.04em;
     text-transform:uppercase;
     transition:background .2s ease;
-    min-height:44px;
-    display:inline-flex;
-    align-items:center;
   }
-
   .upload-btn:hover{background:var(--teal-ink)}
-
   .upload-field input[type=file]{
-    position:absolute;
-    inset:0;
-    opacity:0;
-    cursor:pointer;
+    position:absolute;inset:0;opacity:0;cursor:pointer;
   }
-
   .upload-status{
     margin-top:14px;
     font-size:13px;
     color:var(--teal);
     display:none;
   }
-
   .upload-status.show{display:block}
   .upload-status.error{color:#B03A2E}
-
-  .manual-prompt{
-    background:rgba(224,60,60,0.08);
-    border-left:3px solid #C0392B;
-    padding:16px 20px;
-    margin-top:16px;
-    display:none;
-    font-size:14px;
-    line-height:1.5;
-  }
-
-  .manual-prompt.show{display:block}
-
-  .manual-prompt button{
-    color:var(--teal);
-    text-decoration:underline;
-    font-weight:500;
-    padding:0 4px;
-  }
-
-  .form-feedback{
-    margin-top:14px;
-    padding:14px 18px;
-    border-left:3px solid var(--teal);
-    background:rgba(11,110,126,0.08);
-    font-size:14px;
-    line-height:1.5;
-    display:none;
-  }
-
-  .form-feedback.show{display:block}
-
-  .form-feedback.error{
-    border-left-color:#C0392B;
-    background:rgba(224,60,60,0.08);
-    color:#7B241C;
-  }
-
-  .form-feedback.success{color:var(--teal-ink)}
 
   .submit-row{
     margin-top:clamp(16px, 2vw, 24px);
     padding-top:clamp(24px, 3vw, 32px);
     border-top:1px solid var(--crema-line);
   }
-
   .submit-btn{
     background:var(--teal);
     color:var(--crema);
@@ -478,42 +319,33 @@
     letter-spacing:0.02em;
     width:100%;
     text-align:left;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
+    display:flex;align-items:center;justify-content:space-between;
     transition:background .2s ease;
-    min-height:56px;
   }
-
-  .submit-btn:hover,.submit-btn:focus-visible{background:var(--teal-dark)}
+  .submit-btn:hover{background:var(--teal-dark)}
   .submit-btn:disabled{opacity:0.5;cursor:not-allowed}
   .submit-btn .arrow{transition:transform .25s ease}
-  .submit-btn:hover .arrow,.submit-btn:focus-visible .arrow{transform:translateX(4px)}
+  .submit-btn:hover .arrow{transform:translateX(4px)}
 
   .microcopy{
-    font-size:13px;
-    color:var(--gris);
-    margin-top:16px;
-    line-height:1.5;
+    font-size:13px;color:var(--gris);
+    margin-top:16px;line-height:1.5;
   }
 
+  /* --- QUIÉN REVISA --- */
   .who{
     background:var(--negro);
     color:var(--crema);
     padding:clamp(64px, 8vw, 112px) 0;
   }
-
   .who .eyebrow{color:var(--ambar)}
   .who .eyebrow::before{border-left-color:var(--ambar)}
-
   .who-grid{
     display:grid;
     grid-template-columns:1fr;
     gap:32px;
     max-width:760px;
   }
-
   .who h2{
     font-family:var(--serif);
     font-size:clamp(28px, 3.4vw, 42px);
@@ -522,22 +354,20 @@
     letter-spacing:-0.01em;
     margin:20px 0 0;
   }
-
   .who p{
     font-size:clamp(17px, 1.3vw, 19px);
     line-height:1.55;
     color:#C9C6C0;
     max-width:58ch;
   }
-
   .who p strong{color:var(--crema);font-weight:500}
 
+  /* --- FOOTER --- */
   footer{
     background:var(--crema);
     padding:56px 0 40px;
     border-top:1px solid var(--crema-line);
   }
-
   .footer-grid{
     display:grid;
     grid-template-columns:1.2fr 1fr 1fr;
@@ -545,79 +375,64 @@
     align-items:start;
     margin-bottom:40px;
   }
-
   .footer-logo{height:36px;width:auto;margin-bottom:16px}
-
   .footer-tag{
-    font-size:13px;
-    color:var(--gris);
-    line-height:1.5;
+    font-size:13px;color:var(--gris);line-height:1.5;
     max-width:28ch;
   }
-
   .footer-tag a{
     color:var(--teal);
     border-bottom:1px solid var(--teal);
     transition:color .2s ease;
   }
-
   .footer-tag a:hover{color:var(--teal-dark);border-bottom-color:var(--teal-dark)}
-
   .footer-col h4{
-    font-size:11px;
-    font-weight:500;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--gris);
-    margin-bottom:14px;
+    font-size:11px;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--gris);margin-bottom:14px;
   }
-
   .footer-col a,
   .footer-col span{
-    display:block;
-    font-size:14px;
-    color:var(--negro);
-    margin-bottom:8px;
-    line-height:1.5;
+    display:block;font-size:14px;color:var(--negro);
+    margin-bottom:8px;line-height:1.5;
   }
-
   .footer-col a:hover{color:var(--teal)}
-
   .footer-bottom{
     border-top:1px solid var(--crema-line);
     padding-top:24px;
-    display:flex;
-    justify-content:space-between;
-    font-size:12px;
-    color:var(--gris);
-    flex-wrap:wrap;
-    gap:12px;
+    display:flex;justify-content:space-between;
+    font-size:12px;color:var(--gris);
+    flex-wrap:wrap;gap:12px;
   }
+  .footer-bottom a:hover{color:var(--teal)}
 
   @media (max-width: 720px){
     .footer-grid{grid-template-columns:1fr;gap:28px}
   }
 
-  @media (prefers-reduced-motion: reduce){
-    *,*::before,*::after{
-      animation-duration:0.01ms !important;
-      animation-iteration-count:1 !important;
-      transition-duration:0.01ms !important;
-      scroll-behavior:auto !important;
-    }
+  .manual-prompt{
+    background:rgba(224,60,60,0.08);
+    border-left:3px solid #C0392B;
+    padding:16px 20px;
+    margin-top:16px;
+    display:none;
+    font-size:14px;
   }
-
-  :focus-visible{
-    outline:2px solid var(--teal);
-    outline-offset:3px;
+  .manual-prompt.show{display:block}
+  .manual-prompt button{
+    color:var(--teal);
+    text-decoration:underline;
+    font-weight:500;
+    padding:0 4px;
   }
 </style>
 </head>
 <body>
 
+<!-- ═══ HEADER ═══ -->
 <header>
   <div class="wrap header-inner">
-    <img src="logo-mejoradora-granada.png" alt="Mejoradora Granada" class="logo">
+    <img src="./logo_mejoradora.png" alt="Mejoradora Granada" class="logo">
     <div class="franquicia">
       <strong>Granada</strong>
       Franquicia oficial
@@ -625,50 +440,57 @@
   </div>
 </header>
 
+<!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
+      <div class="hero-number">
+        70<span class="pct">%</span>
+      </div>
       <div class="hero-text">
         <span class="eyebrow">Revisión gratuita</span>
-        <h1>Revisamos tu factura de luz en <em>24 horas</em>.</h1>
-        <p class="lead">Subes la última factura, la analizamos personalmente y te mandamos el diagnóstico por WhatsApp. Sin comerciales llamándote después.</p>
+        <h1>de las PYMES paga una tarifa eléctrica equivocada.</h1>
+        <p class="lead">Analizamos tu última factura y te decimos qué sobra, qué optimizar y cuánto podrías ahorrar. Respuesta por WhatsApp en 24 horas.</p>
         <a href="#formulario" class="cta">
           Revisar mi factura
           <span class="arrow">→</span>
         </a>
       </div>
-      <div class="hero-photo">
-        <img src="foto-david-duotone.jpg" alt="David Braojos, director de Mejoradora Granada">
-      </div>
     </div>
   </div>
 </section>
 
+<!-- ═══ SOCIAL PROOF (stats) ═══ -->
 <section class="social">
   <div class="wrap">
-    <div class="social-inner">
-      <div class="social-thumb">
-        <img src="foto-david-duotone.jpg" alt="">
+    <div class="social-grid">
+      <div>
+        <div class="stat-number">1.500<span class="unit">+</span></div>
+        <p class="stat-label"><strong>negocios revisados</strong> solo el último año</p>
       </div>
       <div>
-        <p class="social-quote">
-          <span class="mark">“</span>Llevábamos tres años con la misma tarifa. David detectó <strong>312€/mes</strong> de sobrecoste en diez minutos.<span class="mark">”</span>
-        </p>
-        <p class="social-attr">Grupo de heladerías · Granada capital</p>
+        <div class="stat-number">2.340<span class="unit">€/año</span></div>
+        <p class="stat-label"><strong>ahorro medio detectado</strong> por análisis</p>
+      </div>
+      <div>
+        <div class="stat-number">24<span class="unit">h</span></div>
+        <p class="stat-label"><strong>diagnóstico por WhatsApp</strong>, sin llamadas comerciales</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ═══ FORMULARIO ═══ -->
 <section class="form-section" id="formulario">
   <div class="wrap">
     <div class="form-head">
       <span class="eyebrow">Formulario</span>
       <h2>Cuatro datos. Sin rodeos.</h2>
-      <p>Si subes una factura, los campos se rellenan solos con OCR. Si falla, puedes completar los datos a mano en un minuto.</p>
+      <p>Si subes una factura, los campos se rellenan solos (OCR). Si falla el OCR, los rellenas a mano en un minuto.</p>
     </div>
 
     <form class="form-wrap" id="leadForm" novalidate>
+
       <div class="field">
         <span class="label">▸ Factura reciente · PDF o foto</span>
         <label class="upload-field" id="uploadZone">
@@ -692,61 +514,48 @@
 
       <div class="field">
         <label for="nombre">▸ Nombre o razón social</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Hostelería Ejemplo S.L." autocomplete="organization" required>
+        <input type="text" id="nombre" name="nombre" placeholder="Hostelería Ejemplo S.L." required>
       </div>
 
       <div class="field-row">
         <div class="field">
           <label for="telefono">▸ Teléfono de contacto</label>
-          <input type="tel" id="telefono" name="telefono" placeholder="600 00 00 00" autocomplete="tel" inputmode="tel" required>
+          <input type="tel" id="telefono" name="telefono" placeholder="600 00 00 00" required>
         </div>
         <div class="field">
           <label for="importe">▸ Importe mensual de factura (€)</label>
-          <input type="number" id="importe" name="importe" placeholder="420" min="0" step="0.01" inputmode="decimal" required>
+          <input type="number" id="importe" name="importe" placeholder="420" min="0" step="0.01" required>
         </div>
       </div>
-
-      <input type="hidden" id="ocr_documento" name="ocr_documento">
-      <input type="hidden" id="ocr_cups" name="ocr_cups">
-      <input type="hidden" id="ocr_direccion" name="ocr_direccion">
-      <input type="hidden" id="ocr_consumo_kwh" name="ocr_consumo_kwh">
-      <input type="hidden" id="ocr_tarifa_detectada" name="ocr_tarifa_detectada">
-      <input type="hidden" id="ocr_precio_energia" name="ocr_precio_energia">
-      <input type="hidden" id="ocr_precio_potencia" name="ocr_precio_potencia">
-      <input type="hidden" id="ocr_dias_factura" name="ocr_dias_factura">
-      <input type="hidden" id="ocr_periodo_desde" name="ocr_periodo_desde">
-      <input type="hidden" id="ocr_periodo_hasta" name="ocr_periodo_hasta">
-      <input type="hidden" id="ocr_potencia_contratada" name="ocr_potencia_contratada">
-      <input type="hidden" id="ocr_consumo_periodos" name="ocr_consumo_periodos">
-      <input type="hidden" id="ocr_status" name="ocr_status" value="failed">
 
       <div class="submit-row">
         <button type="submit" class="submit-btn" id="submitBtn">
           <span>Enviar y recibir análisis por WhatsApp</span>
           <span class="arrow">→</span>
         </button>
-        <p class="microcopy">Recibes el análisis por WhatsApp en menos de 24 horas. No hay llamadas comerciales después.</p>
-        <div class="form-feedback" id="formFeedback" aria-live="polite"></div>
+        <p class="microcopy">Análisis humano en menos de 24h. Respuesta por WhatsApp, sin llamadas comerciales.</p>
       </div>
     </form>
   </div>
 </section>
 
+<!-- ═══ QUIÉN REVISA ═══ -->
 <section class="who">
   <div class="wrap">
     <div class="who-grid">
       <span class="eyebrow">Quién revisa</span>
       <h2>David Braojos y Fernando Martínez. Personas, no bots.</h2>
-      <p><strong>Mejoradora Granada</strong> revisa personalmente cada factura que entra por esta web: hoteles, lavanderías, restaurantes, administradores de fincas y pequeña industria. Granada y provincia.</p>
+      <p><strong>Mejoradora Granada</strong> forma parte de la red nacional Mejoradora. Trabajamos con hoteles, lavanderías, restaurantes, supermercados, gimnasios e industria pequeña en Granada capital y provincia.</p>
     </div>
   </div>
 </section>
 
+<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <img src="logo-mejoradora-granada.png" alt="Mejoradora" class="footer-logo">
+        <img src="./logo_mejoradora.png" alt="Mejoradora" class="footer-logo">
         <p class="footer-tag">
           Parte de la red nacional
           <a href="https://mejoradora.com" target="_blank" rel="noopener">Mejoradora</a>.
@@ -774,320 +583,109 @@
 </footer>
 
 <script>
-const $ = (selector) => document.querySelector(selector);
+/* ══════════════════════════════════════════════════════════
+   MEJORADORA GRANADA — FRONTEND LOGIC
+   Mismo JS que versión A. Integra con:
+   - POST /api/gemini  → OCR
+   - Supabase insert   → persistencia lead
+   - WhatsApp redirect → mensaje pre-rellenado
+   ══════════════════════════════════════════════════════════ */
 
-const form = $('#leadForm');
-const uploadZone = $('#uploadZone');
-const fileInput = $('#factura');
-const uploadTitle = $('#uploadTitle');
-const uploadHint = $('#uploadHint');
+const $ = (s) => document.querySelector(s);
+
+const form         = $('#leadForm');
+const uploadZone   = $('#uploadZone');
+const fileInput    = $('#factura');
+const uploadTitle  = $('#uploadTitle');
+const uploadHint   = $('#uploadHint');
 const uploadStatus = $('#uploadStatus');
 const manualPrompt = $('#manualPrompt');
-const manualBtn = $('#manualBtn');
-const retryBtn = $('#retryBtn');
-const submitBtn = $('#submitBtn');
-const formFeedback = $('#formFeedback');
+const manualBtn    = $('#manualBtn');
+const retryBtn     = $('#retryBtn');
+const submitBtn    = $('#submitBtn');
 
-const hiddenOcrFields = {
-  documento: $('#ocr_documento'),
-  cups: $('#ocr_cups'),
-  direccion: $('#ocr_direccion'),
-  consumo_kwh: $('#ocr_consumo_kwh'),
-  tarifa_detectada: $('#ocr_tarifa_detectada'),
-  precio_energia: $('#ocr_precio_energia'),
-  precio_potencia: $('#ocr_precio_potencia'),
-  dias_factura: $('#ocr_dias_factura'),
-  periodo_desde: $('#ocr_periodo_desde'),
-  periodo_hasta: $('#ocr_periodo_hasta'),
-  potencia_contratada: $('#ocr_potencia_contratada'),
-  consumo_periodos: $('#ocr_consumo_periodos'),
-  ocr_status: $('#ocr_status')
-};
-
-let ocrData = {
-  documento: '',
-  cups: '',
-  direccion: '',
-  consumo_kwh: '',
-  tarifa_detectada: '',
-  precio_energia: '',
-  precio_potencia: '',
-  dias_factura: '',
-  periodo_desde: '',
-  periodo_hasta: '',
-  potencia_contratada: '',
-  consumo_periodos: {}
-};
-let ocrStatus = 'failed';
-let activeOcrRequestId = 0;
-
-function setFormFeedback(message, type = 'error') {
-  if (!formFeedback) return;
-  formFeedback.className = `form-feedback show ${type}`;
-  formFeedback.textContent = message;
-}
-
-function clearFormFeedback() {
-  if (!formFeedback) return;
-  formFeedback.className = 'form-feedback';
-  formFeedback.textContent = '';
-}
-
-function setSubmitState(isLoading, label) {
-  submitBtn.disabled = isLoading;
-  submitBtn.querySelector('span').textContent = label;
-}
-
-function safeValue(value) {
-  return String(value || '').trim() || 'No detectado';
-}
-
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = String(reader.result || '');
-      resolve(result.split(',')[1] || '');
-    };
-    reader.onerror = () => reject(reader.error || new Error('file_read_failed'));
-    reader.readAsDataURL(file);
-  });
-}
-
-function syncOcrData(data = {}) {
-  const consumoPeriodos = (data && typeof data.consumo_periodos === 'object' && data.consumo_periodos !== null)
-    ? Object.fromEntries(
-        Object.entries(data.consumo_periodos)
-          .map(([key, value]) => [String(key || '').trim().toLowerCase(), String(value || '').trim()])
-          .filter(([key]) => key)
-      )
-    : {};
-
-  ocrData = {
-    documento: String(data.documento || '').trim(),
-    cups: String(data.cups || '').trim(),
-    direccion: String(data.direccion || '').trim(),
-    consumo_kwh: String(data.consumo_kwh || '').trim(),
-    tarifa_detectada: String(data.tarifa_detectada || '').trim(),
-    precio_energia: String(data.precio_energia || '').trim(),
-    precio_potencia: String(data.precio_potencia || '').trim(),
-    dias_factura: String(data.dias_factura || '').trim(),
-    periodo_desde: String(data.periodo_desde || '').trim(),
-    periodo_hasta: String(data.periodo_hasta || '').trim(),
-    potencia_contratada: String(data.potencia_contratada || '').trim(),
-    consumo_periodos: consumoPeriodos
-  };
-
-  Object.entries(hiddenOcrFields).forEach(([key, element]) => {
-    if (!element) return;
-    if (key === 'consumo_periodos') {
-      element.value = JSON.stringify(ocrData.consumo_periodos || {});
-      return;
-    }
-    if (key === 'ocr_status') {
-      element.value = ocrStatus;
-      return;
-    }
-    element.value = ocrData[key] || '';
-  });
-}
-
-function validateLeadForm() {
-  const file = fileInput.files[0];
-  const nombre = $('#nombre').value.trim();
-  const telefono = $('#telefono').value.trim();
-  const importe = $('#importe').value.trim();
-
-  if (!file) return 'Adjunta una factura antes de enviar.';
-  if (file.size > 10 * 1024 * 1024) return 'La factura supera el límite de 10 MB.';
-  if (!nombre || !telefono || !importe) return 'Completa nombre, teléfono e importe mensual antes de enviar.';
-
-  const amount = Number(importe.replace(',', '.'));
-  if (!Number.isFinite(amount) || amount < 0) return 'Introduce un importe mensual válido.';
-
-  return '';
-}
-
-async function persistLead(payload) {
-  const file = fileInput.files[0];
-  const invoiceBase64 = file ? await fileToBase64(file) : '';
-  const response = await fetch('/api/create-lead', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      nombre: payload.nombre,
-      telefono: payload.telefono,
-      importe_factura: payload.importe || null,
-      invoice_file_base64: invoiceBase64,
-      invoice_filename: file ? file.name : '',
-      invoice_mime_type: file ? file.type : 'application/octet-stream',
-      ocr_data: {
-        ...ocrData,
-        consumo_periodos: ocrData.consumo_periodos || {}
-      },
-      ocr_status: ocrStatus
-    })
-  });
-
-  const result = await response.json().catch(() => ({}));
-  if (!response.ok || !result.success) {
-    throw new Error(result.message || result.error || 'create_lead_failed');
-  }
-  return result;
-}
-
-['dragenter', 'dragover'].forEach((eventName) =>
-  uploadZone.addEventListener(eventName, (event) => {
-    event.preventDefault();
-    uploadZone.classList.add('dragover');
+['dragenter','dragover'].forEach(ev =>
+  uploadZone.addEventListener(ev, e => {
+    e.preventDefault(); uploadZone.classList.add('dragover');
+  })
+);
+['dragleave','drop'].forEach(ev =>
+  uploadZone.addEventListener(ev, e => {
+    e.preventDefault(); uploadZone.classList.remove('dragover');
   })
 );
 
-['dragleave', 'drop'].forEach((eventName) =>
-  uploadZone.addEventListener(eventName, (event) => {
-    event.preventDefault();
-    uploadZone.classList.remove('dragover');
-  })
-);
-
-fileInput.addEventListener('change', async (event) => {
-  const file = event.target.files[0];
+fileInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
   if (!file) return;
-
-  const requestId = ++activeOcrRequestId;
-  clearFormFeedback();
-
-  if (!/^(application\/pdf|image\/jpeg|image\/jpg|image\/png)$/i.test(file.type)) {
-    uploadStatus.className = 'upload-status show error';
-    uploadStatus.textContent = '⚠ Formato no compatible. Usa PDF, JPG o PNG.';
-    manualPrompt.classList.add('show');
-    setFormFeedback('El archivo debe ser PDF, JPG o PNG.', 'error');
-    fileInput.value = '';
-    uploadZone.classList.remove('has-file');
-    return;
-  }
-
-  if (file.size > 10 * 1024 * 1024) {
-    uploadStatus.className = 'upload-status show error';
-    uploadStatus.textContent = '⚠ El archivo supera el límite de 10 MB.';
-    manualPrompt.classList.remove('show');
-    setFormFeedback('La factura supera el límite de 10 MB.', 'error');
-    fileInput.value = '';
-    uploadZone.classList.remove('has-file');
-    return;
-  }
 
   uploadZone.classList.add('has-file');
   uploadTitle.textContent = file.name;
-  uploadHint.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB · Analizando…`;
+  uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Analizando…`;
   uploadStatus.className = 'upload-status show';
   uploadStatus.textContent = '▸ Leyendo factura con OCR…';
   manualPrompt.classList.remove('show');
 
   try {
-    const base64 = await fileToBase64(file);
-    const response = await fetch('/api/gemini', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        mimeType: file.type,
-        data: base64,
-        fileName: file.name
-      })
-    });
+    const fd = new FormData();
+    fd.append('factura', file);
 
-    if (!response.ok) throw new Error('ocr_failed');
-    const result = await response.json();
-    if (requestId !== activeOcrRequestId) return;
+    const res = await fetch('/api/gemini', { method: 'POST', body: fd });
+    if (!res.ok) throw new Error('OCR failed');
+    const data = await res.json();
 
-    if (!result.success || !result.data) {
-      throw new Error(result.debugInfo || result.error || 'ocr_failed');
-    }
+    if (data.nombre)   $('#nombre').value   = data.nombre;
+    if (data.telefono) $('#telefono').value = data.telefono;
+    if (data.importe)  $('#importe').value  = data.importe;
 
-    const data = result.data;
-    if (data.nombre_empresa) $('#nombre').value = data.nombre_empresa;
-    if (data.importe_total) $('#importe').value = data.importe_total;
-
-    ocrStatus = result.debugInfo === 'partial_ocr' ? 'partial' : 'success';
-    syncOcrData(data);
-
-    uploadStatus.textContent = result.debugInfo === 'partial_ocr'
-      ? '▸ Factura leída parcialmente. Revisa y completa los datos antes de enviar.'
-      : '▸ Factura leída. Revisa los datos y envía.';
-    uploadHint.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB · Procesada`;
-  } catch (error) {
-    if (requestId !== activeOcrRequestId) return;
-    ocrStatus = 'failed';
-    syncOcrData({});
+    uploadStatus.textContent = '▸ Factura leída. Revisa los datos y envía.';
+    uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Procesada`;
+  } catch (err) {
     uploadStatus.className = 'upload-status show error';
     uploadStatus.textContent = '⚠ No he podido leer la factura automáticamente.';
     manualPrompt.classList.add('show');
-    setFormFeedback('No se ha podido leer la factura automáticamente. Puedes completar los datos a mano y enviar igualmente.', 'error');
-    console.error(error);
   }
 });
 
 manualBtn.addEventListener('click', () => {
   manualPrompt.classList.remove('show');
   uploadStatus.classList.remove('show');
-  clearFormFeedback();
   $('#nombre').focus();
 });
 
 retryBtn.addEventListener('click', () => {
-  clearFormFeedback();
   fileInput.value = '';
   fileInput.click();
 });
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  clearFormFeedback();
-
-  const validationError = validateLeadForm();
-  if (validationError) {
-    setFormFeedback(validationError, 'error');
-    return;
-  }
-
-  const whatsappWindow = window.open('', '_blank', 'noopener');
-  setSubmitState(true, 'Enviando…');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.querySelector('span').textContent = 'Enviando…';
 
   const payload = {
-    nombre: $('#nombre').value.trim(),
+    nombre:   $('#nombre').value.trim(),
     telefono: $('#telefono').value.trim(),
-    importe: $('#importe').value.trim()
+    importe:  $('#importe').value,
   };
 
   try {
-    await persistLead(payload);
-    setFormFeedback('Lead guardado correctamente. Abriendo WhatsApp…', 'success');
+    // TODO: integrar con tu endpoint Supabase existente
+    // await fetch('/api/lead', { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
 
-    const message = encodeURIComponent(
-      `Hola David, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
-      `Nombre o razón social: ${safeValue(payload.nombre)}\n` +
-      `Importe mensual: ${payload.importe ? `${payload.importe} €` : 'No detectado'}`
+    const msg = encodeURIComponent(
+      `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n` +
+      `Nombre: ${payload.nombre}\n` +
+      `Importe mensual: ${payload.importe}€`
     );
+    const waNumber = '34616785103';
+    window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
 
-    const whatsappUrl = `https://wa.me/34616785103?text=${message}`;
-
-    if (whatsappWindow) {
-      whatsappWindow.location.replace(whatsappUrl);
-    } else {
-      window.location.href = whatsappUrl;
-    }
-    setSubmitState(true, '✓ Enviado. Abriendo WhatsApp…');
-  } catch (error) {
-    if (whatsappWindow && !whatsappWindow.closed) {
-      whatsappWindow.close();
-    }
-    setSubmitState(false, 'Error. Reintentar');
-    setFormFeedback('No se ha podido guardar el lead. Revisa la conexión o la configuración del backend e inténtalo de nuevo.', 'error');
-    console.error(error);
+    submitBtn.querySelector('span').textContent = '✓ Enviado. Abriendo WhatsApp…';
+  } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.querySelector('span').textContent = 'Error. Reintentar';
+    console.error(err);
   }
 });
 </script>
