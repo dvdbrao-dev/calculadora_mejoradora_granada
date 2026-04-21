@@ -53,6 +53,10 @@ module.exports = async (req, res) => {
     "Extrae unicamente datos visibles. Si falta algo o no esta claro, deja cadena vacia.",
     "No inventes datos.",
     "Busca explicitamente nombre o razon social del titular, DNI/CIF/NIE, CUPS, direccion de suministro, energia consumida, importe total, precio de energia, precio de potencia, potencia contratada, tarifa, dias facturados y fechas de periodo.",
+    "Extrae tambien el consumo por periodos en un objeto llamado consumo_periodos.",
+    "Si la tarifa es 2.0 o similar, intenta extraer consumo en P1, P2 y P3.",
+    "Si la tarifa es 3.0 o similar, extrae el consumo en todos los periodos visibles P1, P2, P3 y cualquier otro Px que aparezca.",
+    "En consumo_periodos usa claves en minuscula como p1, p2, p3, p4, p5, p6.",
     "Si la imagen es borrosa, incompleta o no parece una factura electrica valida, responde igualmente en JSON dejando vacios los campos y priorizando precision.",
     "No mezcles potencia contratada con precio de potencia.",
     "No confundas el precio de la energia con el precio de potencia.",
@@ -60,7 +64,7 @@ module.exports = async (req, res) => {
     "Si hay varias tablas, prioriza peajes, periodos, potencia contratada, precio potencia o precio energia.",
     "Normaliza la tarifa asi: 2.0TD para 2.0TD/2.0/similar, 3.0TD para 3.0TD/3.0/similar, vacio si no esta claro.",
     "Usa exactamente esta estructura:",
-    '{"nombre_empresa":"","consumo_kwh":"","tarifa_detectada":"","importe_total":"","periodo_desde":"","periodo_hasta":"","potencia_contratada":"","precio_energia":"","precio_potencia":"","documento":"","cups":"","direccion":"","dias_factura":""}'
+    '{"nombre_empresa":"","consumo_kwh":"","tarifa_detectada":"","importe_total":"","periodo_desde":"","periodo_hasta":"","potencia_contratada":"","precio_energia":"","precio_potencia":"","documento":"","cups":"","direccion":"","dias_factura":"","consumo_periodos":{"p1":"","p2":"","p3":"","p4":"","p5":"","p6":""}}'
   ].join("\n");
 
   try {
@@ -124,7 +128,12 @@ module.exports = async (req, res) => {
       documento: String(parsed?.documento || "").trim(),
       cups: String(parsed?.cups || "").trim(),
       direccion: String(parsed?.direccion || "").trim(),
-      dias_factura: String(parsed?.dias_factura || "").trim()
+      dias_factura: String(parsed?.dias_factura || "").trim(),
+      consumo_periodos: Object.fromEntries(
+        Object.entries(parsed?.consumo_periodos && typeof parsed.consumo_periodos === "object" ? parsed.consumo_periodos : {})
+          .map(([key, value]) => [String(key || "").trim().toLowerCase(), String(value || "").trim()])
+          .filter(([key, value]) => key && value)
+      )
     };
 
     const confidenceFields = [
@@ -136,7 +145,8 @@ module.exports = async (req, res) => {
       normalized.periodo_hasta,
       normalized.potencia_contratada,
       normalized.precio_energia,
-      normalized.precio_potencia
+      normalized.precio_potencia,
+      ...Object.values(normalized.consumo_periodos || {})
     ].filter(Boolean).length;
 
     if (confidenceFields === 0) {

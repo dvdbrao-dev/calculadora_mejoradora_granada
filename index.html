@@ -790,6 +790,8 @@
       <input type="hidden" id="ocr_periodo_desde" name="ocr_periodo_desde">
       <input type="hidden" id="ocr_periodo_hasta" name="ocr_periodo_hasta">
       <input type="hidden" id="ocr_potencia_contratada" name="ocr_potencia_contratada">
+      <input type="hidden" id="ocr_consumo_periodos" name="ocr_consumo_periodos">
+      <input type="hidden" id="ocr_status" name="ocr_status" value="failed">
 
       <div class="submit-row">
         <button type="submit" class="submit-btn" id="submitBtn">
@@ -880,7 +882,9 @@ const hiddenOcrFields = {
   dias_factura: $('#ocr_dias_factura'),
   periodo_desde: $('#ocr_periodo_desde'),
   periodo_hasta: $('#ocr_periodo_hasta'),
-  potencia_contratada: $('#ocr_potencia_contratada')
+  potencia_contratada: $('#ocr_potencia_contratada'),
+  consumo_periodos: $('#ocr_consumo_periodos'),
+  ocr_status: $('#ocr_status')
 };
 let ocrData = {
   documento: '',
@@ -893,8 +897,10 @@ let ocrData = {
   dias_factura: '',
   periodo_desde: '',
   periodo_hasta: '',
-  potencia_contratada: ''
+  potencia_contratada: '',
+  consumo_periodos: {}
 };
+let ocrStatus = 'failed';
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -909,6 +915,14 @@ function fileToBase64(file) {
 }
 
 function syncOcrData(data = {}) {
+  const consumoPeriodos = (data && typeof data.consumo_periodos === 'object' && data.consumo_periodos !== null)
+    ? Object.fromEntries(
+        Object.entries(data.consumo_periodos)
+          .map(([key, value]) => [String(key || '').trim().toLowerCase(), String(value || '').trim()])
+          .filter(([key]) => key)
+      )
+    : {};
+
   ocrData = {
     documento: String(data.documento || '').trim(),
     cups: String(data.cups || '').trim(),
@@ -920,16 +934,56 @@ function syncOcrData(data = {}) {
     dias_factura: String(data.dias_factura || '').trim(),
     periodo_desde: String(data.periodo_desde || '').trim(),
     periodo_hasta: String(data.periodo_hasta || '').trim(),
-    potencia_contratada: String(data.potencia_contratada || '').trim()
+    potencia_contratada: String(data.potencia_contratada || '').trim(),
+    consumo_periodos: consumoPeriodos
   };
 
   Object.entries(hiddenOcrFields).forEach(([key, element]) => {
-    if (element) element.value = ocrData[key] || '';
+    if (!element) return;
+    if (key === 'consumo_periodos') {
+      element.value = JSON.stringify(ocrData.consumo_periodos || {});
+      return;
+    }
+    if (key === 'ocr_status') {
+      element.value = ocrStatus;
+      return;
+    }
+    element.value = ocrData[key] || '';
   });
 }
 
 function safeValue(value) {
   return String(value || '').trim() || 'No detectado';
+}
+
+async function persistLead(payload) {
+  const file = fileInput.files[0];
+  const invoiceBase64 = file ? await fileToBase64(file) : '';
+  const response = await fetch('/api/create-lead', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nombre: payload.nombre,
+      telefono: payload.telefono,
+      importe_factura: payload.importe || null,
+      invoice_file_base64: invoiceBase64,
+      invoice_filename: file ? file.name : '',
+      invoice_mime_type: file ? file.type : 'application/octet-stream',
+      ocr_data: {
+        ...ocrData,
+        consumo_periodos: ocrData.consumo_periodos || {}
+      },
+      ocr_status: ocrStatus
+    })
+  });
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || result.error || 'create_lead_failed');
+  }
+  return result;
 }
 
 // ── Drag & drop visual ──
@@ -990,6 +1044,7 @@ fileInput.addEventListener('change', async (e) => {
 
     if (data.nombre_empresa) $('#nombre').value = data.nombre_empresa;
     if (data.importe_total) $('#importe').value = data.importe_total;
+    ocrStatus = result.debugInfo === 'partial_ocr' ? 'partial' : 'success';
     syncOcrData(data);
 
     uploadStatus.textContent = result.debugInfo === 'partial_ocr'
@@ -997,6 +1052,7 @@ fileInput.addEventListener('change', async (e) => {
       : '▸ Factura leída. Revisa los datos y envía.';
     uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Procesada`;
   } catch (err) {
+    ocrStatus = 'failed';
     syncOcrData({});
     uploadStatus.className = 'upload-status show error';
     uploadStatus.textContent = '⚠ No he podido leer la factura automáticamente.';
@@ -1037,32 +1093,16 @@ form.addEventListener('submit', async (e) => {
     periodo_desde: hiddenOcrFields.periodo_desde ? hiddenOcrFields.periodo_desde.value.trim() : '',
     periodo_hasta: hiddenOcrFields.periodo_hasta ? hiddenOcrFields.periodo_hasta.value.trim() : '',
     potencia_contratada: hiddenOcrFields.potencia_contratada ? hiddenOcrFields.potencia_contratada.value.trim() : '',
+    consumo_periodos: hiddenOcrFields.consumo_periodos ? hiddenOcrFields.consumo_periodos.value.trim() : '',
   };
 
   try {
-    // TODO: integrar con tu endpoint Supabase existente
-    // await fetch('/api/lead', {
-    //   method:'POST',
-    //   body: JSON.stringify(payload),
-    //   headers:{'Content-Type':'application/json'}
-    // });
+    await persistLead(payload);
 
     const msg = encodeURIComponent(
       `Hola, acabo de enviar mi factura desde la web de Mejoradora Granada.\n\n` +
       `Nombre o razón social: ${safeValue(payload.nombre)}\n` +
-      `Teléfono: ${safeValue(payload.telefono)}\n` +
-      `DNI / CIF: ${safeValue(payload.documento)}\n` +
-      `CUPS: ${safeValue(payload.cups)}\n` +
-      `Dirección de suministro: ${safeValue(payload.direccion)}\n` +
-      `Tarifa detectada: ${safeValue(payload.tarifa_detectada)}\n` +
-      `Energía consumida: ${safeValue(payload.consumo_kwh)}\n` +
-      `Importe mensual: ${payload.importe ? `${payload.importe} €` : 'No detectado'}\n` +
-      `Precio energía: ${safeValue(payload.precio_energia)}\n` +
-      `Precio potencia: ${safeValue(payload.precio_potencia)}\n` +
-      `Potencia contratada: ${safeValue(payload.potencia_contratada)}\n` +
-      `Días de factura: ${safeValue(payload.dias_factura)}\n` +
-      `Periodo desde: ${safeValue(payload.periodo_desde)}\n` +
-      `Periodo hasta: ${safeValue(payload.periodo_hasta)}`
+      `Importe mensual: ${payload.importe ? `${payload.importe} €` : 'No detectado'}`
     );
     const waNumber = '34616785103';
     window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
