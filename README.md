@@ -1,36 +1,34 @@
 # Mejoradora Granada
 
-Landing estática en HTML para captación de leads energéticos, preparada para desplegarse en Vercel.
+Landing estática en HTML con funciones serverless en Vercel para OCR de facturas y guardado de leads en Supabase.
 
 ## Estructura
 
 ```text
 /
   index.html
-  logo-mejoradora-granada.png
+  logo_mejoradora.png
   api/
+    create-lead.js
     gemini.js
 ```
 
-## Despliegue en Vercel
+## Variables de entorno (Vercel)
 
-1. Sube este proyecto a GitHub.
-2. Importa el repositorio en Vercel.
-3. En `Settings > Environment Variables`, crea esta variable:
+Configúralas en `Project Settings -> Environment Variables`:
 
-```text
-GEMINI_API_KEY=tu_api_key_real
-```
+- `GEMINI_API_KEY`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
 
-4. Haz un nuevo despliegue.
+Después de añadir o cambiar variables, haz un redeploy del proyecto.
 
-## Importante
+## Requisitos operativos
 
-- El logo usa ruta relativa: `logo-mejoradora-granada.png`
-- La API key de Gemini no está en `index.html`
-- La llamada a Gemini pasa por `api/gemini.js`
-- No subas archivos `.env` al repositorio
+- Debe existir el bucket de Supabase Storage `invoices`.
+- `api/create-lead.js` sube la factura al bucket y luego inserta el lead en `public.leads`.
+- El límite práctico de archivo es `10 MB`. El frontend y el backend lo validan para evitar errores de payload y timeouts en Vercel.
 
 ## Desarrollo
 
-Si pruebas la web en Vercel, la ruta `/api/gemini` quedará disponible automáticamente como función serverless.
+En Vercel, `api/create-lead.js` y `api/gemini.js` se detectan automáticamente como funciones serverless.

@@ -7,6 +7,14 @@ const ALLOWED_MIME_TYPES = new Set([
 ]);
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
+function getRequiredEnv(name) {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing env: ${name}`);
+  }
+  return value;
+}
+
 function cleanString(value) {
   return String(value || "").trim();
 }
@@ -16,7 +24,11 @@ function parseInvoiceAmount(value) {
     return null;
   }
 
-  const normalized = String(value).replace(",", ".").trim();
+  const normalized = String(value)
+    .trim()
+    .replace(/\s/g, "")
+    .replace(/\./g, "")
+    .replace(",", ".");
   const amount = Number(normalized);
   return Number.isFinite(amount) ? amount : null;
 }
@@ -25,19 +37,45 @@ function isValidBase64(value) {
   return /^[A-Za-z0-9+/]+={0,2}$/.test(value) && value.length % 4 === 0;
 }
 
+function classifyStorageError(status, message) {
+  const text = String(message || "").toLowerCase();
+
+  if (status === 404 || text.includes("bucket not found") || text.includes("not found")) {
+    return {
+      error: "storage_bucket_missing",
+      message: "Storage bucket 'invoices' is missing or not accessible"
+    };
+  }
+
+  if (status === 401 || status === 403 || text.includes("unauthorized") || text.includes("permission")) {
+    return {
+      error: "storage_permission_denied",
+      message: "Supabase storage permissions rejected the invoice upload"
+    };
+  }
+
+  return {
+    error: "file_upload_failed",
+    message: message || "Could not upload invoice to storage"
+  };
+}
+
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ success: false, error: "method_not_allowed", message: "Only POST is supported" });
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
+  let supabaseUrl;
+  let supabaseKey;
+  try {
+    supabaseUrl = getRequiredEnv("SUPABASE_URL");
+    supabaseKey = getRequiredEnv("SUPABASE_SERVICE_ROLE_KEY");
+  } catch (error) {
+    console.error("create-lead env error:", error && error.message ? error.message : error);
     return res.status(500).json({
       success: false,
-      error: "missing_supabase_env",
+      error: "server_misconfigured",
       message: "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY"
     });
   }
@@ -47,6 +85,14 @@ module.exports = async (req, res) => {
 
   try {
     const body = req.body || {};
+    if (!body || typeof body !== "object") {
+      return res.status(400).json({
+        success: false,
+        error: "invalid_payload",
+        message: "Request body must be a JSON object"
+      });
+    }
+
     const nombre = cleanString(body.nombre);
     const telefono = cleanString(body.telefono);
     const invoiceBase64 = cleanString(body.invoice_file_base64);
@@ -116,10 +162,12 @@ module.exports = async (req, res) => {
 
     if (!storageResponse.ok) {
       const message = await storageResponse.text();
+      console.error("create-lead storage upload failed:", message || "unknown storage error");
+      const classifiedError = classifyStorageError(storageResponse.status, message);
       return res.status(500).json({
         success: false,
-        error: "storage_upload_failed",
-        message: message || "Could not upload invoice to storage"
+        error: classifiedError.error,
+        message: classifiedError.message
       });
     }
 
@@ -153,6 +201,7 @@ module.exports = async (req, res) => {
 
     if (!dbResponse.ok) {
       const message = await dbResponse.text();
+      console.error("create-lead database insert failed:", message || "unknown database error");
       return res.status(500).json({
         success: false,
         error: "database_insert_failed",
@@ -162,9 +211,13 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      lead_id: leadId
+      data: {
+        lead_id: leadId,
+        invoice_storage_path: storagePath
+      }
     });
   } catch (error) {
+    console.error("create-lead runtime error:", error && error.message ? error.message : error);
     return res.status(500).json({
       success: false,
       error: error && error.name === "AbortError" ? "timeout" : "create_lead_runtime_error",

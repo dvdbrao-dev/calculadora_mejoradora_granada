@@ -638,6 +638,15 @@ function setSubmitLabel(label) {
   submitBtn.querySelector('span').textContent = label;
 }
 
+function normalizeSpanishNumber(value) {
+  if (value === null || value === undefined || value === '') return '';
+  return String(value)
+    .trim()
+    .replace(/\s/g, '')
+    .replace(/\./g, '')
+    .replace(',', '.');
+}
+
 function sanitizeOcrData(data) {
   return {
     comercializadora: String(data?.comercializadora || '').trim(),
@@ -704,6 +713,20 @@ fileInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
+  if (!/^(application\/pdf|image\/jpeg|image\/jpg|image\/png)$/i.test(file.type)) {
+    uploadStatus.className = 'upload-status show error';
+    uploadStatus.textContent = 'Formato no compatible. Usa PDF, JPG o PNG.';
+    manualPrompt.classList.add('show');
+    return;
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    uploadStatus.className = 'upload-status show error';
+    uploadStatus.textContent = 'La factura supera el límite práctico de 10 MB.';
+    manualPrompt.classList.add('show');
+    return;
+  }
+
   uploadZone.classList.add('has-file');
   uploadTitle.textContent = file.name;
   uploadHint.textContent = `${(file.size/1024/1024).toFixed(2)} MB · Analizando…`;
@@ -734,7 +757,7 @@ fileInput.addEventListener('change', async (e) => {
     ocrStatus = result.debugInfo === 'partial_ocr' ? 'partial' : 'success';
 
     if ($('#nombre') && ocrData.nombre_empresa) $('#nombre').value = ocrData.nombre_empresa;
-    if ($('#importe') && ocrData.importe_total) $('#importe').value = ocrData.importe_total;
+    if ($('#importe') && ocrData.importe_total) $('#importe').value = normalizeSpanishNumber(ocrData.importe_total);
 
     uploadStatus.textContent = ocrStatus === 'partial'
       ? '▸ Factura leída parcialmente. Revisa los datos y envía.'
@@ -769,7 +792,7 @@ form.addEventListener('submit', async (e) => {
   const payload = {
     nombre: $('#nombre').value.trim(),
     telefono: $('#telefono').value.trim(),
-    importe: $('#importe').value
+    importe: normalizeSpanishNumber($('#importe').value)
   };
 
   const whatsappWindow = window.open('', '_blank');
@@ -800,7 +823,7 @@ form.addEventListener('submit', async (e) => {
     }
     submitBtn.disabled = false;
     setSubmitLabel('Error. Reintentar');
-    console.error(err);
+    console.error('persistLead failed:', err && err.message ? err.message : err);
   }
 });
 </script>
